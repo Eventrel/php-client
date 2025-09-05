@@ -14,11 +14,12 @@ class EventrelServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/../config/eventrel.php', 'eventrel');
 
         $this->app->singleton(EventrelClient::class, function ($app) {
-            dd('Binding EventrelClient', $app['config']['eventrel']); // Debugging line to confirm binding
+            // dd('Binding EventrelClient', $app['config']['eventrel']); // Debugging line to confirm binding
 
-            $config = $app['config']['eventrel'];
+            // $config = $app['config']['eventrel'];
+            // $config['api_token'];
 
-            return new EventrelClient($config['api_token']);
+            return new EventrelClient();
         });
 
         $this->app->alias(EventrelClient::class, 'eventrel');
