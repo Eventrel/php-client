@@ -39,13 +39,13 @@ class EventrelServiceProvider extends ServiceProvider
         // }
     }
 
-    // /**
-    //  * Get the services provided by the provider.
-    //  *
-    //  * @return array
-    //  */
-    // public function provides()
-    // {
-    //     return [EventrelClient::class, 'eventrel'];
-    // }
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return [EventrelClient::class, 'eventrel'];
+    }
 }
