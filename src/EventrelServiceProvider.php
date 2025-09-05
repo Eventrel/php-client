@@ -11,21 +11,17 @@ class EventrelServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        // // Merge config
-        // $this->mergeConfigFrom(__DIR__ . '/../config/eventrel.php', 'eventrel');
+        $this->mergeConfigFrom(__DIR__ . '/../config/eventrel.php', 'eventrel');
 
-        // // Bind the main client - much simpler now!
-        // $this->app->singleton(EventrelClient::class, function ($app) {
-        //     $config = $app['config']['eventrel'];
+        $this->app->singleton(EventrelClient::class, function ($app) {
+            dd('Binding EventrelClient', $app['config']['eventrel']); // Debugging line to confirm binding
 
-        //     return new EventrelClient(
-        //         $config['api_token'],
-        //         $config['base_url'] ?? 'https://api.eventrel.sh'
-        //     );
-        // });
+            $config = $app['config']['eventrel'];
 
-        // // Alias for easier access
-        // $this->app->alias(EventrelClient::class, 'eventrel');
+            return new EventrelClient($config['api_token']);
+        });
+
+        $this->app->alias(EventrelClient::class, 'eventrel');
     }
 
     /**
@@ -33,19 +29,22 @@ class EventrelServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // // Publish config file
-        // $this->publishes([
-        //     __DIR__ . '/../config/eventrel.php' => config_path('eventrel.php'),
-        // ], 'eventrel-config');
+        $this->publishes([
+            __DIR__ . '/../config/eventrel.php' => config_path('eventrel.php'),
+        ], 'eventrel-config');
 
-        // // Laravel 11+ callback style registration
-        // if (method_exists($this->app, 'configure')) {
-        //     $this->app->configure('eventrel');
-        // }
+        if (method_exists($this->app, 'configure')) {
+            $this->app->configure('eventrel');
+        }
     }
 
-    // public function provides(): array
-    // {
-    //     return [EventrelClient::class, 'eventrel'];
-    // }
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return [EventrelClient::class, 'eventrel'];
+    }
 }
