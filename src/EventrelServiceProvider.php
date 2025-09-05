@@ -4,7 +4,7 @@ namespace Eventrel\Client;
 
 use Illuminate\Support\ServiceProvider;
 
-class AppServiceProvider extends ServiceProvider
+class EventrelServiceProvider extends ServiceProvider
 {
     /**
      * Register any services.
