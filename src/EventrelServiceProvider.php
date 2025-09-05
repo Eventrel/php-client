@@ -22,7 +22,7 @@ class EventrelServiceProvider extends ServiceProvider
             return new EventrelClient();
         });
 
-        // $this->app->alias(EventrelClient::class, 'eventrel');
+        $this->app->alias(EventrelClient::class, 'eventrel');
     }
 
     /**
@@ -30,9 +30,9 @@ class EventrelServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // $this->publishes([
-        //     __DIR__ . '/../config/eventrel.php' => config_path('eventrel.php'),
-        // ], 'eventrel-config');
+        $this->publishes([
+            __DIR__ . '/../config/eventrel.php' => config_path('eventrel.php'),
+        ], 'eventrel-config');
 
         // if (method_exists($this->app, 'configure')) {
         //     $this->app->configure('eventrel');
