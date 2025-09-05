@@ -1,0 +1,80 @@
+{
+	"name": "eventrel/php-client",
+	"type": "library",
+	"description": "Official PHP client library for Eventrel. Fluent API for sending webhooks and managing endpoints in Laravel and PHP applications.",
+	"keywords": [
+		"php",
+		"laravel",
+		"webhook",
+		"client-library",
+		"composer",
+		"sdk",
+		"api-client",
+		"eventrel"
+	],
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Eventrel Team",
+			"email": "dev@eventrel.sh",
+			"homepage": "https://github.com/eventrel"
+		}
+	],
+	"homepage": "https://eventrel.sh",
+	"support": {
+		"issues": "https://github.com/eventrel/php-client/issues",
+		"docs": "https://docs.eventrel.sh",
+		"source": "https://github.com/eventrel/php-client"
+	},
+	"require": {
+		"php": "^8.1",
+		"guzzlehttp/guzzle": "^7.8",
+		"nesbot/carbon": "^2.68|^3.0"
+	},
+	"require-dev": {
+		"laravel/framework": "^10.0|^11.0",
+		"orchestra/testbench": "^8.0|^9.0",
+		"phpunit/phpunit": "^10.0|^11.0",
+		"mockery/mockery": "^1.6",
+		"phpstan/phpstan": "^1.10",
+		"friendsofphp/php-cs-fixer": "^3.0"
+	},
+	"suggest": {
+		"laravel/framework": "For Laravel integration and service provider"
+	},
+	"autoload": {
+		"psr-4": {
+			"Eventrel\\Client\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Eventrel\\Client\\Tests\\": "tests/"
+		}
+	},
+	"scripts": {
+		"test": "vendor/bin/phpunit",
+		"test-coverage": "vendor/bin/phpunit --coverage-html coverage",
+		"analyse": "vendor/bin/phpstan analyse",
+		"format": "vendor/bin/php-cs-fixer fix",
+		"check-format": "vendor/bin/php-cs-fixer fix --dry-run --diff"
+	},
+	"extra": {
+		"laravel": {
+			"providers": [
+				"Eventrel\\Client\\EventrelServiceProvider"
+			],
+			"aliases": {
+				"Eventrel": "Eventrel\\Client\\Facades\\Eventrel"
+			}
+		}
+	},
+	"config": {
+		"sort-packages": true,
+		"allow-plugins": {
+			"php-http/discovery": true
+		}
+	},
+	"minimum-stability": "stable",
+	"prefer-stable": true
+}
