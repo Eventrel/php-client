@@ -1,8 +1,9 @@
 <?php
 
-namespace Eventrel\Client;
+namespace Eventrel\Client\Builders;
 
 use Carbon\Carbon;
+use Eventrel\Client\EventrelClient;
 use Eventrel\Client\Responses\WebhookResponse;
 
 class WebhookBuilder

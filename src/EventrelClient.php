@@ -3,6 +3,7 @@
 namespace Eventrel\Client;
 
 use Carbon\Carbon;
+use Eventrel\Client\Builders\{WebhookBuilder, BatchWebhookBuilder};
 use Eventrel\Client\Exceptions\EventrelException;
 use Eventrel\Client\Responses\{WebhookResponse};
 use GuzzleHttp\Client;
@@ -43,15 +44,24 @@ class EventrelClient
         ]);
     }
 
-    // Add your client methods here
-
     /**
-     * Start building a webhook with fluent API
-     * Since API keys are team-scoped, no need to specify team
+     * Create a new webhook builder
+     * @param string $eventType
+     * @return WebhookBuilder
      */
     public function event(string $eventType): WebhookBuilder
     {
         return new WebhookBuilder($this, $eventType);
+    }
+
+    /**
+     * Create a new batch webhook builder
+     * @param string $eventType
+     * @return BatchWebhookBuilder
+     */
+    public function batch(string $eventType): BatchWebhookBuilder
+    {
+        return new BatchWebhookBuilder($this, $eventType);
     }
 
     /**
@@ -85,6 +95,24 @@ class EventrelClient
         ]);
 
         return new WebhookResponse($response);
+    }
+
+    /**
+     * Send multiple webhooks in a single batch request
+     */
+    public function sendWebhookBatch(array $webhooks): BatchWebhookResponse
+    {
+        if (empty($webhooks)) {
+            throw new EventrelException('Cannot send empty batch. Provide at least one webhook.');
+        }
+
+        $response = $this->makeRequest('POST', '/api/v1/webhooks/batch', [
+            'json' => [
+                'webhooks' => $webhooks
+            ]
+        ]);
+
+        return new BatchWebhookResponse($response['data'] ?? []);
     }
 
     // /**
