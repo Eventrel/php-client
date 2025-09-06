@@ -2,14 +2,30 @@
 
 namespace Eventrel\Client\Responses;
 
+use GuzzleHttp\Psr7\Response;
+
 class WebhookResponse
 {
     // Define properties and methods for the WebhookResponse class
 
     public function __construct(
-        private array $data
+        private Response $response
     ) {
         // 
+
+        dd(
+            $response
+        );
+
+        // dd(
+        //     $this->client,
+        //     $method,
+        //     $path,
+        //     $options
+        // $content = $response->getBody()->getContents(),
+
+        // json_decode($content, true) ?: []
+        // );
     }
 
     // public function getId(): string

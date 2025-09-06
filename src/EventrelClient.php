@@ -7,6 +7,7 @@ use Eventrel\Client\Exceptions\EventrelException;
 use Eventrel\Client\Responses\{WebhookResponse};
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
+use Psr\Http\Message\ResponseInterface;
 
 class EventrelClient
 {
@@ -83,7 +84,7 @@ class EventrelClient
             ]
         ]);
 
-        return new WebhookResponse($response['data'] ?? []);
+        return new WebhookResponse($response);
     }
 
     // /**
@@ -278,27 +279,17 @@ class EventrelClient
 
     /**
      * Internal method for making HTTP requests
+     *
+     * @param string $method
+     * @param string $path
+     * @param array $options
+     * @return ResponseInterface
      */
-    public function makeRequest(string $method, string $path, array $options = []): array
+    public function makeRequest(string $method, string $path, array $options = []): ResponseInterface
     {
         try {
-            // dd(
-            //     $this->client,
-            //     $method,
-            //     $path,
-            //     $options
-            // );
-
-            $response = $this->client->request($method, $path, $options);
-            $content = $response->getBody()->getContents();
-
-            return json_decode($content, true) ?: [];
+            return $this->client->request($method, $path, $options);
         } catch (RequestException $e) {
-            dd(
-                $e
-            );
-
-
             throw new EventrelException(
                 message: "Request failed: " . $e->getMessage(),
                 code: $e->getCode(),

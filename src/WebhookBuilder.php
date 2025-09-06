@@ -48,6 +48,9 @@ class WebhookBuilder
         // 
     }
 
+    /**
+     * Set the target application for the webhook
+     */
     public function to(string $application): self
     {
         $this->application = $application;
