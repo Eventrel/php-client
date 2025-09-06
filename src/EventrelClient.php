@@ -2,7 +2,11 @@
 
 namespace Eventrel\Client;
 
+use Carbon\Carbon;
+use Eventrel\Client\Exceptions\EventrelException;
+use Eventrel\Client\Responses\{WebhookResponse};
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 
 class EventrelClient
 {
@@ -27,7 +31,7 @@ class EventrelClient
         protected int $timeout = 30
     ) {
         $this->client = new Client([
-            'base_uri' => $this->baseUrl,
+            'base_uri' => $this->buildUri(),
             'headers' => [
                 'Authorization' => "Bearer {$apiToken}",
                 'Content-Type' => 'application/json',
@@ -49,34 +53,38 @@ class EventrelClient
         return new WebhookBuilder($this, $eventType);
     }
 
-    // /**
-    //  * Send a webhook directly (non-fluent method)
-    //  */
-    // public function sendWebhook(
-    //     string $eventType,
-    //     array $payload,
-    //     ?string $idempotencyKey = null,
-    //     ?Carbon $scheduledAt = null
-    // ): WebhookResponse {
-    //     $data = [
-    //         'event_type' => $eventType,
-    //         'payload' => $payload,
-    //     ];
+    /**
+     * Send a webhook directly (non-fluent method)
+     */
+    public function sendWebhook(
+        string $eventType,
+        array $payload,
+        ?string $application = null,
+        ?string $idempotencyKey = null,
+        ?Carbon $scheduledAt = null
+    ): WebhookResponse {
+        $data = [
+            'event_type' => $eventType,
+            'payload' => $payload,
+        ];
 
-    //     if ($idempotencyKey) {
-    //         $data['idempotency_key'] = $idempotencyKey;
-    //     }
+        if ($application) {
+            $data['application'] = $application;
+        }
 
-    //     if ($scheduledAt) {
-    //         $data['scheduled_at'] = $scheduledAt->toISOString();
-    //     }
+        if ($scheduledAt) {
+            $data['scheduled_at'] = $scheduledAt->toISOString();
+        }
 
-    //     $response = $this->makeRequest('POST', '/api/v1/webhooks/send', [
-    //         'json' => $data,
-    //     ]);
+        $response = $this->makeRequest('POST', 'events', [
+            'json' => $data,
+            'headers' => [
+                'X-Idempotency-Key' => $idempotencyKey ?? $this->generateIdempotencyKey(),
+            ]
+        ]);
 
-    //     return new WebhookResponse($response['data'] ?? []);
-    // }
+        return new WebhookResponse($response['data'] ?? []);
+    }
 
     // /**
     //  * Get a specific webhook by ID
@@ -268,48 +276,60 @@ class EventrelClient
     //     return new TeamResponse($response['data'] ?? []);
     // }
 
-    // /**
-    //  * Internal method for making HTTP requests
-    //  */
-    // public function makeRequest(string $method, string $path, array $options = []): array
-    // {
-    //     try {
-    //         $response = $this->httpClient->request($method, $path, $options);
-    //         $content = $response->getBody()->getContents();
+    /**
+     * Internal method for making HTTP requests
+     */
+    public function makeRequest(string $method, string $path, array $options = []): array
+    {
+        try {
+            // dd(
+            //     $this->client,
+            //     $method,
+            //     $path,
+            //     $options
+            // );
 
-    //         return json_decode($content, true) ?: [];
-    //     } catch (RequestException $e) {
-    //         throw new EventrelException(
-    //             "Request failed: " . $e->getMessage(),
-    //             $e->getCode(),
-    //             $e
-    //         );
-    //     }
-    // }
+            $response = $this->client->request($method, $path, $options);
+            $content = $response->getBody()->getContents();
 
-    // /**
-    //  * Get HTTP client instance for advanced usage
-    //  */
-    // public function getHttpClient(): Client
-    // {
-    //     return $this->httpClient;
-    // }
+            return json_decode($content, true) ?: [];
+        } catch (RequestException $e) {
+            dd(
+                $e
+            );
 
-    // /**
-    //  * Get base URL
-    //  */
-    // public function getBaseUrl(): string
-    // {
-    //     return $this->baseUrl;
-    // }
 
-    // /**
-    //  * Get API token
-    //  */
-    // public function getApiToken(): string
-    // {
-    //     return $this->apiToken;
-    // }
+            throw new EventrelException(
+                message: "Request failed: " . $e->getMessage(),
+                code: $e->getCode(),
+                previous: $e
+            );
+        }
+    }
+
+    /**
+     * Get HTTP client instance for advanced usage
+     */
+    public function getHttpClient(): Client
+    {
+        return $this->client;
+    }
+
+    /**
+     * Get base URL
+     */
+    public function getBaseUrl(): string
+    {
+        return $this->baseUrl;
+    }
+
+    /**
+     * Get API token
+     */
+    public function getApiToken(): string
+    {
+        return $this->apiToken;
+    }
 
 
     /**
@@ -319,5 +339,28 @@ class EventrelClient
     {
         // TODO: Implement version retrieval
         return '1.0.0';
+    }
+
+    /**
+     * Build the URI for a given API endpoint.
+     *
+     * @param string $path
+     * @return string
+     */
+    protected function buildUri(string $path = ''): string
+    {
+        $base = rtrim($this->baseUrl, '/') . '/' . ltrim($this->apiVersion, '/');
+
+        return $base . '/' . ltrim($path, '/');
+    }
+
+    /**
+     * Generate a unique idempotency key.
+     */
+    protected function generateIdempotencyKey(): string
+    {
+        // TODO: Implement idempotency key generation logic
+
+        return bin2hex(random_bytes(16));
     }
 }
