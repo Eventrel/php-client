@@ -11,11 +11,11 @@ class WebhookBuilder
     use CanIdempotentize, CanSchedule;
 
     /**
-     * The application to send the webhook to.
+     * The destination to send the webhook to.
      * 
      * @var string|null
      */
-    private ?string $application = null;
+    private ?string $destination = null;
 
     /**
      * The payload data for the webhook.
@@ -23,6 +23,13 @@ class WebhookBuilder
      * @var array
      */
     private array $payload = [];
+
+    /**
+     * The tags for the webhook.
+     * 
+     * @var array
+     */
+    private array $tags = [];
 
     /**
      * The idempotency key for the webhook.
@@ -50,9 +57,9 @@ class WebhookBuilder
      * @param string $application
      * @return $this
      */
-    public function to(string $application): self
+    public function to(string $destination): self
     {
-        $this->application = $application;
+        $this->destination = $destination;
 
         return $this;
     }
@@ -66,6 +73,19 @@ class WebhookBuilder
     public function payload(array $payload): self
     {
         $this->payload = $payload;
+
+        return $this;
+    }
+
+    /**
+     * Set the tags for the webhook
+     *
+     * @param array $tags
+     * @return $this
+     */
+    public function tags(array $tags): self
+    {
+        $this->tags = $tags;
 
         return $this;
     }
@@ -119,9 +139,10 @@ class WebhookBuilder
     public function send(): WebhookResponse
     {
         return $this->client->sendWebhook(
-            application: $this->application,
+            destination: $this->destination,
             eventType: $this->eventType,
             payload: $this->payload,
+            tags: $this->tags,
             idempotencyKey: $this->idempotencyKey,
             scheduledAt: $this->scheduledAt
         );
@@ -133,11 +154,12 @@ class WebhookBuilder
     public function toArray(): array
     {
         return [
-            // 'application' => $this->application,
-            // 'event_type' => $this->eventType,
-            // 'payload' => $this->payload,
-            // 'idempotency_key' => $this->idempotencyKey,
-            // 'scheduled_at' => $this->scheduledAt?->toISOString(),
+            'destination' => $this->destination,
+            'event_type' => $this->eventType,
+            'payload' => $this->payload,
+            'tags' => $this->tags,
+            'idempotency_key' => $this->idempotencyKey,
+            'scheduled_at' => $this->scheduledAt?->toISOString(),
         ];
     }
 }

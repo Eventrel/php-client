@@ -78,7 +78,7 @@ class EventrelClient
         string $eventType,
         array $payload,
         array $tags = [],
-        ?string $application = null,
+        ?string $destination = null,
         ?string $idempotencyKey = null,
         ?Carbon $scheduledAt = null
     ): WebhookResponse {
@@ -88,8 +88,8 @@ class EventrelClient
             'tags' => $tags,
         ];
 
-        if ($application) {
-            $data['application'] = $application;
+        if ($destination) {
+            $data['destination'] = $destination;
         }
 
         if ($scheduledAt) {
