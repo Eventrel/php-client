@@ -4,7 +4,7 @@ namespace Eventrel\Client\Entities;
 
 use Spatie\LaravelData\Data;
 
-class Application extends Data
+class Destination extends Data
 {
     public function __construct(
         //

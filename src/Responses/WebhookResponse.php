@@ -74,9 +74,9 @@ class WebhookResponse
         $this->success = $content['success'] ?? false;
         $this->statusCode = $content['status_code'] ?? 0;
 
-        if ($response->hasHeader('x-idempotency-key')) {
-            $this->idempotencyKey = $response->getHeaderLine('x-idempotency-key');
-        }
+        $this->idempotencyKey = ($response->hasHeader('x-idempotency-key')) ?
+            $response->getHeaderLine('x-idempotency-key') :
+            $content['data']['idempotency_key'] ?? null;
     }
 
     /**
@@ -99,15 +99,15 @@ class WebhookResponse
         return $this->outboundEvent->uuid;
     }
 
-    // public function getEventType(): string
-    // {
-    //     return $this->data['event_type'] ?? '';
-    // }
-
-    // public function getPayload(): array
-    // {
-    //     return $this->data['payload'] ?? [];
-    // }
+    /**
+     * Get the payload of the outbound event.
+     *
+     * @return array
+     */
+    public function getPayload(): array
+    {
+        return $this->outboundEvent->payload ?? [];
+    }
 
     // public function getStatus(): string
     // {
