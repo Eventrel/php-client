@@ -4,7 +4,7 @@ namespace Eventrel\Client\Responses;
 
 use GuzzleHttp\Psr7\Response;
 
-class BatchWebhookResponse
+class BatchEventResponse
 {
     public function __construct(
         private Response $response
@@ -22,7 +22,7 @@ class BatchWebhookResponse
     // public function getWebhooks(): array
     // {
     //     return array_map(
-    //         fn($webhook) => new WebhookResponse($webhook),
+    //         fn($webhook) => new EventResponse($webhook),
     //         $this->data['webhooks'] ?? []
     //     );
     // }
@@ -82,7 +82,7 @@ class BatchWebhookResponse
     // {
     //     return array_filter(
     //         $this->getWebhooks(),
-    //         fn(WebhookResponse $webhook) => $webhook->isSuccessful()
+    //         fn(EventResponse $webhook) => $webhook->isSuccessful()
     //     );
     // }
 
@@ -93,7 +93,7 @@ class BatchWebhookResponse
     // {
     //     return array_filter(
     //         $this->getWebhooks(),
-    //         fn(WebhookResponse $webhook) => $webhook->isFailed()
+    //         fn(EventResponse $webhook) => $webhook->isFailed()
     //     );
     // }
 

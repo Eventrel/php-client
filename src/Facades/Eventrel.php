@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Facade;
 //  * Eventrel facade for Laravel
 //  * 
 //  * @method static \Eventrel\Client\WebhookBuilder event(string $eventType)
-//  * @method static \Eventrel\Client\WebhookResponse sendWebhook(string $eventType, array $payload, ?string $idempotencyKey = null, ?\Carbon\Carbon $scheduledAt = null)
-//  * @method static \Eventrel\Client\WebhookResponse getWebhook(string $webhookId)
+//  * @method static \Eventrel\Client\EventResponse sendWebhook(string $eventType, array $payload, ?string $idempotencyKey = null, ?\Carbon\Carbon $scheduledAt = null)
+//  * @method static \Eventrel\Client\EventResponse getWebhook(string $webhookId)
 //  * @method static \Eventrel\Client\WebhookListResponse getWebhooks(int $page = 1, array $filters = [])
 //  * @method static \Eventrel\Client\EndpointResponse createEndpoint(string $name, string $url, ?array $events = null, ?int $retryLimit = null, ?array $headers = null)
 //  * @method static array getEndpoints()

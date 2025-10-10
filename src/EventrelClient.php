@@ -5,7 +5,7 @@ namespace Eventrel\Client;
 use Carbon\Carbon;
 use Eventrel\Client\Builders\{WebhookBuilder, BatchWebhookBuilder};
 use Eventrel\Client\Exceptions\EventrelException;
-use Eventrel\Client\Responses\{WebhookResponse, BatchWebhookResponse};
+use Eventrel\Client\Responses\{EventResponse, BatchEventResponse};
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Psr\Http\Message\ResponseInterface;
@@ -72,7 +72,7 @@ class EventrelClient
      * @param string|null $application
      * @param string|null $idempotencyKey
      * @param Carbon|null $scheduledAt
-     * @return WebhookResponse
+     * @return EventResponse
      */
     public function sendWebhook(
         string $eventType,
@@ -81,7 +81,7 @@ class EventrelClient
         ?string $destination = null,
         ?string $idempotencyKey = null,
         ?Carbon $scheduledAt = null
-    ): WebhookResponse {
+    ): EventResponse {
         $data = [
             'event_type' => $eventType,
             'payload' => $payload,
@@ -103,7 +103,7 @@ class EventrelClient
             ]
         ]);
 
-        return new WebhookResponse($response);
+        return new EventResponse($response);
     }
 
     /**
@@ -116,7 +116,7 @@ class EventrelClient
         ?string $application = null,
         ?string $idempotencyKey = null,
         ?Carbon $scheduledAt = null
-    ): BatchWebhookResponse {
+    ): BatchEventResponse {
         if (empty($events)) {
             throw new EventrelException('Cannot send empty batch. Provide at least one webhook.');
         }
@@ -142,16 +142,16 @@ class EventrelClient
             ]
         ]);
 
-        return new BatchWebhookResponse($response);
+        return new BatchEventResponse($response);
     }
 
     // /**
     //  * Get a specific webhook by ID
     //  */
-    // public function getWebhook(string $webhookId): WebhookResponse
+    // public function getWebhook(string $webhookId): EventResponse
     // {
     //     $response = $this->makeRequest('GET', "/api/v1/webhooks/{$webhookId}");
-    //     return new WebhookResponse($response['data'] ?? []);
+    //     return new EventResponse($response['data'] ?? []);
     // }
 
     // /**

@@ -3,9 +3,10 @@
 namespace Eventrel\Client\Responses;
 
 use Eventrel\Client\Entities\OutboundEvent;
+use Eventrel\Client\Enums\EventStatus;
 use GuzzleHttp\Psr7\Response;
 
-class WebhookResponse
+class EventResponse
 {
     /**
      * The data returned by the webhook.
@@ -57,7 +58,7 @@ class WebhookResponse
     private ?string $idempotencyKey = null;
 
     /**
-     * WebhookResponse constructor.
+     * EventResponse constructor.
      * 
      * @param \GuzzleHttp\Psr7\Response $response
      */
@@ -84,7 +85,7 @@ class WebhookResponse
      *
      * @return OutboundEvent
      */
-    public function getOutboundEvent(): OutboundEvent
+    public function getDetails(): OutboundEvent
     {
         return $this->outboundEvent;
     }
@@ -109,58 +110,25 @@ class WebhookResponse
         return $this->outboundEvent->payload ?? [];
     }
 
-    // public function getStatus(): string
-    // {
-    //     return $this->data['status'] ?? '';
-    // }
+    /**
+     * Get the status of the outbound event.
+     *
+     * @return EventStatus
+     */
+    public function getStatus(): EventStatus
+    {
+        return $this->outboundEvent->status;
+    }
 
-    // public function getCreatedAt(): ?Carbon
-    // {
-    //     $timestamp = $this->data['created_at'] ?? null;
-    //     return $timestamp ? Carbon::parse($timestamp) : null;
-    // }
-
-    // public function getScheduledAt(): ?Carbon
-    // {
-    //     $timestamp = $this->data['scheduled_at'] ?? null;
-    //     return $timestamp ? Carbon::parse($timestamp) : null;
-    // }
-
-    // public function getProcessedAt(): ?Carbon
-    // {
-    //     $timestamp = $this->data['processed_at'] ?? null;
-    //     return $timestamp ? Carbon::parse($timestamp) : null;
-    // }
-
-    // public function getFailureCount(): int
-    // {
-    //     return $this->data['failure_count'] ?? 0;
-    // }
-
-    // public function getLastFailureReason(): ?string
-    // {
-    //     return $this->data['last_failure_reason'] ?? null;
-    // }
-
-    // public function isSuccessful(): bool
-    // {
-    //     return $this->getStatus() === 'delivered';
-    // }
-
-    // public function isFailed(): bool
-    // {
-    //     return $this->getStatus() === 'failed';
-    // }
-
-    // public function isPending(): bool
-    // {
-    //     return in_array($this->getStatus(), ['pending', 'queued', 'processing']);
-    // }
-
-    // public function toArray(): array
-    // {
-    //     return $this->data;
-    // }
+    /**
+     * Get the event type of the outbound event.
+     *
+     * @return string
+     */
+    public function getEventType(): string
+    {
+        return $this->outboundEvent->eventType;
+    }
 
     /**
      * Get the response message.
@@ -170,6 +138,16 @@ class WebhookResponse
     public function getMessage(): string
     {
         return $this->message;
+    }
+
+    /**
+     * Get the errors returned by the webhook.
+     *
+     * @return array
+     */
+    public function getErrors(): array
+    {
+        return $this->errors;
     }
 
     /**
@@ -210,5 +188,26 @@ class WebhookResponse
     public function isSuccess(): bool
     {
         return $this->success;
+    }
+    /**
+     * Check if the outbound event is scheduled.
+     * 
+     * @return bool
+     */
+    public function isScheduled(): bool
+    {
+        return $this->outboundEvent->scheduledAt !== null;
+    }
+
+    /**
+     * Convert the response to an array.
+     * 
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return [
+            // 
+        ];
     }
 }

@@ -4,7 +4,7 @@ namespace Eventrel\Client\Builders;
 
 use Eventrel\Client\Builders\Concerns\{CanSchedule, CanIdempotentize};
 use Eventrel\Client\EventrelClient;
-use Eventrel\Client\Responses\WebhookResponse;
+use Eventrel\Client\Responses\EventResponse;
 
 class WebhookBuilder
 {
@@ -136,7 +136,7 @@ class WebhookBuilder
     /**
      * Send the webhook immediately
      */
-    public function send(): WebhookResponse
+    public function send(): EventResponse
     {
         return $this->client->sendWebhook(
             destination: $this->destination,

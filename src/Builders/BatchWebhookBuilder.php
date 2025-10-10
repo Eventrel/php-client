@@ -4,7 +4,7 @@ namespace Eventrel\Client\Builders;
 
 use Eventrel\Client\Builders\Concerns\{CanSchedule, CanIdempotentize};
 use Eventrel\Client\EventrelClient;
-use Eventrel\Client\Responses\BatchWebhookResponse;
+use Eventrel\Client\Responses\BatchEventResponse;
 
 class BatchWebhookBuilder
 {
@@ -90,7 +90,7 @@ class BatchWebhookBuilder
     /**
      * Send all webhooks in the batch
      */
-    public function send(): BatchWebhookResponse
+    public function send(): BatchEventResponse
     {
         return $this->client->sendWebhookBatch(
             application: $this->application,
