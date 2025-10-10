@@ -9,11 +9,11 @@ use Eventrel\Client\Responses\WebhookResponse;
 class WebhookBuilder
 {
     /**
-     * The application to send the webhook to.
+     * The destination to send the webhook to.
      * 
      * @var string|null
      */
-    private ?string $application = null;
+    private ?string $destination = null;
 
     /**
      * The payload data for the webhook.
@@ -50,11 +50,11 @@ class WebhookBuilder
     }
 
     /**
-     * Set the target application for the webhook
+     * Set the target destination for the webhook
      */
-    public function to(string $application): self
+    public function to(string $destination): self
     {
-        $this->application = $application;
+        $this->destination = $destination;
 
         return $this;
     }
@@ -187,7 +187,7 @@ class WebhookBuilder
     public function send(): WebhookResponse
     {
         return $this->client->sendWebhook(
-            application: $this->application,
+            destination: $this->destination,
             eventType: $this->eventType,
             payload: $this->payload,
             idempotencyKey: $this->idempotencyKey,
@@ -201,7 +201,7 @@ class WebhookBuilder
     public function toArray(): array
     {
         return [
-            'application' => $this->application,
+            'destination' => $this->destination,
             'event_type' => $this->eventType,
             'payload' => $this->payload,
             'idempotency_key' => $this->idempotencyKey,

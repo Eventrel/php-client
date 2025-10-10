@@ -70,7 +70,7 @@ class EventrelClient
     public function sendWebhook(
         string $eventType,
         array $payload,
-        ?string $application = null,
+        ?string $destination = null,
         ?string $idempotencyKey = null,
         ?Carbon $scheduledAt = null
     ): WebhookResponse {
@@ -79,8 +79,8 @@ class EventrelClient
             'payload' => $payload,
         ];
 
-        if ($application) {
-            $data['application'] = $application;
+        if ($destination) {
+            $data['destination'] = $destination;
         }
 
         if ($scheduledAt) {
