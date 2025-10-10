@@ -2,36 +2,102 @@
 
 namespace Eventrel\Client\Responses;
 
+use Eventrel\Client\Entities\OutboundEvent;
 use GuzzleHttp\Psr7\Response;
 
 class WebhookResponse
 {
-    // Define properties and methods for the WebhookResponse class
+    /**
+     * The data returned by the webhook.
+     * 
+     * @var OutboundEvent
+     */
+    private OutboundEvent $outboundEvent;
 
+    /**
+     * The message returned by the webhook.
+     * 
+     * @var string
+     */
+    private string $message = '';
+
+    /**
+     * The errors returned by the webhook.
+     * 
+     * @var array
+     */
+    private array $errors = [];
+
+    /**
+     * Indicates if the webhook was successfully delivered.
+     * 
+     * @var bool
+     */
+    private bool $success = false;
+
+    /**
+     * The status code returned by the webhook.
+     * 
+     * @var int
+     */
+    private int $statusCode = 0;
+
+    /**
+     * The headers returned by the webhook.
+     * 
+     * @var array
+     */
+    private array $headers = [];
+
+    /**
+     * The idempotency key for the webhook.
+     * 
+     * @var string|null
+     */
+    private ?string $idempotencyKey = null;
+
+    /**
+     * WebhookResponse constructor.
+     * 
+     * @param \GuzzleHttp\Psr7\Response $response
+     */
     public function __construct(
-        private Response $response
+        private readonly Response $response
     ) {
-        // 
+        $content = json_decode($response->getBody()->getContents(), true);
 
-        dd(
-            $response
-        );
+        $this->headers = $response->getHeaders();
 
-        // dd(
-        //     $this->client,
-        //     $method,
-        //     $path,
-        //     $options
-        // $content = $response->getBody()->getContents(),
+        $this->outboundEvent = OutboundEvent::from($content['data']['outbound_event'] ?? []);
+        $this->message = $content['data']['message'] ?? '';
+        $this->errors = $content['errors'] ?? [];
+        $this->success = $content['success'] ?? false;
+        $this->statusCode = $content['status_code'] ?? 0;
 
-        // json_decode($content, true) ?: []
-        // );
+        if ($response->hasHeader('x-idempotency-key')) {
+            $this->idempotencyKey = $response->getHeaderLine('x-idempotency-key');
+        }
     }
 
-    // public function getId(): string
-    // {
-    //     return $this->data['id'] ?? '';
-    // }
+    /**
+     * Get the outbound event data.
+     *
+     * @return OutboundEvent
+     */
+    public function getOutboundEvent(): OutboundEvent
+    {
+        return $this->outboundEvent;
+    }
+
+    /**
+     * Get the ID of the outbound event.
+     *
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->outboundEvent->uuid;
+    }
 
     // public function getEventType(): string
     // {
@@ -46,11 +112,6 @@ class WebhookResponse
     // public function getStatus(): string
     // {
     //     return $this->data['status'] ?? '';
-    // }
-
-    // public function getIdempotencyKey(): ?string
-    // {
-    //     return $this->data['idempotency_key'] ?? null;
     // }
 
     // public function getCreatedAt(): ?Carbon
@@ -100,4 +161,54 @@ class WebhookResponse
     // {
     //     return $this->data;
     // }
+
+    /**
+     * Get the response message.
+     *
+     * @return string
+     */
+    public function getMessage(): string
+    {
+        return $this->message;
+    }
+
+    /**
+     * Get the idempotency key for the webhook.
+     *
+     * @return string|null
+     */
+    public function getIdempotencyKey(): ?string
+    {
+        return $this->idempotencyKey;
+    }
+
+    /**
+     * Get the headers returned by the webhook.
+     *
+     * @return array
+     */
+    public function getHeaders(): array
+    {
+        return $this->headers;
+    }
+
+    /**
+     * Get the outbound event data.
+     *
+     * @return OutboundEvent
+     */
+    public function getStatusCode(): int
+    {
+        return $this->statusCode;
+    }
+
+    /**
+     * Check if the request was successful.
+     * 
+     * @return bool
+     */
+    public function isSuccess(): bool
+    {
+        return $this->success;
+    }
 }

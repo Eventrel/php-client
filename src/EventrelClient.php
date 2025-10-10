@@ -5,7 +5,7 @@ namespace Eventrel\Client;
 use Carbon\Carbon;
 use Eventrel\Client\Builders\{WebhookBuilder, BatchWebhookBuilder};
 use Eventrel\Client\Exceptions\EventrelException;
-use Eventrel\Client\Responses\{WebhookResponse};
+use Eventrel\Client\Responses\{WebhookResponse, BatchWebhookResponse};
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Psr\Http\Message\ResponseInterface;
@@ -28,9 +28,9 @@ class EventrelClient
      */
     public function __construct(
         protected string $apiToken,
-        protected string $baseUrl = 'https://api.eventrel.sh',
+        protected readonly string $baseUrl = 'https://api.eventrel.sh',
         protected string $apiVersion = 'v1',
-        protected int $timeout = 30
+        protected readonly int $timeout = 30
     ) {
         $this->client = new Client([
             'base_uri' => $this->buildUri(),
@@ -66,10 +66,18 @@ class EventrelClient
 
     /**
      * Send a webhook directly (non-fluent method)
+     *
+     * @param string $eventType
+     * @param array $payload
+     * @param string|null $application
+     * @param string|null $idempotencyKey
+     * @param Carbon|null $scheduledAt
+     * @return WebhookResponse
      */
     public function sendWebhook(
         string $eventType,
         array $payload,
+        array $tags = [],
         ?string $application = null,
         ?string $idempotencyKey = null,
         ?Carbon $scheduledAt = null
@@ -77,6 +85,7 @@ class EventrelClient
         $data = [
             'event_type' => $eventType,
             'payload' => $payload,
+            'tags' => $tags,
         ];
 
         if ($application) {
@@ -100,19 +109,40 @@ class EventrelClient
     /**
      * Send multiple webhooks in a single batch request
      */
-    public function sendWebhookBatch(array $webhooks): BatchWebhookResponse
-    {
-        if (empty($webhooks)) {
+    public function sendWebhookBatch(
+        string $eventType,
+        array $events,
+        array $tags = [],
+        ?string $application = null,
+        ?string $idempotencyKey = null,
+        ?Carbon $scheduledAt = null
+    ): BatchWebhookResponse {
+        if (empty($events)) {
             throw new EventrelException('Cannot send empty batch. Provide at least one webhook.');
         }
 
-        $response = $this->makeRequest('POST', '/api/v1/webhooks/batch', [
-            'json' => [
-                'webhooks' => $webhooks
+        $data = [
+            'event_type' => $eventType,
+            'events' => $events,
+            'tags' => $tags,
+        ];
+
+        if ($application) {
+            $data['application'] = $application;
+        }
+
+        if ($scheduledAt) {
+            $data['scheduled_at'] = $scheduledAt->toISOString();
+        }
+
+        $response = $this->makeRequest('POST', 'events', [
+            'json' => $data,
+            'headers' => [
+                'X-Idempotency-Key' => $idempotencyKey ?? $this->generateIdempotencyKey(),
             ]
         ]);
 
-        return new BatchWebhookResponse($response['data'] ?? []);
+        return new BatchWebhookResponse($response);
     }
 
     // /**
@@ -318,6 +348,11 @@ class EventrelClient
         try {
             return $this->client->request($method, $path, $options);
         } catch (RequestException $e) {
+            // Log the error or handle it as needed
+
+            // Get the idempotency key if it exists
+            // $idempotencyKey = $options['headers']['Idempotency-Key'] ?? null;
+
             throw new EventrelException(
                 message: "Request failed: " . $e->getMessage(),
                 code: $e->getCode(),

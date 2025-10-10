@@ -2,12 +2,14 @@
 
 namespace Eventrel\Client\Builders;
 
-use Carbon\Carbon;
+use Eventrel\Client\Builders\Concerns\{CanSchedule, CanIdempotentize};
 use Eventrel\Client\EventrelClient;
 use Eventrel\Client\Responses\WebhookResponse;
 
 class WebhookBuilder
 {
+    use CanIdempotentize, CanSchedule;
+
     /**
      * The application to send the webhook to.
      * 
@@ -30,13 +32,6 @@ class WebhookBuilder
     private ?string $idempotencyKey = null;
 
     /**
-     * The scheduled time for the webhook.
-     * 
-     * @var Carbon|null
-     */
-    private ?Carbon $scheduledAt = null;
-
-    /**
      * WebhookBuilder constructor.
      * 
      * @param \Eventrel\Client\EventrelClient $client
@@ -51,6 +46,9 @@ class WebhookBuilder
 
     /**
      * Set the target application for the webhook
+     *
+     * @param string $application
+     * @return $this
      */
     public function to(string $application): self
     {
@@ -61,6 +59,9 @@ class WebhookBuilder
 
     /**
      * Set the entire payload at once
+     *
+     * @param array $payload
+     * @return $this
      */
     public function payload(array $payload): self
     {
@@ -71,6 +72,10 @@ class WebhookBuilder
 
     /**
      * Add a single key-value pair to the payload
+     *
+     * @param string $key
+     * @param mixed $value
+     * @return $this
      */
     public function with(string $key, mixed $value): self
     {
@@ -81,70 +86,13 @@ class WebhookBuilder
 
     /**
      * Add multiple key-value pairs to the payload
+     *
+     * @param array $data
+     * @return $this    
      */
     public function withData(array $data): self
     {
         $this->payload = array_merge($this->payload, $data);
-
-        return $this;
-    }
-
-    /**
-     * Set idempotency key to prevent duplicate processing
-     */
-    public function idempotencyKey(string $key): self
-    {
-        $this->idempotencyKey = $key;
-
-        return $this;
-    }
-
-    /**
-     * Set unique idempotency
-     */
-    public function withUniqueKey(): self
-    {
-        //     $this->idempotencyKey = $this->generateUuid();
-
-        return $this;
-    }
-
-    /**
-     * Schedule webhook for specific time
-     */
-    public function scheduleAt(Carbon $scheduledAt): self
-    {
-        $this->scheduledAt = $scheduledAt;
-
-        return $this;
-    }
-
-    /**
-     * Schedule webhook for a number of seconds from now
-     */
-    public function scheduleIn(int $seconds): self
-    {
-        $this->scheduledAt = now()->addSeconds($seconds);
-
-        return $this;
-    }
-
-    /**
-     * Schedule webhook for a number of minutes from now
-     */
-    public function scheduleInMinutes(int $minutes): self
-    {
-        $this->scheduledAt = now()->addMinutes($minutes);
-
-        return $this;
-    }
-
-    /**
-     * Schedule webhook for a number of hours from now
-     */
-    public function scheduleInHours(int $hours): self
-    {
-        $this->scheduledAt = now()->addHours($hours);
 
         return $this;
     }
@@ -163,22 +111,6 @@ class WebhookBuilder
     public function getEventType(): string
     {
         return $this->eventType;
-    }
-
-    /**
-     * Get the idempotency key
-     */
-    public function getIdempotencyKey(): ?string
-    {
-        return $this->idempotencyKey;
-    }
-
-    /**
-     * Get the scheduled time
-     */
-    public function getScheduledAt(): ?Carbon
-    {
-        return $this->scheduledAt;
     }
 
     /**
@@ -201,11 +133,11 @@ class WebhookBuilder
     public function toArray(): array
     {
         return [
-            'application' => $this->application,
-            'event_type' => $this->eventType,
-            'payload' => $this->payload,
-            'idempotency_key' => $this->idempotencyKey,
-            'scheduled_at' => $this->scheduledAt?->toISOString(),
+            // 'application' => $this->application,
+            // 'event_type' => $this->eventType,
+            // 'payload' => $this->payload,
+            // 'idempotency_key' => $this->idempotencyKey,
+            // 'scheduled_at' => $this->scheduledAt?->toISOString(),
         ];
     }
 }
