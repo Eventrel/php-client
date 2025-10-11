@@ -6,7 +6,7 @@ use Eventrel\Client\Builders\Concerns\{CanSchedule, CanIdempotentize};
 use Eventrel\Client\EventrelClient;
 use Eventrel\Client\Responses\EventResponse;
 
-class WebhookBuilder
+class EventBuilder
 {
     use CanIdempotentize, CanSchedule;
 
@@ -39,7 +39,7 @@ class WebhookBuilder
     private ?string $idempotencyKey = null;
 
     /**
-     * WebhookBuilder constructor.
+     * EventBuilder constructor.
      * 
      * @param \Eventrel\Client\EventrelClient $client
      * @param string $eventType
@@ -138,14 +138,15 @@ class WebhookBuilder
      */
     public function send(): EventResponse
     {
-        return $this->client->sendWebhook(
-            destination: $this->destination,
-            eventType: $this->eventType,
-            payload: $this->payload,
-            tags: $this->tags,
-            idempotencyKey: $this->idempotencyKey,
-            scheduledAt: $this->scheduledAt
-        );
+        dd('Not implemented yet');
+        // return $this->client->sendWebhook(
+        //     destination: $this->destination,
+        //     eventType: $this->eventType,
+        //     payload: $this->payload,
+        //     tags: $this->tags,
+        //     idempotencyKey: $this->idempotencyKey,
+        //     scheduledAt: $this->scheduledAt
+        // );
     }
 
     /**

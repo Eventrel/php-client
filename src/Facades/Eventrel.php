@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Facade;
 // /**
 //  * Eventrel facade for Laravel
 //  * 
-//  * @method static \Eventrel\Client\WebhookBuilder event(string $eventType)
+//  * @method static \Eventrel\Client\EventBuilder event(string $eventType)
 //  * @method static \Eventrel\Client\EventResponse sendWebhook(string $eventType, array $payload, ?string $idempotencyKey = null, ?\Carbon\Carbon $scheduledAt = null)
 //  * @method static \Eventrel\Client\EventResponse getWebhook(string $webhookId)
 //  * @method static \Eventrel\Client\WebhookListResponse getWebhooks(int $page = 1, array $filters = [])

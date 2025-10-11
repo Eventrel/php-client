@@ -6,7 +6,7 @@ use Eventrel\Client\Builders\Concerns\{CanSchedule, CanIdempotentize};
 use Eventrel\Client\EventrelClient;
 use Eventrel\Client\Responses\BatchEventResponse;
 
-class BatchWebhookBuilder
+class BatchEventBuilder
 {
     use CanIdempotentize, CanSchedule;
 
@@ -32,7 +32,7 @@ class BatchWebhookBuilder
     private ?string $idempotencyKey = null;
 
     /**
-     * WebhookBuilder constructor.
+     * EventBuilder constructor.
      * 
      * @param \Eventrel\Client\EventrelClient $client
      * @param string $eventType
@@ -92,13 +92,14 @@ class BatchWebhookBuilder
      */
     public function send(): BatchEventResponse
     {
-        return $this->client->sendWebhookBatch(
-            application: $this->application,
-            eventType: $this->eventType,
-            events: $this->events,
-            idempotencyKey: $this->idempotencyKey,
-            scheduledAt: $this->scheduledAt
-        );
+        dd('Not implemented yet');
+        // return $this->client->sendWebhookBatch(
+        //     application: $this->application,
+        //     eventType: $this->eventType,
+        //     events: $this->events,
+        //     idempotencyKey: $this->idempotencyKey,
+        //     scheduledAt: $this->scheduledAt
+        // );
     }
 
     /**

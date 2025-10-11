@@ -2,10 +2,8 @@
 
 namespace Eventrel\Client;
 
-use Carbon\Carbon;
-use Eventrel\Client\Builders\{WebhookBuilder, BatchWebhookBuilder};
+use Eventrel\Client\Builders\{EventBuilder, BatchEventBuilder};
 use Eventrel\Client\Exceptions\EventrelException;
-use Eventrel\Client\Responses\{EventResponse, BatchEventResponse};
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Psr\Http\Message\ResponseInterface;
@@ -44,296 +42,37 @@ class EventrelClient
         ]);
     }
 
+    // public function __get($name)
+    // {
+    // // Allow dynamic access to services like $client->destinations
+    // $serviceClass = __NAMESPACE__ . '\\Services\\' . ucfirst($name) . 'Service';
+
+    // if (class_exists($serviceClass)) {
+    //     return new $serviceClass($this);
+    // }
+
+    // throw new \InvalidArgumentException("Service {$name} does not exist.");
+    // }
+
     /**
      * Create a new webhook builder
      * @param string $eventType
-     * @return WebhookBuilder
+     * @return EventBuilder
      */
-    public function event(string $eventType): WebhookBuilder
+    public function event(string $eventType): EventBuilder
     {
-        return new WebhookBuilder($this, $eventType);
+        return new EventBuilder($this, $eventType);
     }
 
     /**
      * Create a new batch webhook builder
      * @param string $eventType
-     * @return BatchWebhookBuilder
+     * @return BatchEventBuilder
      */
-    public function batch(string $eventType): BatchWebhookBuilder
+    public function batch(string $eventType): BatchEventBuilder
     {
-        return new BatchWebhookBuilder($this, $eventType);
+        return new BatchEventBuilder($this, $eventType);
     }
-
-    /**
-     * Send a webhook directly (non-fluent method)
-     *
-     * @param string $eventType
-     * @param array $payload
-     * @param string|null $application
-     * @param string|null $idempotencyKey
-     * @param Carbon|null $scheduledAt
-     * @return EventResponse
-     */
-    public function sendWebhook(
-        string $eventType,
-        array $payload,
-        array $tags = [],
-        ?string $destination = null,
-        ?string $idempotencyKey = null,
-        ?Carbon $scheduledAt = null
-    ): EventResponse {
-        $data = [
-            'event_type' => $eventType,
-            'payload' => $payload,
-            'tags' => $tags,
-        ];
-
-        if ($destination) {
-            $data['destination'] = $destination;
-        }
-
-        if ($scheduledAt) {
-            $data['scheduled_at'] = $scheduledAt->toISOString();
-        }
-
-        $response = $this->makeRequest('POST', 'events', [
-            'json' => $data,
-            'headers' => [
-                'X-Idempotency-Key' => $idempotencyKey ?? $this->generateIdempotencyKey(),
-            ]
-        ]);
-
-        return new EventResponse($response);
-    }
-
-    /**
-     * Send multiple webhooks in a single batch request
-     */
-    public function sendWebhookBatch(
-        string $eventType,
-        array $events,
-        array $tags = [],
-        ?string $application = null,
-        ?string $idempotencyKey = null,
-        ?Carbon $scheduledAt = null
-    ): BatchEventResponse {
-        if (empty($events)) {
-            throw new EventrelException('Cannot send empty batch. Provide at least one webhook.');
-        }
-
-        $data = [
-            'event_type' => $eventType,
-            'events' => $events,
-            'tags' => $tags,
-        ];
-
-        if ($application) {
-            $data['application'] = $application;
-        }
-
-        if ($scheduledAt) {
-            $data['scheduled_at'] = $scheduledAt->toISOString();
-        }
-
-        $response = $this->makeRequest('POST', 'events', [
-            'json' => $data,
-            'headers' => [
-                'X-Idempotency-Key' => $idempotencyKey ?? $this->generateIdempotencyKey(),
-            ]
-        ]);
-
-        return new BatchEventResponse($response);
-    }
-
-    // /**
-    //  * Get a specific webhook by ID
-    //  */
-    // public function getWebhook(string $webhookId): EventResponse
-    // {
-    //     $response = $this->makeRequest('GET', "/api/v1/webhooks/{$webhookId}");
-    //     return new EventResponse($response['data'] ?? []);
-    // }
-
-    // /**
-    //  * List webhooks with pagination and filters
-    //  */
-    // public function getWebhooks(int $page = 1, array $filters = []): WebhookListResponse
-    // {
-    //     $query = array_merge(['page' => $page], $filters);
-
-    //     $response = $this->makeRequest('GET', '/api/v1/webhooks', [
-    //         'query' => $query,
-    //     ]);
-
-    //     return new WebhookListResponse(
-    //         $response['data'] ?? [],
-    //         $response['pagination'] ?? []
-    //     );
-    // }
-
-    // /**
-    //  * Create a new webhook endpoint
-    //  */
-    // public function createEndpoint(
-    //     string $name,
-    //     string $url,
-    //     ?array $events = null,
-    //     ?int $retryLimit = null,
-    //     ?array $headers = null
-    // ): EndpointResponse {
-    //     $data = [
-    //         'name' => $name,
-    //         'url' => $url,
-    //     ];
-
-    //     if ($events !== null) {
-    //         $data['events'] = $events;
-    //     }
-
-    //     if ($retryLimit !== null) {
-    //         $data['retry_limit'] = $retryLimit;
-    //     }
-
-    //     if ($headers !== null) {
-    //         $data['headers'] = $headers;
-    //     }
-
-    //     $response = $this->makeRequest('POST', '/api/v1/endpoints', [
-    //         'json' => $data,
-    //     ]);
-
-    //     return new EndpointResponse($response['data'] ?? []);
-    // }
-
-    // /**
-    //  * Get all endpoints for this team
-    //  */
-    // public function getEndpoints(): array
-    // {
-    //     $response = $this->makeRequest('GET', '/api/v1/endpoints');
-
-    //     return array_map(
-    //         fn($endpoint) => new EndpointResponse($endpoint),
-    //         $response['data'] ?? []
-    //     );
-    // }
-
-    // /**
-    //  * Get a specific endpoint
-    //  */
-    // public function getEndpoint(int $endpointId): EndpointResponse
-    // {
-    //     $response = $this->makeRequest('GET', "/api/v1/endpoints/{$endpointId}");
-    //     return new EndpointResponse($response['data'] ?? []);
-    // }
-
-    // /**
-    //  * Update an endpoint
-    //  */
-    // public function updateEndpoint(int $endpointId, array $data): EndpointResponse
-    // {
-    //     $response = $this->makeRequest('PUT', "/api/v1/endpoints/{$endpointId}", [
-    //         'json' => $data,
-    //     ]);
-
-    //     return new EndpointResponse($response['data'] ?? []);
-    // }
-
-    // /**
-    //  * Delete an endpoint
-    //  */
-    // public function deleteEndpoint(int $endpointId): bool
-    // {
-    //     $this->makeRequest('DELETE', "/api/v1/endpoints/{$endpointId}");
-    //     return true;
-    // }
-
-    // /**
-    //  * Regenerate endpoint secret
-    //  */
-    // public function regenerateEndpointSecret(int $endpointId): string
-    // {
-    //     $response = $this->makeRequest('POST', "/api/v1/endpoints/{$endpointId}/regenerate-secret");
-    //     return $response['data']['secret'] ?? '';
-    // }
-
-    // /**
-    //  * Get current team information (the team this API key belongs to)
-    //  */
-    // public function getTeam(): TeamResponse
-    // {
-    //     $response = $this->makeRequest('GET', '/api/v1/team');
-    //     return new TeamResponse($response['data'] ?? []);
-    // }
-
-    // /**
-    //  * Get team usage statistics
-    //  */
-    // public function getUsage(): array
-    // {
-    //     $response = $this->makeRequest('GET', '/api/v1/team/usage');
-    //     return $response['data'] ?? [];
-    // }
-
-    // /**
-    //  * Invite a member to the team
-    //  */
-    // public function inviteMember(string $email, string $role = 'developer'): bool
-    // {
-    //     $this->makeRequest('POST', '/api/v1/team/invite', [
-    //         'json' => [
-    //             'email' => $email,
-    //             'role' => $role,
-    //         ],
-    //     ]);
-
-    //     return true;
-    // }
-
-    // // ===============================================
-    // // ADMIN/MULTI-TEAM OPERATIONS (for platform admins)
-    // // ===============================================
-
-    // /**
-    //  * For admin users: get all teams they have access to
-    //  * Most users won't need this - only for multi-team admin scenarios
-    //  */
-    // public function getAllTeams(): array
-    // {
-    //     $response = $this->makeRequest('GET', '/api/v1/admin/teams');
-
-    //     return array_map(
-    //         fn($team) => new TeamResponse($team),
-    //         $response['data'] ?? []
-    //     );
-    // }
-
-    // /**
-    //  * For admin users: work with a specific team (override API key team)
-    //  * Use case: platform administrators managing multiple teams
-    //  */
-    // public function forTeam(string $teamSlug): TeamClient
-    // {
-    //     return new TeamClient($this, $teamSlug);
-    // }
-
-    // /**
-    //  * For admin users: create a new team
-    //  */
-    // public function createTeam(string $name, ?string $slug = null): TeamResponse
-    // {
-    //     $data = ['name' => $name];
-
-    //     if ($slug) {
-    //         $data['slug'] = $slug;
-    //     }
-
-    //     $response = $this->makeRequest('POST', '/api/v1/admin/teams', [
-    //         'json' => $data,
-    //     ]);
-
-    //     return new TeamResponse($response['data'] ?? []);
-    // }
 
     /**
      * Internal method for making HTTP requests
