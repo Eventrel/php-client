@@ -6,6 +6,11 @@ use Eventrel\Client\EventrelClient;
 
 class EventService
 {
+    /**
+     * EventService constructor.
+     * 
+     * @param \Eventrel\Client\EventrelClient $client
+     */
     public function __construct(
         private EventrelClient $client
     ) {

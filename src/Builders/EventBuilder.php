@@ -5,34 +5,42 @@ namespace Eventrel\Client\Builders;
 use Eventrel\Client\Builders\Concerns\{CanSchedule, CanIdempotentize};
 use Eventrel\Client\EventrelClient;
 use Eventrel\Client\Responses\EventResponse;
+use Eventrel\Client\Services\EventService;
 
 class EventBuilder
 {
     use CanIdempotentize, CanSchedule;
 
     /**
-     * The destination to send the webhook to.
+     * The event service instance.
+     * 
+     * @var EventService
+     */
+    private EventService $service;
+
+    /**
+     * The destination to send the event to.
      * 
      * @var string|null
      */
     private ?string $destination = null;
 
     /**
-     * The payload data for the webhook.
+     * The payload data for the event.
      * 
      * @var array
      */
     private array $payload = [];
 
     /**
-     * The tags for the webhook.
+     * The tags for the event.
      * 
      * @var array
      */
     private array $tags = [];
 
     /**
-     * The idempotency key for the webhook.
+     * The idempotency key for the event.
      * 
      * @var string|null
      */
@@ -48,13 +56,13 @@ class EventBuilder
         private EventrelClient $client,
         private string $eventType
     ) {
-        // 
+        $this->service = new EventService($client);
     }
 
     /**
-     * Set the target application for the webhook
+     * Set the target destination for the event
      *
-     * @param string $application
+     * @param string $destination
      * @return $this
      */
     public function to(string $destination): self
@@ -78,7 +86,7 @@ class EventBuilder
     }
 
     /**
-     * Set the tags for the webhook
+     * Set the tags for the event
      *
      * @param array $tags
      * @return $this
@@ -134,19 +142,19 @@ class EventBuilder
     }
 
     /**
-     * Send the webhook immediately
+     * Send the event immediately
      */
     public function send(): EventResponse
     {
         dd('Not implemented yet');
-        // return $this->client->sendWebhook(
-        //     destination: $this->destination,
-        //     eventType: $this->eventType,
-        //     payload: $this->payload,
-        //     tags: $this->tags,
-        //     idempotencyKey: $this->idempotencyKey,
-        //     scheduledAt: $this->scheduledAt
-        // );
+        return $this->service->sendEvent(
+            destination: $this->destination,
+            eventType: $this->eventType,
+            payload: $this->payload,
+            tags: $this->tags,
+            idempotencyKey: $this->idempotencyKey,
+            scheduledAt: $this->scheduledAt
+        );
     }
 
     /**

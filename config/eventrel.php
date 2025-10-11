@@ -7,9 +7,9 @@ return [
     | Eventrel API Token
     |--------------------------------------------------------------------------
     |
-    | Your team-scoped Eventrel API token. You can find this in your Eventrel 
-    | dashboard under Settings -> API Tokens. This token is already scoped to 
-    | your team, so you don't need to specify a team when sending webhooks.
+    | Your team-scoped Eventrel API token. You can find this in your Eventrel
+    | dashboard under Settings -> API Keys. This token is already scoped to
+    | your team, so you don't need to specify a team when sending events.
     |
     | Keep this secure and never commit it to version control.
     |
@@ -46,7 +46,7 @@ return [
     | Timeout
     |--------------------------------------------------------------------------
     |
-    | HTTP request timeout in seconds. Webhook delivery can take a while
+    | HTTP request timeout in seconds. Event delivery can take a while
     | if your endpoints are slow, so 30 seconds is a reasonable default.
     |
     */

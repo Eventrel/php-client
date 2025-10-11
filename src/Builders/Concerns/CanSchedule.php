@@ -7,14 +7,14 @@ use Carbon\Carbon;
 trait CanSchedule
 {
     /**
-     * The scheduled time for the webhook.
+     * The scheduled time for the event.
      * 
      * @var Carbon|null
      */
     private ?Carbon $scheduledAt = null;
 
     /**
-     * Schedule webhook for specific time
+     * Schedule event for specific time
      */
     public function scheduleAt(Carbon $scheduledAt): self
     {
@@ -24,7 +24,7 @@ trait CanSchedule
     }
 
     /**
-     * Schedule webhook for a number of seconds from now
+     * Schedule event for a number of seconds from now
      */
     public function scheduleIn(int $seconds): self
     {
@@ -34,7 +34,7 @@ trait CanSchedule
     }
 
     /**
-     * Schedule webhook for a number of minutes from now
+     * Schedule event for a number of minutes from now
      */
     public function scheduleInMinutes(int $minutes): self
     {
@@ -44,7 +44,7 @@ trait CanSchedule
     }
 
     /**
-     * Schedule webhook for a number of hours from now
+     * Schedule event for a number of hours from now
      */
     public function scheduleInHours(int $hours): self
     {

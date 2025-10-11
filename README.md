@@ -9,13 +9,13 @@ Official PHP client library for [Eventrel](https://eventrel.sh) - reliable event
 
 ## Features
 
-- 🚀 **Fluent API** - Clean, expressive syntax for sending webhooks
-- 🔑 **Team-Scoped Keys** - API tokens are team-scoped, no need to specify teams
-- ⚡ **Laravel Integration** - Service provider, facade, and configuration
-- 🔄 **Retry Logic** - Automatic retries with exponential backoff
-- 📅 **Scheduled Delivery** - Send webhooks at specific times
-- 🔒 **Idempotency** - Prevent duplicate webhook processing
-- 📊 **Monitoring** - Track delivery status and failure rates
+-   🚀 **Fluent API** - Clean, expressive syntax for sending events
+-   🔑 **Team-Scoped Keys** - API tokens are team-scoped, no need to specify teams
+-   ⚡ **Laravel Integration** - Service provider, facade, and configuration
+-   🔄 **Retry Logic** - Automatic retries with exponential backoff
+-   📅 **Scheduled Delivery** - Send events at specific times
+-   🔒 **Idempotency** - Prevent duplicate event processing
+-   📊 **Monitoring** - Track delivery status and failure rates
 
 ## Installation
 
@@ -204,11 +204,11 @@ try {
     $response = $eventrel->event('user.created')
         ->payload(['user_id' => 123])
         ->send();
-        
+
     echo "Success: " . $response->getId();
 } catch (EventrelException $e) {
     echo "Error: " . $e->getMessage();
-    
+
     if ($e->hasResponseData()) {
         var_dump($e->getResponseData());
     }

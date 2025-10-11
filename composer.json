@@ -1,11 +1,11 @@
 {
 	"name": "eventrel/php-client",
 	"type": "library",
-	"description": "Official PHP client library for Eventrel. Fluent API for sending webhooks and managing endpoints in Laravel and PHP applications.",
+	"description": "Official PHP client library for Eventrel. Fluent API for sending events in Laravel and PHP applications.",
 	"keywords": [
 		"php",
 		"laravel",
-		"webhook",
+		"event",
 		"client-library",
 		"composer",
 		"sdk",

@@ -55,7 +55,7 @@ class EventrelClient
     // }
 
     /**
-     * Create a new webhook builder
+     * Create a new Event builder
      * @param string $eventType
      * @return EventBuilder
      */
@@ -65,7 +65,7 @@ class EventrelClient
     }
 
     /**
-     * Create a new batch webhook builder
+     * Create a new Batch Event builder
      * @param string $eventType
      * @return BatchEventBuilder
      */
