@@ -21,7 +21,7 @@ use Eventrel\Client\Services\EventService;
  * Usage:
  * ```php
  * $response = Eventrel::event('payment.completed')
- *     ->to('https://merchant.com/webhooks')
+ *     ->to('identifier')
  *     ->with('amount', 100.00)
  *     ->with('currency', 'USD')
  *     ->tags(['production', 'high-priority'])
@@ -72,10 +72,6 @@ class EventBuilder
 
     /**
      * Set the destination for the event.
-     * 
-     * The destination can be:
-     * - A full URL: "https://api.merchant.com/webhooks"
-     * - An endpoint identifier: "merchant-production-webhook"
      *
      * @param string $destination The event destination identifier
      * @return $this Fluent interface

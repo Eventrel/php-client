@@ -4,7 +4,8 @@ namespace Eventrel\Client\Services;
 
 use Carbon\Carbon;
 use Eventrel\Client\EventrelClient;
-use Eventrel\Client\Responses\EventResponse;
+use Eventrel\Client\Exceptions\EventrelException;
+use Eventrel\Client\Responses\{EventResponse, BatchEventResponse};
 
 class EventService
 {
@@ -61,44 +62,44 @@ class EventService
         return new EventResponse($response);
     }
 
-    // /**
-    //  * Send multiple events in a single batch request
-    //  */
-    // public function sendEventBatch(
-    //     string $eventType,
-    //     array $events,
-    //     array $tags = [],
-    //     ?string $application = null,
-    //     ?string $idempotencyKey = null,
-    //     ?Carbon $scheduledAt = null
-    // ): BatchEventResponse {
-    //     if (empty($events)) {
-    //         throw new EventrelException('Cannot send empty batch. Provide at least one webhook.');
-    //     }
+    /**
+     * Send multiple events in a single batch request
+     */
+    public function sendBatchEvent(
+        string $eventType,
+        array $events,
+        array $tags = [],
+        ?string $destination = null,
+        ?string $idempotencyKey = null,
+        ?Carbon $scheduledAt = null
+    ): BatchEventResponse {
+        if (empty($events)) {
+            throw new EventrelException('Cannot send empty batch. Provide at least one event.');
+        }
 
-    //     $data = [
-    //         'event_type' => $eventType,
-    //         'events' => $events,
-    //         'tags' => $tags,
-    //     ];
+        $data = [
+            'event_type' => $eventType,
+            'events' => $events,
+            'tags' => $tags,
+        ];
 
-    //     if ($application) {
-    //         $data['application'] = $application;
-    //     }
+        if ($destination) {
+            $data['destination'] = $destination;
+        }
 
-    //     if ($scheduledAt) {
-    //         $data['scheduled_at'] = $scheduledAt->toISOString();
-    //     }
+        if ($scheduledAt) {
+            $data['scheduled_at'] = $scheduledAt->toISOString();
+        }
 
-    //     $response = $this->makeRequest('POST', 'events', [
-    //         'json' => $data,
-    //         'headers' => [
-    //             'X-Idempotency-Key' => $idempotencyKey ?? $this->generateIdempotencyKey(),
-    //         ]
-    //     ]);
+        $response = $this->client->makeRequest('POST', 'events', [
+            'json' => $data,
+            'headers' => [
+                'X-Idempotency-Key' => $idempotencyKey ?? $this->client->generateIdempotencyKey(),
+            ]
+        ]);
 
-    //     return new BatchEventResponse($response);
-    // }
+        return new BatchEventResponse($response);
+    }
 
     // /**
     //  * Get a specific webhook by ID

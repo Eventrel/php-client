@@ -7,7 +7,7 @@ use Eventrel\Client\Enums\EventStatus;
 use GuzzleHttp\Psr7\Response;
 
 /**
- * Represents a response from the Eventrel webhook API.
+ * Represents a response from the Eventrel Events API.
  * 
  * This class wraps the HTTP response and provides convenient access to:
  * - Outbound event details (ID, type, payload, status)
@@ -17,7 +17,7 @@ use GuzzleHttp\Psr7\Response;
 class EventResponse
 {
     /**
-     * The outbound event entity containing webhook delivery details.
+     * The outbound event entity containing event details.
      */
     private OutboundEvent $outboundEvent;
 
@@ -32,7 +32,7 @@ class EventResponse
     private array $errors;
 
     /**
-     * Whether the webhook was successfully queued/delivered.
+     * Whether the event was successfully queued/delivered.
      */
     private bool $success;
 
@@ -93,7 +93,7 @@ class EventResponse
     /**
      * Get the unique identifier (UUID) of the outbound event.
      * 
-     * This ID can be used to track the webhook delivery status,
+     * This ID can be used to track the event's delivery status,
      * query for delivery attempts, or reference this event in support requests.
      *
      * @return string The event UUID
@@ -106,7 +106,7 @@ class EventResponse
     /**
      * Get the event type identifier.
      * 
-     * Event types categorize webhooks (e.g., "payment.completed", 
+     * Event types categorize events (e.g., "payment.completed", 
      * "user.registered") and help receiving systems route or handle them.
      *
      * @return string The event type string
@@ -130,16 +130,30 @@ class EventResponse
     }
 
     /**
-     * Get the webhook payload data.
+     * Get the event payload data.
      * 
-     * This is the actual data sent to the webhook endpoint,
+     * This is the actual data sent to the event endpoint,
      * containing the business information for this event.
      *
-     * @return array The webhook payload as an associative array
+     * @return array The event payload as an associative array
      */
     public function getPayload(): array
     {
         return $this->outboundEvent->payload ?? [];
+    }
+
+    /**
+     * Get the tags associated with this event.
+     * 
+     * Tags can be used for categorization, filtering, or routing.
+     * Includes both batch-level tags (if sent in a batch) and
+     * event-specific tags.
+     *
+     * @return array Array of tag strings
+     */
+    public function getTags(): array
+    {
+        return $this->outboundEvent->tags ?? [];
     }
 
     /**
@@ -156,7 +170,7 @@ class EventResponse
     }
 
     /**
-     * Get the reason why the webhook delivery failed.
+     * Get the reason why the event delivery failed.
      * 
      * Returns detailed error information when delivery attempts fail,
      * including HTTP errors, timeouts, or endpoint issues.
@@ -169,9 +183,9 @@ class EventResponse
     }
 
     /**
-     * Get the reason why the webhook was cancelled.
+     * Get the reason why the event was cancelled.
      * 
-     * Returns the cancellation reason if the webhook delivery
+     * Returns the cancellation reason if the event delivery
      * was manually cancelled or stopped by the system.
      *
      * @return string|null The cancellation reason, or null if not cancelled
@@ -184,7 +198,7 @@ class EventResponse
     /**
      * Get the number of delivery attempts made.
      * 
-     * Tracks how many times the system has tried to deliver this webhook.
+     * Tracks how many times the system has tried to deliver this event.
      * Useful for monitoring reliability and identifying problematic endpoints.
      *
      * @return int The number of retry attempts
@@ -197,8 +211,8 @@ class EventResponse
     /**
      * Get the scheduled delivery time.
      * 
-     * Returns the timestamp when this webhook is scheduled to be sent.
-     * Null for immediate delivery webhooks.
+     * Returns the timestamp when this event is scheduled to be sent.
+     * Null for immediate delivery events.
      *
      * @return string|null ISO 8601 timestamp, or null if not scheduled
      */
@@ -210,7 +224,7 @@ class EventResponse
     /**
      * Get the timestamp of the last delivery attempt.
      * 
-     * Shows when the system last tried to deliver this webhook,
+     * Shows when the system last tried to deliver this event,
      * regardless of success or failure.
      *
      * @return string|null ISO 8601 timestamp, or null if not attempted yet
@@ -221,9 +235,9 @@ class EventResponse
     }
 
     /**
-     * Get the timestamp when the webhook was successfully delivered.
+     * Get the timestamp when the event was successfully delivered.
      * 
-     * Returns the exact time the receiving endpoint accepted the webhook
+     * Returns the exact time the receiving endpoint accepted the event
      * with a successful HTTP response.
      *
      * @return string|null ISO 8601 timestamp, or null if not delivered
@@ -234,7 +248,7 @@ class EventResponse
     }
 
     /**
-     * Get the timestamp when the webhook was cancelled.
+     * Get the timestamp when the event was cancelled.
      * 
      * Returns when the delivery was cancelled, either manually
      * or automatically by the system.
@@ -247,9 +261,9 @@ class EventResponse
     }
 
     /**
-     * Get the timestamp when the webhook event was created.
+     * Get the timestamp when the event was created.
      * 
-     * Shows when this webhook was first registered in the system,
+     * Shows when this event was first registered in the system,
      * before any delivery attempts.
      *
      * @return string ISO 8601 timestamp
@@ -260,7 +274,7 @@ class EventResponse
     }
 
     /**
-     * Get the timestamp when the webhook event was last updated.
+     * Get the timestamp when the event was last updated.
      * 
      * Tracks the last modification to the event record, including
      * status changes, delivery attempts, or metadata updates.
@@ -288,7 +302,7 @@ class EventResponse
     /**
      * Check if the API request was successful.
      * 
-     * Returns true if the webhook was accepted and queued for delivery.
+     * Returns true if the event was accepted and queued for delivery.
      * A successful response doesn't guarantee delivery - check event status
      * for actual delivery state.
      *
@@ -354,7 +368,7 @@ class EventResponse
     /**
      * Get the idempotency key for this request.
      * 
-     * Idempotency keys prevent duplicate webhook deliveries when
+     * Idempotency keys prevent duplicate event deliveries when
      * a request is retried. Same key = same event won't be sent twice.
      * Returns null if no idempotency key was used.
      *
@@ -381,6 +395,7 @@ class EventResponse
             'event_type' => $this->getEventType(),
             'status' => $this->getStatus()->value,
             'payload' => $this->getPayload(),
+            'tags' => $this->getTags(),
             'failure_reason' => $this->getFailureReason(),
             'cancellation_reason' => $this->getCancellationReason(),
             'retry_count' => $this->getRetryCount(),
