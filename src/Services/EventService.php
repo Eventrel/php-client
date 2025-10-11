@@ -64,6 +64,15 @@ class EventService
 
     /**
      * Send multiple events in a single batch request
+     * 
+     * @param string $eventType The shared event type for all events in the batch
+     * @param array $events The array of events, each with 'payload' and optional 'tags'
+     * @param array $tags Optional batch-level tags applied to all events
+     * @param string|null $destination Optional destination for all events in the batch
+     * @param string|null $idempotencyKey Optional idempotency key for the batch
+     * @param Carbon|null $scheduledAt Optional scheduled time for the batch
+     * @return BatchEventResponse
+     * @throws EventrelException if the events array is empty
      */
     public function sendBatchEvent(
         string $eventType,
