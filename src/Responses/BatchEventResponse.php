@@ -142,6 +142,39 @@ class BatchEventResponse
     }
 
     /**
+     * Get all unique tags across all events in the batch.
+     * 
+     * Useful for getting a consolidated view of all tags
+     * used in the batch for filtering or analytics.
+     *
+     * @return array Array of unique tag strings
+     */
+    public function getAllTags(): array
+    {
+        $allTags = [];
+
+        foreach ($this->outboundEvents as $event) {
+            $allTags = array_merge($allTags, $event->tags ?? []);
+        }
+
+        return array_values(array_unique($allTags));
+    }
+
+    /**
+     * Get events that have a specific tag.
+     *
+     * @param string $tag The tag to filter by
+     * @return OutboundEvent[] Array of events with that tag
+     */
+    public function getEventsByTag(string $tag): array
+    {
+        return array_filter(
+            $this->outboundEvents,
+            fn(OutboundEvent $event) => in_array($tag, $event->tags ?? [])
+        );
+    }
+
+    /**
      * Get all outbound events in the batch.
      * 
      * Returns an array of OutboundEvent objects, one for each
