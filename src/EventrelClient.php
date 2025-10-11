@@ -26,8 +26,8 @@ class EventrelClient
      */
     public function __construct(
         protected string $apiToken,
-        protected readonly string $baseUrl = 'https://api.eventrel.sh',
         protected string $apiVersion = 'v1',
+        protected readonly string $baseUrl = 'https://api.eventrel.sh',
         protected readonly int $timeout = 30
     ) {
         $this->client = new Client([
@@ -69,7 +69,7 @@ class EventrelClient
      * @param string $eventType
      * @return BatchEventBuilder
      */
-    public function batch(string $eventType): BatchEventBuilder
+    public function eventBatch(string $eventType): BatchEventBuilder
     {
         return new BatchEventBuilder($this, $eventType);
     }
@@ -135,6 +135,16 @@ class EventrelClient
     }
 
     /**
+     * Generate a unique idempotency key.
+     */
+    public function generateIdempotencyKey(): string
+    {
+        // TODO: Implement idempotency key generation logic
+
+        return bin2hex(random_bytes(16));
+    }
+
+    /**
      * Build the URI for a given API endpoint.
      *
      * @param string $path
@@ -145,15 +155,5 @@ class EventrelClient
         $base = rtrim($this->baseUrl, '/') . '/' . ltrim($this->apiVersion, '/');
 
         return $base . '/' . ltrim($path, '/');
-    }
-
-    /**
-     * Generate a unique idempotency key.
-     */
-    protected function generateIdempotencyKey(): string
-    {
-        // TODO: Implement idempotency key generation logic
-
-        return bin2hex(random_bytes(16));
     }
 }

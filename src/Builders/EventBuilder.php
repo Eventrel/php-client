@@ -7,50 +7,60 @@ use Eventrel\Client\EventrelClient;
 use Eventrel\Client\Responses\EventResponse;
 use Eventrel\Client\Services\EventService;
 
+/**
+ * Fluent builder for constructing and sending events.
+ *
+ * This builder provides a chainable API for configuring events
+ * before sending them. It supports:
+ * - Setting destination endpoints
+ * - Building event payloads incrementally
+ * - Adding tags for categorization/filtering
+ * - Scheduling future delivery (via CanSchedule trait)
+ * - Idempotent delivery (via CanIdempotentize trait)
+ * 
+ * Usage:
+ * ```php
+ * $response = Eventrel::event('payment.completed')
+ *     ->to('https://merchant.com/webhooks')
+ *     ->with('amount', 100.00)
+ *     ->with('currency', 'USD')
+ *     ->tags(['production', 'high-priority'])
+ *     ->idempotent('payment-123')
+ *     ->send();
+ * ```
+ */
 class EventBuilder
 {
     use CanIdempotentize, CanSchedule;
 
     /**
-     * The event service instance.
-     * 
-     * @var EventService
+     * The event service for API communication.
      */
     private EventService $service;
 
     /**
-     * The destination to send the event to.
-     * 
-     * @var string|null
+     * The event destination. It is the unique identifier for the event.
      */
     private ?string $destination = null;
 
     /**
-     * The payload data for the event.
-     * 
-     * @var array
+     * The event payload containing business data.
      */
     private array $payload = [];
 
     /**
-     * The tags for the event.
-     * 
-     * @var array
+     * Tags for categorizing or filtering events.
      */
     private array $tags = [];
 
     /**
-     * The idempotency key for the event.
+     * Create a new EventBuilder instance.
      * 
-     * @var string|null
-     */
-    private ?string $idempotencyKey = null;
-
-    /**
-     * EventBuilder constructor.
-     * 
-     * @param \Eventrel\Client\EventrelClient $client
-     * @param string $eventType
+     * Initializes the builder with a client and event type,
+     * setting up the service for eventual API communication.
+     *
+     * @param EventrelClient $client The Eventrel API client
+     * @param string $eventType The event type identifier (e.g., "payment.completed")
      */
     public function __construct(
         private EventrelClient $client,
@@ -59,11 +69,16 @@ class EventBuilder
         $this->service = new EventService($client);
     }
 
+
     /**
-     * Set the target destination for the event
+     * Set the destination for the event.
+     * 
+     * The destination can be:
+     * - A full URL: "https://api.merchant.com/webhooks"
+     * - An endpoint identifier: "merchant-production-webhook"
      *
-     * @param string $destination
-     * @return $this
+     * @param string $destination The event destination identifier
+     * @return $this Fluent interface
      */
     public function to(string $destination): self
     {
@@ -73,10 +88,13 @@ class EventBuilder
     }
 
     /**
-     * Set the entire payload at once
+     * Set the entire event payload at once.
+     * 
+     * This replaces any existing payload data. Use withData() to merge
+     * instead of replacing, or with() to add individual fields.
      *
-     * @param array $payload
-     * @return $this
+     * @param array $payload Complete payload data
+     * @return $this Fluent interface
      */
     public function payload(array $payload): self
     {
@@ -86,10 +104,15 @@ class EventBuilder
     }
 
     /**
-     * Set the tags for the event
+     * Set tags for categorizing or filtering the event.
+     * 
+     * Tags can be used to:
+     * - Filter events in the dashboard
+     * - Route events to different handlers
+     * - Group events for analytics
      *
-     * @param array $tags
-     * @return $this
+     * @param array $tags Array of tag strings (e.g., ['production', 'priority:high'])
+     * @return $this Fluent interface
      */
     public function tags(array $tags): self
     {
@@ -99,11 +122,14 @@ class EventBuilder
     }
 
     /**
-     * Add a single key-value pair to the payload
+     * Add a single field to the payload.
+     * 
+     * Useful for building payloads incrementally. Overwrites existing
+     * values for the same key.
      *
-     * @param string $key
-     * @param mixed $value
-     * @return $this
+     * @param string $key The payload field name
+     * @param mixed $value The payload field value
+     * @return $this Fluent interface
      */
     public function with(string $key, mixed $value): self
     {
@@ -113,10 +139,13 @@ class EventBuilder
     }
 
     /**
-     * Add multiple key-value pairs to the payload
+     * Merge multiple fields into the payload.
+     * 
+     * Merges the provided data with existing payload, preserving
+     * existing keys that aren't being overwritten.
      *
-     * @param array $data
-     * @return $this    
+     * @param array $data Key-value pairs to merge into payload
+     * @return $this Fluent interface
      */
     public function withData(array $data): self
     {
@@ -126,7 +155,11 @@ class EventBuilder
     }
 
     /**
-     * Get the current payload
+     * Get the current payload data.
+     * 
+     * Useful for debugging or conditional logic before sending.
+     *
+     * @return array The current payload array
      */
     public function getPayload(): array
     {
@@ -134,7 +167,11 @@ class EventBuilder
     }
 
     /**
-     * Get the event type
+     * Get the event type.
+     * 
+     * Returns the event type identifier set during construction.
+     *
+     * @return string The event type (e.g., "payment.completed")
      */
     public function getEventType(): string
     {
@@ -142,11 +179,17 @@ class EventBuilder
     }
 
     /**
-     * Send the event immediately
+     * Send the event immediately (or schedule for future delivery).
+     * 
+     * Dispatches the configured event to the Eventrel API for delivery.
+     * If scheduledAt was set via the CanSchedule trait, the event will
+     * be scheduled for future delivery rather than sent immediately.
+     *
+     * @return EventResponse The API response with event details and status
+     * @throws \Exception If destination is not set or API request fails
      */
     public function send(): EventResponse
     {
-        dd('Not implemented yet');
         return $this->service->sendEvent(
             destination: $this->destination,
             eventType: $this->eventType,
@@ -158,7 +201,12 @@ class EventBuilder
     }
 
     /**
-     * Convert to array representation (useful for debugging)
+     * Convert the builder configuration to an array.
+     * 
+     * Useful for debugging, logging, or inspecting what will be sent
+     * before actually calling send().
+     *
+     * @return array The builder configuration as an associative array
      */
     public function toArray(): array
     {

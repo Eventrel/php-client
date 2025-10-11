@@ -6,94 +6,97 @@ use Eventrel\Client\Entities\OutboundEvent;
 use Eventrel\Client\Enums\EventStatus;
 use GuzzleHttp\Psr7\Response;
 
+/**
+ * Represents a response from the Eventrel webhook API.
+ * 
+ * This class wraps the HTTP response and provides convenient access to:
+ * - Outbound event details (ID, type, payload, status)
+ * - Response metadata (success status, errors, status code)
+ * - Request tracking (idempotency key, headers)
+ */
 class EventResponse
 {
     /**
-     * The data returned by the webhook.
-     * 
-     * @var OutboundEvent
+     * The outbound event entity containing webhook delivery details.
      */
     private OutboundEvent $outboundEvent;
 
     /**
-     * The message returned by the webhook.
-     * 
-     * @var string
+     * Human-readable message from the API response.
      */
-    private string $message = '';
+    private string $message;
 
     /**
-     * The errors returned by the webhook.
-     * 
-     * @var array
+     * Array of validation or processing errors, if any.
      */
-    private array $errors = [];
+    private array $errors;
 
     /**
-     * Indicates if the webhook was successfully delivered.
-     * 
-     * @var bool
+     * Whether the webhook was successfully queued/delivered.
      */
-    private bool $success = false;
+    private bool $success;
 
     /**
-     * The status code returned by the webhook.
-     * 
-     * @var int
+     * HTTP status code returned by the API.
      */
-    private int $statusCode = 0;
+    private int $statusCode;
 
     /**
-     * The headers returned by the webhook.
-     * 
-     * @var array
+     * HTTP headers from the response.
      */
-    private array $headers = [];
+    private array $headers;
 
     /**
-     * The idempotency key for the webhook.
-     * 
-     * @var string|null
+     * Unique key for idempotent request handling.
      */
-    private ?string $idempotencyKey = null;
+    private ?string $idempotencyKey;
 
     /**
-     * EventResponse constructor.
+     * Create a new EventResponse instance.
      * 
-     * @param \GuzzleHttp\Psr7\Response $response
+     * Parses the Guzzle HTTP response and extracts all relevant data
+     * including the outbound event, metadata, and headers.
+     *
+     * @param Response $response The Guzzle HTTP response object
      */
-    public function __construct(
-        private readonly Response $response
-    ) {
-        $content = json_decode($response->getBody()->getContents(), true);
+    public function __construct(private readonly Response $response)
+    {
+        $this->parseResponse();
+    }
 
-        $this->headers = $response->getHeaders();
+    /**
+     * Parse and populate response data from the Guzzle HTTP response.
+     * 
+     * Extracts JSON content, headers, and idempotency information,
+     * populating all class properties for convenient access.
+     *
+     * @return void
+     */
+    private function parseResponse(): void
+    {
+        $content = json_decode($this->response->getBody()->getContents(), true) ?? [];
+        $data = $content['data'] ?? [];
 
-        $this->outboundEvent = OutboundEvent::from($content['data']['outbound_event'] ?? []);
-        $this->message = $content['data']['message'] ?? '';
+        $this->outboundEvent = OutboundEvent::from($data['outbound_event'] ?? []);
+        $this->message = $data['message'] ?? '';
         $this->errors = $content['errors'] ?? [];
         $this->success = $content['success'] ?? false;
         $this->statusCode = $content['status_code'] ?? 0;
+        $this->headers = $this->response->getHeaders();
 
-        $this->idempotencyKey = ($response->hasHeader('x-idempotency-key')) ?
-            $response->getHeaderLine('x-idempotency-key') :
-            $content['data']['idempotency_key'] ?? null;
+        // Check header first, then fallback to body
+        $this->idempotencyKey = $this->response->hasHeader('x-idempotency-key')
+            ? $this->response->getHeaderLine('x-idempotency-key')
+            : ($data['idempotency_key'] ?? null);
     }
 
     /**
-     * Get the outbound event data.
+     * Get the unique identifier (UUID) of the outbound event.
+     * 
+     * This ID can be used to track the webhook delivery status,
+     * query for delivery attempts, or reference this event in support requests.
      *
-     * @return OutboundEvent
-     */
-    public function getDetails(): OutboundEvent
-    {
-        return $this->outboundEvent;
-    }
-
-    /**
-     * Get the ID of the outbound event.
-     *
-     * @return string
+     * @return string The event UUID
      */
     public function getId(): string
     {
@@ -101,29 +104,12 @@ class EventResponse
     }
 
     /**
-     * Get the payload of the outbound event.
+     * Get the event type identifier.
+     * 
+     * Event types categorize webhooks (e.g., "payment.completed", 
+     * "user.registered") and help receiving systems route or handle them.
      *
-     * @return array
-     */
-    public function getPayload(): array
-    {
-        return $this->outboundEvent->payload ?? [];
-    }
-
-    /**
-     * Get the status of the outbound event.
-     *
-     * @return EventStatus
-     */
-    public function getStatus(): EventStatus
-    {
-        return $this->outboundEvent->status;
-    }
-
-    /**
-     * Get the event type of the outbound event.
-     *
-     * @return string
+     * @return string The event type string
      */
     public function getEventType(): string
     {
@@ -131,68 +117,168 @@ class EventResponse
     }
 
     /**
-     * Get the response message.
-     *
-     * @return string
-     */
-    public function getMessage(): string
-    {
-        return $this->message;
-    }
-
-    /**
-     * Get the errors returned by the webhook.
-     *
-     * @return array
-     */
-    public function getErrors(): array
-    {
-        return $this->errors;
-    }
-
-    /**
-     * Get the idempotency key for the webhook.
-     *
-     * @return string|null
-     */
-    public function getIdempotencyKey(): ?string
-    {
-        return $this->idempotencyKey;
-    }
-
-    /**
-     * Get the headers returned by the webhook.
-     *
-     * @return array
-     */
-    public function getHeaders(): array
-    {
-        return $this->headers;
-    }
-
-    /**
-     * Get the outbound event data.
-     *
-     * @return OutboundEvent
-     */
-    public function getStatusCode(): int
-    {
-        return $this->statusCode;
-    }
-
-    /**
-     * Check if the request was successful.
+     * Get the current status of the outbound event.
      * 
-     * @return bool
+     * Status indicates the delivery state: pending, delivered, failed, etc.
+     * Use this to determine if further action is needed.
+     *
+     * @return EventStatus The event status enum
      */
-    public function isSuccess(): bool
+    public function getStatus(): EventStatus
     {
-        return $this->success;
+        return $this->outboundEvent->status;
     }
+
     /**
-     * Check if the outbound event is scheduled.
+     * Get the webhook payload data.
      * 
-     * @return bool
+     * This is the actual data sent to the webhook endpoint,
+     * containing the business information for this event.
+     *
+     * @return array The webhook payload as an associative array
+     */
+    public function getPayload(): array
+    {
+        return $this->outboundEvent->payload ?? [];
+    }
+
+    /**
+     * Get the complete outbound event entity.
+     * 
+     * Returns the full OutboundEvent object with all properties
+     * including timestamps, retry count, and delivery metadata.
+     *
+     * @return OutboundEvent The complete event entity
+     */
+    public function getDetails(): OutboundEvent
+    {
+        return $this->outboundEvent;
+    }
+
+    /**
+     * Get the reason why the webhook delivery failed.
+     * 
+     * Returns detailed error information when delivery attempts fail,
+     * including HTTP errors, timeouts, or endpoint issues.
+     *
+     * @return string|null The failure reason, or null if not failed
+     */
+    public function getFailureReason(): ?string
+    {
+        return $this->outboundEvent->failureReason;
+    }
+
+    /**
+     * Get the reason why the webhook was cancelled.
+     * 
+     * Returns the cancellation reason if the webhook delivery
+     * was manually cancelled or stopped by the system.
+     *
+     * @return string|null The cancellation reason, or null if not cancelled
+     */
+    public function getCancellationReason(): ?string
+    {
+        return $this->outboundEvent->cancelReason;
+    }
+
+    /**
+     * Get the number of delivery attempts made.
+     * 
+     * Tracks how many times the system has tried to deliver this webhook.
+     * Useful for monitoring reliability and identifying problematic endpoints.
+     *
+     * @return int The number of retry attempts
+     */
+    public function getRetryCount(): int
+    {
+        return $this->outboundEvent->retryCount ?? 0;
+    }
+
+    /**
+     * Get the scheduled delivery time.
+     * 
+     * Returns the timestamp when this webhook is scheduled to be sent.
+     * Null for immediate delivery webhooks.
+     *
+     * @return string|null ISO 8601 timestamp, or null if not scheduled
+     */
+    public function getScheduledAt(): ?string
+    {
+        return $this->outboundEvent->scheduledAt;
+    }
+
+    /**
+     * Get the timestamp of the last delivery attempt.
+     * 
+     * Shows when the system last tried to deliver this webhook,
+     * regardless of success or failure.
+     *
+     * @return string|null ISO 8601 timestamp, or null if not attempted yet
+     */
+    public function getLastAttemptedAt(): ?string
+    {
+        return $this->outboundEvent->lastAttemptedAt;
+    }
+
+    /**
+     * Get the timestamp when the webhook was successfully delivered.
+     * 
+     * Returns the exact time the receiving endpoint accepted the webhook
+     * with a successful HTTP response.
+     *
+     * @return string|null ISO 8601 timestamp, or null if not delivered
+     */
+    public function getDeliveredAt(): ?string
+    {
+        return $this->outboundEvent->deliveredAt;
+    }
+
+    /**
+     * Get the timestamp when the webhook was cancelled.
+     * 
+     * Returns when the delivery was cancelled, either manually
+     * or automatically by the system.
+     *
+     * @return string|null ISO 8601 timestamp, or null if not cancelled
+     */
+    public function getCancelledAt(): ?string
+    {
+        return $this->outboundEvent->cancelledAt;
+    }
+
+    /**
+     * Get the timestamp when the webhook event was created.
+     * 
+     * Shows when this webhook was first registered in the system,
+     * before any delivery attempts.
+     *
+     * @return string ISO 8601 timestamp
+     */
+    public function getCreatedAt(): string
+    {
+        return $this->outboundEvent->createdAt;
+    }
+
+    /**
+     * Get the timestamp when the webhook event was last updated.
+     * 
+     * Tracks the last modification to the event record, including
+     * status changes, delivery attempts, or metadata updates.
+     *
+     * @return string ISO 8601 timestamp
+     */
+    public function getUpdatedAt(): string
+    {
+        return $this->outboundEvent->updatedAt;
+    }
+
+    /**
+     * Check if the event is scheduled for future delivery.
+     * 
+     * Scheduled events will be delivered at a specified time
+     * rather than immediately.
+     *
+     * @return bool True if the event has a scheduled delivery time
      */
     public function isScheduled(): bool
     {
@@ -200,14 +286,115 @@ class EventResponse
     }
 
     /**
-     * Convert the response to an array.
+     * Check if the API request was successful.
      * 
-     * @return array
+     * Returns true if the webhook was accepted and queued for delivery.
+     * A successful response doesn't guarantee delivery - check event status
+     * for actual delivery state.
+     *
+     * @return bool True if the request succeeded
+     */
+    public function isSuccess(): bool
+    {
+        return $this->success;
+    }
+
+    /**
+     * Get the human-readable response message.
+     * 
+     * Provides context about the request result, useful for
+     * logging or displaying feedback to users.
+     *
+     * @return string The response message
+     */
+    public function getMessage(): string
+    {
+        return $this->message;
+    }
+
+    /**
+     * Get any validation or processing errors.
+     * 
+     * Returns an array of error details if the request failed validation
+     * or encountered processing issues. Empty array if no errors.
+     *
+     * @return array Array of error messages/details
+     */
+    public function getErrors(): array
+    {
+        return $this->errors;
+    }
+
+    /**
+     * Get the HTTP status code from the API response.
+     * 
+     * Standard HTTP status codes: 200/201 for success, 4xx for client errors,
+     * 5xx for server errors. Useful for debugging and monitoring.
+     *
+     * @return int The HTTP status code (e.g., 200, 400, 500)
+     */
+    public function getStatusCode(): int
+    {
+        return $this->statusCode;
+    }
+
+    /**
+     * Get all HTTP headers from the response.
+     * 
+     * Headers may contain rate limit info, request IDs, or other
+     * metadata useful for debugging and monitoring.
+     *
+     * @return array Associative array of header name => value(s)
+     */
+    public function getHeaders(): array
+    {
+        return $this->headers;
+    }
+
+    /**
+     * Get the idempotency key for this request.
+     * 
+     * Idempotency keys prevent duplicate webhook deliveries when
+     * a request is retried. Same key = same event won't be sent twice.
+     * Returns null if no idempotency key was used.
+     *
+     * @return string|null The idempotency key, or null if not present
+     */
+    public function getIdempotencyKey(): ?string
+    {
+        return $this->idempotencyKey;
+    }
+
+    /**
+     * Convert the response to an array representation.
+     * 
+     * Useful for logging, debugging, JSON serialization, or storing
+     * the response data in a database. Includes all key information
+     * about the event and the API response.
+     *
+     * @return array Array containing event and response data
      */
     public function toArray(): array
     {
         return [
-            // 
+            'id' => $this->getId(),
+            'event_type' => $this->getEventType(),
+            'status' => $this->getStatus()->value,
+            'payload' => $this->getPayload(),
+            'failure_reason' => $this->getFailureReason(),
+            'cancellation_reason' => $this->getCancellationReason(),
+            'retry_count' => $this->getRetryCount(),
+            'scheduled_at' => $this->getScheduledAt(),
+            'last_attempted_at' => $this->getLastAttemptedAt(),
+            'delivered_at' => $this->getDeliveredAt(),
+            'cancelled_at' => $this->getCancelledAt(),
+            'created_at' => $this->getCreatedAt(),
+            'updated_at' => $this->getUpdatedAt(),
+            'message' => $this->getMessage(),
+            'success' => $this->isSuccess(),
+            'status_code' => $this->getStatusCode(),
+            'errors' => $this->getErrors(),
+            'idempotency_key' => $this->getIdempotencyKey(),
         ];
     }
 }

@@ -15,27 +15,41 @@ class OutboundEvent extends Data
      * OutboundEvent constructor.
      * 
      * @param string $uuid
+     * @param string $idempotencyKey
      * @param string $eventType
      * @param array $payload
-     * @param string $idempotencyKey
-     * @param string|null $batch
-     * @param Carbon|null $scheduledAt
-     * @param array $tags
      * @param EventStatus $status
-     * @param Carbon $updatedAt
+     * @param array $tags
      * @param Carbon $createdAt
+     * @param Carbon $updatedAt
+     * @param string|null $batch
+     * @param string|null $failureReason
+     * @param string|null $cancelReason
+     * @param int|null $retryCount
+     * @param Carbon|null $scheduledAt
+     * @param Carbon|null $lastAttemptedAt
+     * @param Carbon|null $deliveredAt
+     * @param Carbon|null $cancelledAt
+     * @param array|null $metadata
      */
     public function __construct(
         public string $uuid,
+        public string $idempotencyKey,
         public string $eventType,
         public array $payload,
-        public string $idempotencyKey,
-        public ?string $batch,
-        public ?Carbon $scheduledAt,
-        public array $tags,
         public EventStatus $status,
+        public array $tags,
+        public Carbon $createdAt,
         public Carbon $updatedAt,
-        public Carbon $createdAt
+        public ?string $batch = null,
+        public ?string $failureReason = null,
+        public ?string $cancelReason = null,
+        public ?int $retryCount = null,
+        public ?Carbon $scheduledAt = null,
+        public ?Carbon $lastAttemptedAt = null,
+        public ?Carbon $deliveredAt = null,
+        public ?Carbon $cancelledAt = null,
+        public ?array $metadata = null,
     ) {
         // 
     }

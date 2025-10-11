@@ -2,7 +2,9 @@
 
 namespace Eventrel\Client\Services;
 
+use Carbon\Carbon;
 use Eventrel\Client\EventrelClient;
+use Eventrel\Client\Responses\EventResponse;
 
 class EventService
 {
@@ -17,54 +19,52 @@ class EventService
         // 
     }
 
-    // Add methods for interacting with events
+    /**
+     * Send an event directly (non-fluent method)
+     *
+     * @param string $eventType
+     * @param array $payload
+     * @param string|null $application
+     * @param string|null $idempotencyKey
+     * @param Carbon|null $scheduledAt
+     * @return EventResponse
+     */
+    public function sendEvent(
+        string $eventType,
+        array $payload,
+        array $tags = [],
+        ?string $destination = null,
+        ?string $idempotencyKey = null,
+        ?Carbon $scheduledAt = null
+    ): EventResponse {
+        $data = [
+            'event_type' => $eventType,
+            'payload' => $payload,
+            'tags' => $tags,
+        ];
+
+        if ($destination) {
+            $data['destination'] = $destination;
+        }
+
+        if ($scheduledAt) {
+            $data['scheduled_at'] = $scheduledAt->toISOString();
+        }
+
+        $response = $this->client->makeRequest('POST', 'events', [
+            'json' => $data,
+            'headers' => [
+                'X-Idempotency-Key' => $idempotencyKey ?? $this->client->generateIdempotencyKey(),
+            ]
+        ]);
+
+        return new EventResponse($response);
+    }
 
     // /**
-    //  * Send a webhook directly (non-fluent method)
-    //  *
-    //  * @param string $eventType
-    //  * @param array $payload
-    //  * @param string|null $application
-    //  * @param string|null $idempotencyKey
-    //  * @param Carbon|null $scheduledAt
-    //  * @return EventResponse
+    //  * Send multiple events in a single batch request
     //  */
-    // public function sendWebhook(
-    //     string $eventType,
-    //     array $payload,
-    //     array $tags = [],
-    //     ?string $destination = null,
-    //     ?string $idempotencyKey = null,
-    //     ?Carbon $scheduledAt = null
-    // ): EventResponse {
-    //     $data = [
-    //         'event_type' => $eventType,
-    //         'payload' => $payload,
-    //         'tags' => $tags,
-    //     ];
-
-    //     if ($destination) {
-    //         $data['destination'] = $destination;
-    //     }
-
-    //     if ($scheduledAt) {
-    //         $data['scheduled_at'] = $scheduledAt->toISOString();
-    //     }
-
-    //     $response = $this->makeRequest('POST', 'events', [
-    //         'json' => $data,
-    //         'headers' => [
-    //             'X-Idempotency-Key' => $idempotencyKey ?? $this->generateIdempotencyKey(),
-    //         ]
-    //     ]);
-
-    //     return new EventResponse($response);
-    // }
-
-    // /**
-    //  * Send multiple webhooks in a single batch request
-    //  */
-    // public function sendWebhookBatch(
+    // public function sendEventBatch(
     //     string $eventType,
     //     array $events,
     //     array $tags = [],
