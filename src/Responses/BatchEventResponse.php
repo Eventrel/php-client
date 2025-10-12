@@ -200,7 +200,7 @@ class BatchEventResponse extends BaseResponse
     public function get(int|string $identifier): ?OutboundEvent
     {
         if (is_int($identifier)) {
-            return $this->getEventByIndex($identifier);
+            return $this->getByIndex($identifier);
         }
 
         foreach ($this->outboundEvents as $event) {
@@ -222,9 +222,9 @@ class BatchEventResponse extends BaseResponse
      * @return OutboundEvent|null The event at the index, or null if out of bounds
      * 
      * @example
-     * $secondEvent = $response->getEventByIndex(1);
+     * $secondEvent = $response->getByIndex(1);
      */
-    public function getEventByIndex(int $index): ?OutboundEvent
+    public function getByIndex(int $index): ?OutboundEvent
     {
         return $this->outboundEvents[$index] ?? null;
     }
