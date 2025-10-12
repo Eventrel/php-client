@@ -2,21 +2,170 @@
 
 namespace Eventrel\Client\Services;
 
+use Eventrel\Client\Builders\DestinationBuilder;
 use Eventrel\Client\Entities\Destination;
+use Eventrel\Client\Enums\WebhookMode;
 use Eventrel\Client\EventrelClient;
 use Eventrel\Client\Exceptions\EventrelException;
 use Eventrel\Client\Responses\{DestinationResponse, DestinationListResponse};
 use Psr\Http\Message\ResponseInterface;
 
+/**
+ * Service for managing destinations via the Eventrel API.
+ * 
+ * Provides methods to create, retrieve, update, delete, and list webhook
+ * destinations where events are delivered. Supports configuration of
+ * webhook settings, rate limiting, retries, and event filtering.
+ * 
+ * @package Eventrel\Client\Services
+ */
 class DestinationService
 {
+    /**
+     * DestinationService constructor.
+     * 
+     * @param EventrelClient $client The Eventrel client instance
+     */
     public function __construct(
         private EventrelClient $client
     ) {
-        // 
+        //
     }
 
-    // Add methods for interacting with destinations
+    /**
+     * Get a new DestinationBuilder instance for fluent destination construction.
+     * 
+     * @return DestinationBuilder
+     */
+    public function builder(): DestinationBuilder
+    {
+        return new DestinationBuilder($this->client);
+    }
+
+    /**
+     * Create a new destination
+     * 
+     * Creates a webhook endpoint where events will be delivered.
+     * The destination can be configured with webhook mode, delivery settings,
+     * rate limiting, and custom configuration.
+     * 
+     * @param string $name Human-readable name for the destination
+     * @param string $webhookUrl The webhook URL where events will be sent
+     * @param WebhookMode|string $webhookMode Webhook mode: 'bidirectional', 'outbound', or 'inbound'
+     * @param string|null $description Optional description of the destination
+     * @param array<string, string> $headers Custom headers to include with every request
+     * @param array<string, mixed> $metadata Additional metadata for the destination
+     * @param array<string, mixed> $webhookConfig Webhook delivery configuration
+     * @param int|null $timeout Request timeout in seconds (default: 30)
+     * @param int|null $retryLimit Maximum retry attempts (default: 3)
+     * @param int|null $rateLimitPerMinute Max requests per minute (null = unlimited)
+     * @param int|null $rateLimitPerHour Max requests per hour (null = unlimited)
+     * @param int|null $rateLimitPerDay Max requests per day (null = unlimited)
+     * @param bool $isActive Whether the destination is active (default: true)
+     * @return DestinationResponse
+     * @throws EventrelException
+     * 
+     * @example
+     * // Simple outbound destination
+     * $destination = $client->destinations->create(
+     *     name: 'Production API Webhook',
+     *     webhookUrl: 'https://api.example.com/webhooks',
+     *     webhookMode: 'outbound'
+     * );
+     * 
+     * @example
+     * // Bidirectional with full configuration
+     * $destination = $client->destinations->create(
+     *     name: 'Analytics Dashboard',
+     *     webhookUrl: 'https://analytics.example.com/webhooks',
+     *     webhookMode: 'bidirectional',
+     *     description: 'Main analytics webhook endpoint',
+     *     headers: [
+     *         'Authorization' => 'Bearer secret_token',
+     *         'X-API-Version' => 'v1'
+     *     ],
+     *     metadata: [
+     *         'environment' => 'production',
+     *         'team' => 'platform',
+     *         'business_critical' => true
+     *     ],
+     *     webhookConfig: [
+     *         'batch_size' => 50,
+     *         'verify_ssl' => true,
+     *         'event_filtering' => [
+     *             'enabled' => true,
+     *             'allowed_events' => ['user.created', 'user.updated']
+     *         ],
+     *         'delivery_strategy' => 'batched',
+     *         'signature_algorithm' => 'sha256',
+     *         'dead_letter_queue' => true,
+     *         'timestamp_tolerance' => 300
+     *     ],
+     *     timeout: 45,
+     *     retryLimit: 5,
+     *     rateLimitPerMinute: 1000,
+     *     rateLimitPerHour: 50000,
+     *     isActive: true
+     * );
+     * 
+     * @example
+     * // With event filtering
+     * $destination = $client->destinations->create(
+     *     name: 'Payment Events Only',
+     *     webhookUrl: 'https://payments.example.com/webhooks',
+     *     webhookMode: 'outbound',
+     *     webhookConfig: [
+     *         'event_filtering' => [
+     *             'enabled' => true,
+     *             'allowed_events' => [
+     *                 'payment.completed',
+     *                 'payment.failed',
+     *                 'payment.refunded'
+     *             ]
+     *         ]
+     *     ]
+     * );
+     * 
+     * echo "Destination created: {$destination->getId()}";
+     * echo "Webhook secret: {$destination->getDestination()->webhookSecret}";
+     */
+    public function create(
+        string $name,
+        string $webhookUrl,
+        WebhookMode|string $webhookMode = 'outbound',
+        ?string $description = null,
+        array $headers = [],
+        array $metadata = [],
+        array $webhookConfig = [],
+        ?int $timeout = null,
+        ?int $retryLimit = null,
+        ?int $rateLimitPerMinute = null,
+        ?int $rateLimitPerHour = null,
+        ?int $rateLimitPerDay = null,
+        bool $isActive = true,
+    ): DestinationResponse {
+        // 
+
+        $data = array_filter([
+            'name' => $name,
+            'webhook_url' => $webhookUrl,
+            'webhook_mode' => $webhookMode,
+            'description' => $description,
+            'headers' => !empty($headers) ? $headers : null,
+            'metadata' => !empty($metadata) ? $metadata : null,
+            'webhook_config' => !empty($webhookConfig) ? $webhookConfig : null,
+            'timeout' => $timeout,
+            'retry_limit' => $retryLimit,
+            'rate_limit_per_minute' => $rateLimitPerMinute,
+            'rate_limit_per_hour' => $rateLimitPerHour,
+            'rate_limit_per_day' => $rateLimitPerDay,
+            'is_active' => $isActive,
+        ], fn($value) => $value !== null);
+
+        $response = $this->request('POST', 'destinations', $data);
+
+        return new DestinationResponse($response);
+    }
 
     /**
      * Get a single destination by UUID

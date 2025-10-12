@@ -3,12 +3,21 @@
 namespace Eventrel\Client\Services;
 
 use Carbon\Carbon;
+use Eventrel\Client\Builders\EventBuilder;
 use Eventrel\Client\Entities\OutboundEvent;
 use Eventrel\Client\EventrelClient;
 use Eventrel\Client\Exceptions\EventrelException;
 use Eventrel\Client\Responses\{EventResponse, BatchEventResponse, BulkRetryResponse, EventListResponse};
 use Psr\Http\Message\ResponseInterface;
 
+/**
+ * Service for managing events via the Eventrel API.
+ * 
+ * Provides methods to create, retrieve, list, retry, and cancel events.
+ * Supports both single event operations and batch processing.
+ * 
+ * @package Eventrel\Client\Services
+ */
 class EventService
 {
     /**
@@ -20,6 +29,16 @@ class EventService
         private EventrelClient $client
     ) {
         // 
+    }
+
+    /**
+     * Get a new EventBuilder instance for fluent event construction.
+     * 
+     * @return EventBuilder
+     */
+    public function builder(): EventBuilder
+    {
+        return new EventBuilder($this->client);
     }
 
     /**

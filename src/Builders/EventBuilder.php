@@ -64,11 +64,25 @@ class EventBuilder
      */
     public function __construct(
         private EventrelClient $client,
-        private string $eventType
+        private ?string $eventType = null
     ) {
         $this->service = new EventService($client);
     }
 
+    /**
+     * Set the event type.
+     * 
+     * Allows changing the event type after construction if needed.
+     *
+     * @param string $eventType The event type identifier
+     * @return $this Fluent interface
+     */
+    public function eventType(string $eventType): self
+    {
+        $this->eventType = $eventType;
+
+        return $this;
+    }
 
     /**
      * Set the destination for the event.
