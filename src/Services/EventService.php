@@ -36,7 +36,7 @@ class EventService
      * @param array<int, string> $tags Optional tags for categorizing and filtering events (default: [])
      * @param string|null $idempotencyKey Optional idempotency key to prevent duplicate events (auto-generated if null)
      * @param Carbon|null $scheduledAt Optional scheduled delivery time (default: immediate delivery)
-     * @return EventResponse The event creation response containing event details and status
+     * @return EventResponse|OutboundEvent The event creation response containing event details and status
      * @throws EventrelException If the request fails or API returns an error
      * 
      * @example
@@ -92,13 +92,20 @@ class EventService
         string $destination,
         array $tags = [],
         ?string $idempotencyKey = null,
-        ?Carbon $scheduledAt = null
-    ): EventResponse {
+        ?Carbon $scheduledAt = null,
+        bool $asOutboundEvent = false
+    ): EventResponse|OutboundEvent {
         $data = $this->buildEventData($eventType, $payload, $tags, $destination, $scheduledAt);
 
         $response = $this->request('POST', 'events', $data, $idempotencyKey);
 
-        return new EventResponse($response);
+        $eventResponse = new EventResponse($response);
+
+        if ($asOutboundEvent) {
+            return $eventResponse->getDetails();
+        }
+
+        return $eventResponse;
     }
 
     /**
