@@ -2,27 +2,64 @@
 
 namespace Eventrel\Client;
 
+use Composer\InstalledVersions;
 use Eventrel\Client\Builders\{EventBuilder, BatchEventBuilder};
 use Eventrel\Client\Exceptions\EventrelException;
+use Eventrel\Client\Services\{EventService, DestinationService};
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Psr\Http\Message\ResponseInterface;
 
+/**
+ * Eventrel API Client
+ * 
+ * Main client class for interacting with the Eventrel API.
+ * Provides fluent builders for events and direct service access.
+ * 
+ * @property-read EventService $events Access to event management operations
+ * @property-read DestinationService $destinations Access to destination management operations
+ * 
+ * @package Eventrel\Client
+ * @version 1.0.0
+ */
 class EventrelClient
 {
     /**
-     * The HTTP client instance.
+     * Client library version
+     */
+    private const VERSION = '1.0.0';
+
+    /**
+     * Map of service names to their class implementations
+     * 
+     * @var array<string, class-string>
+     */
+    private const SERVICE_MAP = [
+        'events' => EventService::class,
+        'destinations' => DestinationService::class,
+    ];
+
+    /**
+     * Guzzle HTTP client instance
+     * 
      * @var Client
      */
     private Client $client;
 
     /**
-     * Create a new Eventrel client instance.
-     *
-     * @param string $apiToken
-     * @param string $baseUrl
-     * @param string $apiVersion
-     * @param int $timeout
+     * Cached service instances for singleton pattern
+     * 
+     * @var array<string, object>
+     */
+    private array $serviceInstances = [];
+
+    /**
+     * Create a new Eventrel API client
+     * 
+     * @param string $apiToken Your Eventrel API token
+     * @param string $apiVersion API version to use (default: 'v1')
+     * @param string $baseUrl Base URL for the API (default: 'https://api.eventrel.sh')
+     * @param int $timeout Request timeout in seconds (default: 30)
      */
     public function __construct(
         protected string $apiToken,
@@ -36,28 +73,54 @@ class EventrelClient
                 'Authorization' => "Bearer {$apiToken}",
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
-                'User-Agent' => 'eventrel-php-client/' . $this->version(),
+                'User-Agent' => 'eventrel-php-client/' . self::VERSION,
             ],
             'timeout' => $this->timeout,
         ]);
     }
 
-    // public function __get($name)
-    // {
-    // // Allow dynamic access to services like $client->destinations
-    // $serviceClass = __NAMESPACE__ . '\\Services\\' . ucfirst($name) . 'Service';
+    /**
+     * Dynamically access services via magic getter
+     * 
+     * Provides lazy-loaded singleton access to service instances.
+     * Services are instantiated once and cached for subsequent calls.
+     * 
+     * @param string $name The service name (e.g., 'events', 'destinations')
+     * @return object The service instance
+     * @throws \InvalidArgumentException If the requested service doesn't exist
+     * 
+     * @example
+     * $client->events->sendEvent(...);
+     * $client->destinations->create(...);
+     */
+    public function __get(string $name)
+    {
+        if (!isset(self::SERVICE_MAP[$name])) {
+            throw new \InvalidArgumentException(
+                "Service '{$name}' does not exist. Available services: " .
+                    implode(', ', array_keys(self::SERVICE_MAP))
+            );
+        }
 
-    // if (class_exists($serviceClass)) {
-    //     return new $serviceClass($this);
-    // }
+        if (!isset($this->serviceInstances[$name])) {
+            $serviceClass = self::SERVICE_MAP[$name];
+            $this->serviceInstances[$name] = new $serviceClass($this);
+        }
 
-    // throw new \InvalidArgumentException("Service {$name} does not exist.");
-    // }
+        return $this->serviceInstances[$name];
+    }
 
     /**
-     * Create a new Event builder
-     * @param string $eventType
-     * @return EventBuilder
+     * Create a new Event builder for fluent API usage
+     * 
+     * @param string $eventType The type of event to send
+     * @return EventBuilder Fluent builder instance
+     * 
+     * @example
+     * $client->event('user.created')
+     *     ->payload(['email' => 'user@example.com'])
+     *     ->tag('signup')
+     *     ->send();
      */
     public function event(string $eventType): EventBuilder
     {
@@ -65,9 +128,16 @@ class EventrelClient
     }
 
     /**
-     * Create a new Batch Event builder
-     * @param string $eventType
-     * @return BatchEventBuilder
+     * Create a new Batch Event builder for fluent API usage
+     * 
+     * @param string $eventType The shared event type for all events in the batch
+     * @return BatchEventBuilder Fluent builder instance
+     * 
+     * @example
+     * $client->eventBatch('user.activity')
+     *     ->addEvent(['action' => 'login'])
+     *     ->addEvent(['action' => 'logout'])
+     *     ->send();
      */
     public function eventBatch(string $eventType): BatchEventBuilder
     {
@@ -75,33 +145,81 @@ class EventrelClient
     }
 
     /**
-     * Internal method for making HTTP requests
-     *
-     * @param string $method
-     * @param string $path
-     * @param array $options
-     * @return ResponseInterface
+     * Make an HTTP request to the Eventrel API
+     * 
+     * Internal method used by services to communicate with the API.
+     * Handles response validation and error transformation.
+     * 
+     * @param string $method HTTP method (GET, POST, PUT, DELETE, etc.)
+     * @param string $path API endpoint path (e.g., 'events', 'destinations')
+     * @param array<string, mixed> $options Guzzle request options
+     * @return ResponseInterface The HTTP response
+     * @throws EventrelException If the request fails or returns an error
      */
     public function makeRequest(string $method, string $path, array $options = []): ResponseInterface
     {
         try {
-            return $this->client->request($method, $path, $options);
+            $response = $this->client->request($method, $path, $options);
+
+            $this->validateResponse($response);
+
+            return $response;
         } catch (RequestException $e) {
-            // Log the error or handle it as needed
-
-            // Get the idempotency key if it exists
-            // $idempotencyKey = $options['headers']['Idempotency-Key'] ?? null;
-
-            throw new EventrelException(
-                message: "Request failed: " . $e->getMessage(),
-                code: $e->getCode(),
-                previous: $e
-            );
+            $this->handleRequestException($e, $options);
         }
     }
 
     /**
-     * Get HTTP client instance for advanced usage
+     * Generate a random idempotency key
+     * 
+     * Creates a unique key using random bytes. Use this when you want
+     * each request to be treated as unique, even if the payload is identical.
+     * 
+     * @return string Idempotency key in format 'evt_' followed by 32 hex characters
+     * 
+     * @example
+     * $key = $client->generateIdempotencyKey();
+     * // Result: 'evt_a1b2c3d4e5f6...'
+     */
+    public function generateIdempotencyKey(): string
+    {
+        return 'evt_' . bin2hex(random_bytes(16));
+    }
+
+    /**
+     * Generate a content-based idempotency key with time window
+     * 
+     * Creates a deterministic key based on the request data, API token, and time window.
+     * The same payload within the same time window will always produce the same key,
+     * enabling true idempotency for duplicate requests.
+     * 
+     * @param array<string, mixed> $data The request data to hash
+     * @param int $windowMs Time window in milliseconds (default: 1000ms = 1 second)
+     * @return string Idempotency key in format 'evt_' followed by 32 hex characters
+     * 
+     * @example
+     * $data = ['amount' => 10000, 'customer_id' => 'cust_123'];
+     * $key = $client->generateContentBasedIdempotencyKey($data, 5000);
+     * // Same data within 5 seconds = same key
+     */
+    public function generateContentBasedIdempotencyKey(array $data, int $windowMs = 1000): string
+    {
+        $normalized = $this->normalizeArray($data);
+
+        $timeWindow = floor((int)(microtime(true) * 1000) / $windowMs);
+
+        $hash = hash('sha256', json_encode($normalized) . $this->apiToken . $timeWindow);
+
+        return 'evt_' . substr($hash, 0, 32);
+    }
+
+    /**
+     * Get the underlying Guzzle HTTP client
+     * 
+     * Provides access to the HTTP client for advanced usage scenarios.
+     * Use with caution as direct client access bypasses error handling.
+     * 
+     * @return Client The Guzzle HTTP client instance
      */
     public function getHttpClient(): Client
     {
@@ -109,7 +227,9 @@ class EventrelClient
     }
 
     /**
-     * Get base URL
+     * Get the configured base URL
+     * 
+     * @return string The API base URL
      */
     public function getBaseUrl(): string
     {
@@ -117,43 +237,144 @@ class EventrelClient
     }
 
     /**
-     * Get API token
+     * Get the configured API token
+     * 
+     * @return string The API token
      */
     public function getApiToken(): string
     {
         return $this->apiToken;
     }
 
-
     /**
-     * Get the current version of the Eventrel API.
+     * Get the current client library version
+     * 
+     * @return string Version string (e.g., '1.0.0')
      */
     public function version(): string
     {
-        // TODO: Implement version retrieval
-        return '1.0.0';
+        try {
+            $version = InstalledVersions::getVersion('eventrel/client');
+
+            return $version ? ltrim($version, 'v') : 'dev-main';
+        } catch (\Exception $e) {
+            // Fallback for development or when package info unavailable
+            return $this->getVersionFromComposerJson();
+        }
     }
 
     /**
-     * Generate a unique idempotency key.
-     */
-    public function generateIdempotencyKey(): string
-    {
-        // TODO: Implement idempotency key generation logic
-
-        return bin2hex(random_bytes(16));
-    }
-
-    /**
-     * Build the URI for a given API endpoint.
-     *
-     * @param string $path
-     * @return string
+     * Build the full URI for an API endpoint
+     * 
+     * Combines base URL, API version, and path into a complete URI.
+     * 
+     * @param string $path The endpoint path (optional)
+     * @return string The complete URI
      */
     protected function buildUri(string $path = ''): string
     {
         $base = rtrim($this->baseUrl, '/') . '/' . ltrim($this->apiVersion, '/');
 
         return $base . '/' . ltrim($path, '/');
+    }
+
+    /**
+     * Validate an API response
+     * 
+     * Checks if the response status code indicates success (2xx range).
+     * Extracts and throws structured errors for failed responses.
+     * 
+     * @param ResponseInterface $response The HTTP response to validate
+     * @return void
+     * @throws EventrelException If the response indicates an error
+     */
+    protected function validateResponse(ResponseInterface $response): void
+    {
+        $statusCode = $response->getStatusCode();
+
+        if ($statusCode < 200 || $statusCode >= 300) {
+            $body = json_decode($response->getBody()->getContents(), true);
+            $message = $body['message'] ?? $body['error'] ?? 'Unknown error occurred';
+
+            throw new EventrelException(
+                "API returned error: {$message}",
+                $statusCode
+            );
+        }
+    }
+
+    /**
+     * Handle Guzzle request exceptions
+     * 
+     * Transforms Guzzle exceptions into structured EventrelException instances.
+     * Extracts error messages from API responses when available and includes
+     * idempotency key in error context for debugging.
+     * 
+     * @param RequestException $e The Guzzle request exception
+     * @param array<string, mixed> $options The original request options
+     * @return never This method always throws
+     * @throws EventrelException Always thrown with structured error information
+     */
+    protected function handleRequestException(RequestException $e, array $options): never
+    {
+        $statusCode = $e->getCode();
+        $message = $e->getMessage();
+
+        if ($e->hasResponse()) {
+            $response = $e->getResponse();
+            $body = json_decode($response->getBody()->getContents(), true);
+            $message = $body['message'] ?? $body['error'] ?? $message;
+            $statusCode = $response->getStatusCode();
+        }
+
+        $idempotencyKey = $options['headers']['X-Idempotency-Key'] ?? null;
+
+        if ($idempotencyKey) {
+            $message .= " (Idempotency-Key: {$idempotencyKey})";
+        }
+
+        throw new EventrelException(
+            "Request failed: {$message}",
+            $statusCode,
+            $e
+        );
+    }
+
+    /**
+     * Recursively normalize an array for consistent hashing
+     * 
+     * Sorts array keys recursively to ensure the same data structure
+     * always produces the same hash, regardless of key order.
+     * 
+     * @param array<string|int, mixed> $input The array to normalize
+     * @return array<string|int, mixed> The normalized array with sorted keys
+     */
+    private function normalizeArray(array $input): array
+    {
+        $normalized = [];
+
+        foreach ($input as $key => $value) {
+            $normalized[$key] = (is_array($value)) ? $this->normalizeArray($value) : $value;
+        }
+
+        ksort($normalized);
+
+        return $normalized;
+    }
+
+    /**
+     * Fallback: read version from composer.json
+     */
+    private function getVersionFromComposerJson(): string
+    {
+        $composerPath = dirname(__DIR__, 2) . '/composer.json';
+
+        if (!file_exists($composerPath)) {
+            return 'dev-unknown';
+        }
+
+        $composer = json_decode(file_get_contents($composerPath), true);
+
+        return $composer['version'] ?? 'dev-main';
     }
 }

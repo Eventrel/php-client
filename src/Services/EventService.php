@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Eventrel\Client\EventrelClient;
 use Eventrel\Client\Exceptions\EventrelException;
 use Eventrel\Client\Responses\{EventResponse, BatchEventResponse};
+use Psr\Http\Message\ResponseInterface;
 
 class EventService
 {
@@ -38,26 +39,9 @@ class EventService
         ?string $idempotencyKey = null,
         ?Carbon $scheduledAt = null
     ): EventResponse {
-        $data = [
-            'event_type' => $eventType,
-            'payload' => $payload,
-            'tags' => $tags,
-        ];
+        $data = $this->buildEventData($eventType, $payload, $tags, $destination, $scheduledAt);
 
-        if ($destination) {
-            $data['destination'] = $destination;
-        }
-
-        if ($scheduledAt) {
-            $data['scheduled_at'] = $scheduledAt->toISOString();
-        }
-
-        $response = $this->client->makeRequest('POST', 'events', [
-            'json' => $data,
-            'headers' => [
-                'X-Idempotency-Key' => $idempotencyKey ?? $this->client->generateIdempotencyKey(),
-            ]
-        ]);
+        $response = $this->request('POST', 'events', $data, $idempotencyKey);
 
         return new EventResponse($response);
     }
@@ -86,9 +70,52 @@ class EventService
             throw new EventrelException('Cannot send empty batch. Provide at least one event.');
         }
 
+        $data = $this->buildEventData($eventType, $events, $tags, $destination, $scheduledAt, isBatch: true);
+
+        $response = $this->request('POST', 'events', $data, $idempotencyKey);
+
+        return new BatchEventResponse($response);
+    }
+
+    public function getEvent(string $uuid): EventResponse
+    {
+        dd('getEvent', $uuid);
+    }
+
+    public function listEvents(): array
+    {
+        dd('listEvents');
+    }
+
+    public function retryEvent(string $uuid): EventResponse
+    {
+        dd('retryEvent', $uuid);
+    }
+
+    public function retryEvents(array $uuids): array
+    {
+        dd('retryEvents', $uuids);
+    }
+
+    public function cancelEvent(string $uuid, string $reason): EventResponse
+    {
+        dd('cancelEvent', $uuid, $reason);
+    }
+
+    /**
+     * Build event data payload.
+     */
+    private function buildEventData(
+        string $eventType,
+        array $data,
+        array $tags,
+        ?string $destination,
+        ?Carbon $scheduledAt,
+        bool $isBatch = false
+    ): array {
         $data = [
             'event_type' => $eventType,
-            'events' => $events,
+            $isBatch ? 'events' : 'payload' => $data,
             'tags' => $tags,
         ];
 
@@ -100,40 +127,33 @@ class EventService
             $data['scheduled_at'] = $scheduledAt->toISOString();
         }
 
-        $response = $this->client->makeRequest('POST', 'events', [
-            'json' => $data,
-            'headers' => [
-                'X-Idempotency-Key' => $idempotencyKey ?? $this->client->generateIdempotencyKey(),
-            ]
-        ]);
-
-        return new BatchEventResponse($response);
+        return $data;
     }
 
-    // /**
-    //  * Get a specific webhook by ID
-    //  */
-    // public function getWebhook(string $webhookId): EventResponse
-    // {
-    //     $response = $this->makeRequest('GET', "/api/v1/webhooks/{$webhookId}");
-    //     return new EventResponse($response['data'] ?? []);
-    // }
+    /**
+     * Make an HTTP request with consistent options
+     */
+    private function request(
+        string $method,
+        string $path,
+        array $data = [],
+        ?string $idempotencyKey = null,
+        array $query = []
+    ): ResponseInterface {
+        $options = [];
 
-    // /**
-    //  * List webhooks with pagination and filters
-    //  */
-    // public function getWebhooks(int $page = 1, array $filters = []): WebhookListResponse
-    // {
-    //     $query = array_merge(['page' => $page], $filters);
+        if (!empty($data)) {
+            $options['json'] = $data;
+        }
 
-    //     $response = $this->makeRequest('GET', '/api/v1/webhooks', [
-    //         'query' => $query,
-    //     ]);
+        if (!empty($query)) {
+            $options['query'] = $query;
+        }
 
-    //     return new WebhookListResponse(
-    //         $response['data'] ?? [],
-    //         $response['pagination'] ?? []
-    //     );
-    // }
+        if ($idempotencyKey) {
+            $options['headers']['X-Idempotency-Key'] = $idempotencyKey ?? $this->client->generateIdempotencyKey();
+        }
 
+        return $this->client->makeRequest($method, $path, $options);
+    }
 }
