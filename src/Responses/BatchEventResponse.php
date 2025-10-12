@@ -6,62 +6,87 @@ use Eventrel\Client\Entities\OutboundEvent;
 use Eventrel\Client\Enums\EventStatus;
 use GuzzleHttp\Psr7\Response;
 
-class BatchEventResponse
+/**
+ * Response object for batch event submissions
+ * 
+ * Represents the API response when sending multiple events in a single batch request.
+ * Provides convenient methods to access batch metadata, query events by status or tag,
+ * and check overall batch delivery status.
+ * 
+ * @package Eventrel\Client\Responses
+ */
+class BatchEventResponse extends BaseResponse
 {
     /**
-     * The unique batch identifier.
+     * The unique batch identifier
+     * 
+     * @var string
      */
     private string $batchId;
 
     /**
-     * Array of OutboundEvent objects for each event in the batch.
+     * Array of OutboundEvent objects for each event in the batch
      * 
      * @var OutboundEvent[]
      */
     private array $outboundEvents;
 
     /**
-     * Total number of events in the batch.
+     * Total number of events in the batch
+     * 
+     * @var int
      */
     private int $totalEvents;
 
     /**
-     * Human-readable message from the API response.
+     * Human-readable message from the API response
+     * 
+     * @var string
      */
     private string $message;
 
     /**
-     * Array of validation or processing errors, if any.
+     * Array of validation or processing errors, if any
+     * 
+     * @var array<int, array<string, mixed>>
      */
     private array $errors;
 
     /**
-     * Whether the batch request was successful.
+     * Whether the batch request was successful
+     * 
+     * @var bool
      */
     private bool $success;
 
     /**
-     * HTTP status code returned by the API.
+     * HTTP status code returned by the API
+     * 
+     * @var int
      */
     private int $statusCode;
 
     /**
-     * HTTP headers from the response.
+     * HTTP headers from the response
+     * 
+     * @var array<string, array<int, string>>
      */
     private array $headers;
 
     /**
-     * Unique key for idempotent request handling.
+     * Unique key for idempotent request handling
+     * 
+     * @var string|null
      */
     private ?string $idempotencyKey;
 
     /**
-     * Create a new BatchEventResponse instance.
+     * Create a new BatchEventResponse instance
      * 
      * Parses the Guzzle HTTP response and extracts all batch data,
-     * converting each event into an OutboundEvent object.
+     * converting each event into an OutboundEvent object for type-safe access.
      *
-     * @param Response $response The Guzzle HTTP response object
+     * @param Response $response The Guzzle HTTP response object from the API
      */
     public function __construct(
         private Response $response
@@ -70,10 +95,11 @@ class BatchEventResponse
     }
 
     /**
-     * Parse and populate response data from the Guzzle HTTP response.
+     * Parse and populate response data from the HTTP response
      * 
      * Extracts JSON content and converts the outbound_events array
-     * into OutboundEvent objects for type-safe access.
+     * into OutboundEvent objects. Handles both header and body sources
+     * for the idempotency key with header taking precedence.
      *
      * @return void
      */
@@ -103,12 +129,16 @@ class BatchEventResponse
     }
 
     /**
-     * Get the unique batch identifier.
+     * Get the unique batch identifier
      * 
-     * This ID can be used to track the batch status, query for
-     * delivery attempts, or reference this batch in support requests.
+     * This ID can be used to track batch status, query for delivery attempts,
+     * or reference this batch in support requests.
      *
-     * @return string The batch UUID
+     * @return string The batch UUID (e.g., 'batch_a1b2c3d4...')
+     * 
+     * @example
+     * $batchId = $response->getBatchId();
+     * // Store for later status checks
      */
     public function getBatchId(): string
     {
@@ -116,7 +146,7 @@ class BatchEventResponse
     }
 
     /**
-     * Get the total number of events in the batch.
+     * Get the total number of events in the batch
      * 
      * This is the count of all events that were submitted,
      * regardless of their individual success or failure status.
@@ -129,12 +159,12 @@ class BatchEventResponse
     }
 
     /**
-     * Get the human-readable response message.
+     * Get the human-readable response message
      * 
      * Provides context about the batch result, useful for
      * logging or displaying feedback to users.
      *
-     * @return string The response message
+     * @return string The response message (e.g., 'Batch created successfully')
      */
     public function getMessage(): string
     {
@@ -142,12 +172,17 @@ class BatchEventResponse
     }
 
     /**
-     * Get all unique tags across all events in the batch.
+     * Get all unique tags across all events in the batch
      * 
-     * Useful for getting a consolidated view of all tags
-     * used in the batch for filtering or analytics.
+     * Aggregates and de-duplicates tags from all events, useful for
+     * getting a consolidated view of all tags used in the batch
+     * for filtering or analytics purposes.
      *
-     * @return array Array of unique tag strings
+     * @return array<int, string> Array of unique tag strings
+     * 
+     * @example
+     * $allTags = $response->getAllTags();
+     * // ['signup', 'premium', 'email-verified']
      */
     public function getAllTags(): array
     {
@@ -161,10 +196,18 @@ class BatchEventResponse
     }
 
     /**
-     * Get events that have a specific tag.
+     * Get events that have a specific tag
+     * 
+     * Filters the batch to return only events tagged with the specified tag.
      *
      * @param string $tag The tag to filter by
      * @return OutboundEvent[] Array of events with that tag
+     * 
+     * @example
+     * $premiumEvents = $response->getEventsByTag('premium');
+     * foreach ($premiumEvents as $event) {
+     *     echo $event->uuid;
+     * }
      */
     public function getEventsByTag(string $tag): array
     {
@@ -175,12 +218,17 @@ class BatchEventResponse
     }
 
     /**
-     * Get all outbound events in the batch.
+     * Get all outbound events in the batch
      * 
      * Returns an array of OutboundEvent objects, one for each
      * event in the batch, in the order they were submitted.
      *
      * @return OutboundEvent[] Array of OutboundEvent objects
+     * 
+     * @example
+     * foreach ($response->getEvents() as $event) {
+     *     echo "Event {$event->uuid}: {$event->status->value}\n";
+     * }
      */
     public function getEvents(): array
     {
@@ -188,16 +236,23 @@ class BatchEventResponse
     }
 
     /**
-     * Get a specific event by its UUID.
+     * Get a specific event by its UUID or array index
      * 
-     * Searches through all events in the batch to find one matching
-     * the provided UUID. Useful for tracking specific events or
-     * checking their delivery status.
+     * Provides flexible access to individual events within the batch.
+     * Pass an integer to get by index (0-based), or a string UUID to find
+     * by unique identifier.
      *
-     * @param string $uuid The event UUID to find
+     * @param int|string $identifier Either an integer index or event UUID string
      * @return OutboundEvent|null The matching event, or null if not found
+     * 
+     * @example
+     * // Get by index
+     * $firstEvent = $response->get(0);
+     * 
+     * // Get by UUID
+     * $event = $response->get('evt_abc123');
      */
-    public function getEvent(int|string $identifier): ?OutboundEvent
+    public function get(int|string $identifier): ?OutboundEvent
     {
         if (is_int($identifier)) {
             return $this->getEventByIndex($identifier);
@@ -213,13 +268,16 @@ class BatchEventResponse
     }
 
     /**
-     * Get a specific event by its index in the batch.
+     * Get a specific event by its index in the batch
      * 
      * Events are indexed starting from 0 in the order they
      * were added to the batch.
      *
      * @param int $index The zero-based index of the event
-     * @return OutboundEvent|null The event at the index, or null if not found
+     * @return OutboundEvent|null The event at the index, or null if out of bounds
+     * 
+     * @example
+     * $secondEvent = $response->getEventByIndex(1);
      */
     public function getEventByIndex(int $index): ?OutboundEvent
     {
@@ -227,9 +285,10 @@ class BatchEventResponse
     }
 
     /**
-     * Get the first event in the batch.
+     * Get the first event in the batch
      * 
-     * Convenience method for accessing the first event.
+     * Convenience method for accessing the first event without
+     * needing to use array access or indexing.
      *
      * @return OutboundEvent|null The first event, or null if batch is empty
      */
@@ -239,9 +298,10 @@ class BatchEventResponse
     }
 
     /**
-     * Get the last event in the batch.
+     * Get the last event in the batch
      * 
-     * Convenience method for accessing the last event.
+     * Convenience method for accessing the last event without
+     * needing to calculate the array length.
      *
      * @return OutboundEvent|null The last event, or null if batch is empty
      */
@@ -253,13 +313,21 @@ class BatchEventResponse
     }
 
     /**
-     * Get events filtered by status.
+     * Get events filtered by status
      * 
      * Returns all events that match the specified status.
      * Useful for finding pending, delivered, or failed events.
+     * Accepts either an EventStatus enum or status string.
      *
-     * @param EventStatus|string $status The status to filter by
+     * @param EventStatus|string $status The status to filter by (e.g., EventStatus::PENDING or 'pending')
      * @return OutboundEvent[] Array of matching events
+     * 
+     * @example
+     * // Using enum
+     * $pending = $response->getEventsByStatus(EventStatus::PENDING);
+     * 
+     * // Using string
+     * $failed = $response->getEventsByStatus('failed');
      */
     public function getEventsByStatus(EventStatus|string $status): array
     {
@@ -278,12 +346,17 @@ class BatchEventResponse
     }
 
     /**
-     * Get the count of events with a specific status.
+     * Get the count of events with a specific status
      * 
-     * Useful for generating summary statistics about the batch.
+     * Useful for generating summary statistics about the batch
+     * without needing to iterate through the full array.
      *
      * @param EventStatus|string $status The status to count
      * @return int Number of events with that status
+     * 
+     * @example
+     * $failedCount = $response->countByStatus(EventStatus::FAILED);
+     * echo "Failed events: {$failedCount} / {$response->getTotalEvents()}";
      */
     public function countByStatus(EventStatus|string $status): int
     {
@@ -291,7 +364,9 @@ class BatchEventResponse
     }
 
     /**
-     * Get all events that are currently pending delivery.
+     * Get all events that are currently pending delivery
+     * 
+     * Shorthand for getEventsByStatus(EventStatus::PENDING).
      *
      * @return OutboundEvent[] Array of pending events
      */
@@ -301,7 +376,9 @@ class BatchEventResponse
     }
 
     /**
-     * Get all events that were successfully delivered.
+     * Get all events that were successfully delivered
+     * 
+     * Shorthand for getEventsByStatus(EventStatus::DELIVERED).
      *
      * @return OutboundEvent[] Array of delivered events
      */
@@ -311,7 +388,9 @@ class BatchEventResponse
     }
 
     /**
-     * Get all events that failed delivery.
+     * Get all events that failed delivery
+     * 
+     * Shorthand for getEventsByStatus(EventStatus::FAILED).
      *
      * @return OutboundEvent[] Array of failed events
      */
@@ -321,12 +400,17 @@ class BatchEventResponse
     }
 
     /**
-     * Check if all events in the batch were successfully delivered.
+     * Check if all events in the batch were successfully delivered
      * 
-     * Note: For newly created batches, this will be false since
-     * events start in "pending" status.
+     * Note: For newly created batches, this will typically return false
+     * since events start in "pending" status and are processed asynchronously.
      *
-     * @return bool True if all events are delivered
+     * @return bool True if all events are delivered, false otherwise
+     * 
+     * @example
+     * if ($response->isAllDelivered()) {
+     *     echo "All events delivered successfully!";
+     * }
      */
     public function isAllDelivered(): bool
     {
@@ -336,9 +420,15 @@ class BatchEventResponse
     }
 
     /**
-     * Check if any events in the batch failed delivery.
+     * Check if any events in the batch failed delivery
      *
-     * @return bool True if at least one event failed
+     * @return bool True if at least one event failed, false if none failed
+     * 
+     * @example
+     * if ($response->hasFailures()) {
+     *     $failed = $response->getFailedEvents();
+     *     // Handle failed events
+     * }
      */
     public function hasFailures(): bool
     {
@@ -346,12 +436,12 @@ class BatchEventResponse
     }
 
     /**
-     * Check if all events are still pending.
+     * Check if all events are still pending
      * 
      * Common for newly created batches that haven't been
-     * processed yet.
+     * processed yet by the event delivery system.
      *
-     * @return bool True if all events are pending
+     * @return bool True if all events are pending, false otherwise
      */
     public function isAllPending(): bool
     {
@@ -361,12 +451,13 @@ class BatchEventResponse
     }
 
     /**
-     * Check if the API request was successful.
+     * Check if the API request was successful
      * 
-     * Returns true if the batch was accepted and queued.
-     * Individual event delivery status should be checked separately.
+     * Returns true if the batch was accepted and queued for processing.
+     * Individual event delivery status should be checked separately using
+     * status-specific methods.
      *
-     * @return bool True if the request succeeded
+     * @return bool True if the batch request succeeded
      */
     public function isSuccess(): bool
     {
@@ -374,12 +465,19 @@ class BatchEventResponse
     }
 
     /**
-     * Get any validation or processing errors.
+     * Get any validation or processing errors
      * 
-     * Returns an array of error details if the batch request failed.
-     * Empty array if no errors.
+     * Returns an array of error details if the batch request failed
+     * validation or processing. Empty array if no errors occurred.
      *
-     * @return array Array of error messages/details
+     * @return array<int, array<string, mixed>> Array of error messages/details
+     * 
+     * @example
+     * if (!$response->isSuccess()) {
+     *     foreach ($response->getErrors() as $error) {
+     *         echo $error['message'] ?? 'Unknown error';
+     *     }
+     * }
      */
     public function getErrors(): array
     {
@@ -387,12 +485,12 @@ class BatchEventResponse
     }
 
     /**
-     * Get the HTTP status code from the API response.
+     * Get the HTTP status code from the API response
      * 
      * Standard HTTP status codes: 201 for created, 4xx for client errors,
      * 5xx for server errors.
      *
-     * @return int The HTTP status code (e.g., 201, 400, 500)
+     * @return int The HTTP status code (e.g., 201, 400, 422, 500)
      */
     public function getStatusCode(): int
     {
@@ -400,12 +498,16 @@ class BatchEventResponse
     }
 
     /**
-     * Get all HTTP headers from the response.
+     * Get all HTTP headers from the response
      * 
-     * Headers may contain rate limit info, request IDs, or other
-     * metadata useful for debugging and monitoring.
+     * Headers may contain rate limit info, request IDs, retry-after values,
+     * or other metadata useful for debugging and monitoring.
      *
-     * @return array Associative array of header name => value(s)
+     * @return array<string, array<int, string>> Associative array of header name => value(s)
+     * 
+     * @example
+     * $headers = $response->getHeaders();
+     * $rateLimit = $headers['x-ratelimit-remaining'][0] ?? 'unknown';
      */
     public function getHeaders(): array
     {
@@ -413,13 +515,19 @@ class BatchEventResponse
     }
 
     /**
-     * Get the idempotency key for this request.
+     * Get the idempotency key for this request
      * 
      * Idempotency keys prevent duplicate event deliveries when
-     * a request is retried. Same key = same event won't be sent twice.
-     * Returns null if no idempotency key was used.
+     * a request is retried. Same key = same batch won't be created twice.
+     * Returns null if no idempotency key was used for this request.
      *
      * @return string|null The idempotency key, or null if not present
+     * 
+     * @example
+     * $key = $response->getIdempotencyKey();
+     * if ($key) {
+     *     // Store for retry logic or debugging
+     * }
      */
     public function getIdempotencyKey(): ?string
     {
@@ -427,12 +535,20 @@ class BatchEventResponse
     }
 
     /**
-     * Convert the batch response to an array representation.
+     * Convert the batch response to an array representation
      * 
      * Useful for logging, debugging, JSON serialization, or storing
-     * the response data. Includes batch metadata and all events.
+     * the response data in a database. Includes batch metadata and
+     * all events with their full details.
      *
-     * @return array Array containing batch and response data
+     * @return array<string, mixed> Array containing batch and response data
+     * 
+     * @example
+     * $data = $response->toArray();
+     * Log::info('Batch created', $data);
+     * 
+     * // Or convert to JSON
+     * $json = json_encode($response->toArray());
      */
     public function toArray(): array
     {

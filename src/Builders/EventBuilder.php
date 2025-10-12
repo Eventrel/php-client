@@ -186,7 +186,7 @@ class EventBuilder
      */
     public function send(): EventResponse
     {
-        return $this->service->sendEvent(
+        return $this->service->create(
             destination: $this->destination,
             eventType: $this->eventType,
             payload: $this->payload,

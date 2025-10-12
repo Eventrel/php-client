@@ -26,9 +26,9 @@ use Eventrel\Client\Services\EventService;
  * $response = Eventrel::batchEvent('user.created')
  *     ->to('identifier')
  *     ->tags(['bulk-import', 'production'])
- *     ->add(['user_id' => 1, 'email' => 'user1@example.com'], ['premium'])
- *     ->add(['user_id' => 2, 'email' => 'user2@example.com'])
- *     ->add(['user_id' => 3, 'email' => 'user3@example.com'], ['trial'])
+ *     ->addEvent(['user_id' => 1, 'email' => 'user1@example.com'], ['premium'])
+ *     ->addEvent(['user_id' => 2, 'email' => 'user2@example.com'])
+ *     ->addEvent(['user_id' => 3, 'email' => 'user3@example.com'], ['trial'])
  *     ->send();
  * ```
  */
@@ -98,7 +98,7 @@ class BatchEventBuilder
      * Set batch-level tags applied to all events.
      * 
      * These tags are shared across all events in the batch.
-     * Individual events added via add() can have additional tags.
+     * Individual events added via addEvent() can have additional tags.
      * 
      * Common use cases:
      * - Environment tags: ['production', 'staging']
@@ -150,16 +150,16 @@ class BatchEventBuilder
      * 
      * Example:
      * ```php
-     * ->add(['user_id' => 1, 'name' => 'John'], ['premium', 'verified'])
-     * ->add(['user_id' => 2, 'name' => 'Jane'])
-     * ->add(['user_id' => 3, 'name' => 'Bob'], ['trial'])
+     * ->addEvent(['user_id' => 1, 'name' => 'John'], ['premium', 'verified'])
+     * ->addEvent(['user_id' => 2, 'name' => 'Jane'])
+     * ->addEvent(['user_id' => 3, 'name' => 'Bob'], ['trial'])
      * ```
      *
      * @param array $payload The event payload data
      * @param array $tags Optional event-specific tags
      * @return $this Fluent interface
      */
-    public function add(array $payload, array $tags = []): self
+    public function addEvent(array $payload, array $tags = []): self
     {
         $event = ['payload' => $payload];
 
@@ -222,7 +222,7 @@ class BatchEventBuilder
      */
     public function send(): BatchEventResponse
     {
-        return $this->service->sendBatchEvent(
+        return $this->service->createMany(
             destination: $this->destination,
             eventType: $this->eventType,
             events: $this->events,

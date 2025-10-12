@@ -14,7 +14,7 @@ use GuzzleHttp\Psr7\Response;
  * - Response metadata (success status, errors, status code)
  * - Request tracking (idempotency key, headers)
  */
-class EventResponse
+class EventResponse extends BaseResponse
 {
     /**
      * The outbound event entity containing event details.
@@ -24,7 +24,7 @@ class EventResponse
     /**
      * Human-readable message from the API response.
      */
-    private string $message;
+    private ?string $message;
 
     /**
      * Array of validation or processing errors, if any.
@@ -78,7 +78,7 @@ class EventResponse
         $data = $content['data'] ?? [];
 
         $this->outboundEvent = OutboundEvent::from($data['outbound_event'] ?? []);
-        $this->message = $data['message'] ?? '';
+        $this->message = $data['message'] ?? null;
         $this->errors = $content['errors'] ?? [];
         $this->success = $content['success'] ?? false;
         $this->statusCode = $content['status_code'] ?? 0;

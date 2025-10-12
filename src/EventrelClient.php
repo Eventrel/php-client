@@ -20,15 +20,9 @@ use Psr\Http\Message\ResponseInterface;
  * @property-read DestinationService $destinations Access to destination management operations
  * 
  * @package Eventrel\Client
- * @version 1.0.0
  */
 class EventrelClient
 {
-    /**
-     * Client library version
-     */
-    private const VERSION = '1.0.0';
-
     /**
      * Map of service names to their class implementations
      * 
@@ -73,7 +67,7 @@ class EventrelClient
                 'Authorization' => "Bearer {$apiToken}",
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
-                'User-Agent' => 'eventrel-php-client/' . self::VERSION,
+                'User-Agent' => 'eventrel-php-client/' . $this->version(),
             ],
             'timeout' => $this->timeout,
         ]);
@@ -90,7 +84,7 @@ class EventrelClient
      * @throws \InvalidArgumentException If the requested service doesn't exist
      * 
      * @example
-     * $client->events->sendEvent(...);
+     * $client->events->create(...);
      * $client->destinations->create(...);
      */
     public function __get(string $name)
@@ -259,7 +253,7 @@ class EventrelClient
             return $version ? ltrim($version, 'v') : 'dev-main';
         } catch (\Exception $e) {
             // Fallback for development or when package info unavailable
-            return $this->getVersionFromComposerJson();
+            return 'dev-main';
         }
     }
 
@@ -360,21 +354,5 @@ class EventrelClient
         ksort($normalized);
 
         return $normalized;
-    }
-
-    /**
-     * Fallback: read version from composer.json
-     */
-    private function getVersionFromComposerJson(): string
-    {
-        $composerPath = dirname(__DIR__, 2) . '/composer.json';
-
-        if (!file_exists($composerPath)) {
-            return 'dev-unknown';
-        }
-
-        $composer = json_decode(file_get_contents($composerPath), true);
-
-        return $composer['version'] ?? 'dev-main';
     }
 }

@@ -34,7 +34,7 @@ class OutboundEvent extends Data
      */
     public function __construct(
         public string $uuid,
-        public string $idempotencyKey,
+        public ?string $idempotencyKey,
         public string $eventType,
         public array $payload,
         public EventStatus $status,
