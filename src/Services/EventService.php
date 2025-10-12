@@ -185,13 +185,13 @@ class EventService
      * 
      * @example
      * // Simple pagination
-     * $response = $client->events->listEvents(page: 2, perPage: 50);
+     * $response = $client->events->list(page: 2, perPage: 50);
      * 
      * // With status filter
-     * $response = $client->events->listEvents(status: 'failed');
+     * $response = $client->events->list(status: 'failed');
      * 
      * // Complex filters
-     * $response = $client->events->listEvents(
+     * $response = $client->events->list(
      *     page: 1,
      *     perPage: 25,
      *     status: 'delivered',
@@ -225,7 +225,6 @@ class EventService
         return new EventListResponse($response);
     }
 
-
     /**
      * Retry a failed event
      * 
@@ -245,6 +244,7 @@ class EventService
 
         return $eventResponse;
     }
+
     /**
      * Retry multiple events in bulk
      * 

@@ -2,27 +2,26 @@
 
 namespace Eventrel\Client\Responses;
 
-use Eventrel\Client\Entities\OutboundEvent;
-use Eventrel\Client\Enums\EventStatus;
+use Eventrel\Client\Entities\Destination;
 use GuzzleHttp\Psr7\Response;
 
 /**
- * Response object for paginated event list queries
+ * Response object for paginated destination list queries
  * 
- * Represents the API response when listing events with optional filters.
- * Provides convenient methods to access events, navigate pagination,
+ * Represents the API response when listing destinations with optional filters.
+ * Provides convenient methods to access destinations, navigate pagination,
  * and filter results by status or tag.
  * 
  * @package Eventrel\Client\Responses
  */
-class EventListResponse extends BaseResponse
+class DestinationListResponse extends BaseResponse
 {
     /**
-     * Array of OutboundEvent objects for the current page
+     * Array of Destination objects for the current page
      * 
-     * @var OutboundEvent[]
+     * @var Destination[]
      */
-    private array $outboundEvents;
+    private array $destinations;
 
     /**
      * Current page number
@@ -123,10 +122,10 @@ class EventListResponse extends BaseResponse
     private string $statusText;
 
     /**
-     * Create a new EventListResponse instance
+     * Create a new DestinationListResponse instance
      * 
      * Parses the Guzzle HTTP response and extracts all pagination data
-     * and event list, converting each event into an OutboundEvent object.
+     * and destination list, converting each destination into a Destination object.
      *
      * @param Response $response The Guzzle HTTP response object from the API
      */
@@ -139,7 +138,7 @@ class EventListResponse extends BaseResponse
      * Parse and populate response data from the HTTP response
      * 
      * Extracts JSON content, pagination metadata, and converts the
-     * outbound_events array into OutboundEvent objects for type safety.
+     * destinations array into Destination objects for type safety.
      *
      * @return void
      */
@@ -165,50 +164,50 @@ class EventListResponse extends BaseResponse
         $this->status = $this->content['status'] ?? 'unknown';
         $this->statusText = $this->content['status_text'] ?? '';
 
-        // Convert each event array into an OutboundEvent object
-        $this->outboundEvents = array_map(
-            fn(array $event) => OutboundEvent::from($event),
-            $this->data['outbound_events'] ?? []
+        // Convert each destination array into a Destination object
+        $this->destinations = array_map(
+            fn(array $destination) => Destination::from($destination),
+            $this->data['destinations'] ?? []
         );
     }
 
     /**
-     * Get all events on the current page
+     * Get all destinations on the current page
      * 
-     * Returns an array of OutboundEvent objects for the current page.
+     * Returns an array of Destination objects for the current page.
      *
-     * @return OutboundEvent[] Array of OutboundEvent objects
+     * @return Destination[] Array of Destination objects
      * 
      * @example
-     * foreach ($response->get() as $event) {
-     *     echo "Event {$event->uuid}: {$event->status->value}\n";
+     * foreach ($response->getDestinations() as $destination) {
+     *     echo "Destination {$destination->uuid}, {$destination->name}\n";
      * }
      */
     public function get(): array
     {
-        return $this->outboundEvents;
+        return $this->destinations;
     }
 
     /**
-     * Get a specific event by its UUID
+     * Get a specific destination by its UUID
      * 
-     * Searches through events on the current page to find one matching
+     * Searches through destinations on the current page to find one matching
      * the provided UUID.
      *
-     * @param string $uuid The event UUID to find
-     * @return OutboundEvent|null The matching event, or null if not found on this page
+     * @param string $uuid The destination UUID to find
+     * @return Destination|null The matching destination, or null if not found on this page
      * 
      * @example
-     * $event = $response->getByUuid('evt_abc123');
-     * if ($event) {
-     *     echo "Found event: {$event->eventType}";
+     * $destination = $response->getByUuid('dest_abc123');
+     * if ($destination) {
+     *     echo "Found destination: {$destination->uuid}";
      * }
      */
-    public function getByUuid(string $uuid): ?OutboundEvent
+    public function getByUuid(string $uuid): ?Destination
     {
-        foreach ($this->outboundEvents as $event) {
-            if ($event->uuid === $uuid) {
-                return $event;
+        foreach ($this->destinations as $destination) {
+            if ($destination->uuid === $uuid) {
+                return $destination;
             }
         }
 
@@ -216,63 +215,13 @@ class EventListResponse extends BaseResponse
     }
 
     /**
-     * Get events filtered by status
+     * Get the count of destinations on the current page
      * 
-     * Returns all events on the current page that match the specified status.
-     * Useful for finding pending, delivered, failed, or cancelled events.
-     *
-     * @param EventStatus|string $status The status to filter by (e.g., EventStatus::PENDING or 'pending')
-     * @return OutboundEvent[] Array of matching events
-     * 
-     * @example
-     * $cancelled = $response->getByStatus(EventStatus::CANCELLED);
-     * $delivered = $response->getByStatus('delivered');
-     */
-    public function getByStatus(EventStatus|string $status): array
-    {
-        if (is_string($status)) {
-            $status = EventStatus::tryFrom($status);
-
-            if (!$status) {
-                return [];
-            }
-        }
-
-        return array_filter(
-            $this->outboundEvents,
-            fn(OutboundEvent $event) => $event->status === $status
-        );
-    }
-
-    /**
-     * Get events that have a specific tag
-     * 
-     * Filters events on the current page to return only those tagged
-     * with the specified tag.
-     *
-     * @param string $tag The tag to filter by
-     * @return OutboundEvent[] Array of events with that tag
-     * 
-     * @example
-     * $userEvents = $response->getByTag('user');
-     * $important = $response->getByTag('important');
-     */
-    public function getByTag(string $tag): array
-    {
-        return array_filter(
-            $this->outboundEvents,
-            fn(OutboundEvent $event) => in_array($tag, $event->tags ?? [])
-        );
-    }
-
-    /**
-     * Get the count of events on the current page
-     * 
-     * @return int Number of events on this page
+     * @return int Number of destinations on this page
      */
     public function count(): int
     {
-        return count($this->outboundEvents);
+        return count($this->destinations);
     }
 
     /**
@@ -311,7 +260,7 @@ class EventListResponse extends BaseResponse
      * @return int Total item count
      * 
      * @example
-     * echo "Showing {$response->count()} of {$response->getTotal()} events";
+     * echo "Showing {$response->count()} of {$response->getTotal()} destinations";
      */
     public function getTotal(): int
     {
@@ -491,7 +440,7 @@ class EventListResponse extends BaseResponse
      * @example
      * $meta = $response->getPaginationMeta();
      * return response()->json([
-     *     'events' => $events,
+     *     'destinations' => $destinations,
      *     'meta' => $meta
      * ]);
      */
@@ -512,9 +461,9 @@ class EventListResponse extends BaseResponse
      * Convert the list response to an array representation
      * 
      * Useful for logging, debugging, JSON serialization, or passing
-     * to frontend applications. Includes all events and pagination data.
+     * to frontend applications. Includes all destinations and pagination data.
      *
-     * @return array<string, mixed> Array containing events and pagination data
+     * @return array<string, mixed> Array containing destinations and pagination data
      * 
      * @example
      * $data = $response->toArray();
@@ -522,18 +471,13 @@ class EventListResponse extends BaseResponse
      */
     public function toArray(): array
     {
+        // TODO: Include destinations when Destination entity is implemented
         return [
-            'events' => array_map(
-                fn(OutboundEvent $event) => [
-                    'uuid' => $event->uuid,
-                    'event_type' => $event->eventType,
-                    'status' => $event->status->value,
-                    'payload' => $event->payload,
-                    'tags' => $event->tags,
-                    'created_at' => $event->createdAt,
-                    'updated_at' => $event->updatedAt,
+            'destinations' => array_map(
+                fn(Destination $destination) => [
+                    //         
                 ],
-                $this->outboundEvents
+                $this->destinations
             ),
             'pagination' => $this->getPaginationMeta(),
             'success' => $this->success,

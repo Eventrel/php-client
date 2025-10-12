@@ -107,6 +107,20 @@ class EventrelClient
     }
 
     /**
+     * Magic method to check if a service exists
+     * 
+     * Required for isset() to work with __get magic method.
+     * Without this, isset($client->events) will always return false.
+     * 
+     * @param string $name
+     * @return bool
+     */
+    public function __isset(string $name): bool
+    {
+        return isset(self::SERVICE_MAP[$name]);
+    }
+
+    /**
      * Create a new Event builder for fluent API usage
      * 
      * @param string $eventType The type of event to send
