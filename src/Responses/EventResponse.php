@@ -34,9 +34,8 @@ class EventResponse extends BaseResponse
      *
      * @param Response $response The Guzzle HTTP response object
      */
-    public function __construct(
-        private readonly Response $response
-    ) {
+    public function __construct(Response $response)
+    {
         parent::__construct($response);
     }
 

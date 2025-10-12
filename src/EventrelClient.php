@@ -5,7 +5,7 @@ namespace Eventrel\Client;
 use Composer\InstalledVersions;
 use Eventrel\Client\Builders\{EventBuilder, BatchEventBuilder};
 use Eventrel\Client\Exceptions\EventrelException;
-use Eventrel\Client\Services\{EventService, DestinationService};
+use Eventrel\Client\Services\{EventService, DestinationService, IdempotencyService};
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Psr\Http\Message\ResponseInterface;
@@ -16,6 +16,7 @@ use Psr\Http\Message\ResponseInterface;
  * Main client class for interacting with the Eventrel API.
  * Provides fluent builders for events and direct service access.
  * 
+ * @property-read IdempotencyService $idempotency Access to idempotency key generation
  * @property-read EventService $events Access to event management operations
  * @property-read DestinationService $destinations Access to destination management operations
  * 
@@ -29,6 +30,7 @@ class EventrelClient
      * @var array<string, class-string>
      */
     private const SERVICE_MAP = [
+        'idempotency' => IdempotencyService::class,
         'events' => EventService::class,
         'destinations' => DestinationService::class,
     ];
@@ -164,50 +166,6 @@ class EventrelClient
     }
 
     /**
-     * Generate a random idempotency key
-     * 
-     * Creates a unique key using random bytes. Use this when you want
-     * each request to be treated as unique, even if the payload is identical.
-     * 
-     * @return string Idempotency key in format 'evt_' followed by 32 hex characters
-     * 
-     * @example
-     * $key = $client->generateIdempotencyKey();
-     * // Result: 'evt_a1b2c3d4e5f6...'
-     */
-    public function generateIdempotencyKey(): string
-    {
-        return 'evt_' . bin2hex(random_bytes(16));
-    }
-
-    /**
-     * Generate a content-based idempotency key with time window
-     * 
-     * Creates a deterministic key based on the request data, API token, and time window.
-     * The same payload within the same time window will always produce the same key,
-     * enabling true idempotency for duplicate requests.
-     * 
-     * @param array<string, mixed> $data The request data to hash
-     * @param int $windowMs Time window in milliseconds (default: 1000ms = 1 second)
-     * @return string Idempotency key in format 'evt_' followed by 32 hex characters
-     * 
-     * @example
-     * $data = ['amount' => 10000, 'customer_id' => 'cust_123'];
-     * $key = $client->generateContentBasedIdempotencyKey($data, 5000);
-     * // Same data within 5 seconds = same key
-     */
-    public function generateContentBasedIdempotencyKey(array $data, int $windowMs = 1000): string
-    {
-        $normalized = $this->normalizeArray($data);
-
-        $timeWindow = floor((int)(microtime(true) * 1000) / $windowMs);
-
-        $hash = hash('sha256', json_encode($normalized) . $this->apiToken . $timeWindow);
-
-        return 'evt_' . substr($hash, 0, 32);
-    }
-
-    /**
      * Get the underlying Guzzle HTTP client
      * 
      * Provides access to the HTTP client for advanced usage scenarios.
@@ -332,27 +290,5 @@ class EventrelClient
             $statusCode,
             $e
         );
-    }
-
-    /**
-     * Recursively normalize an array for consistent hashing
-     * 
-     * Sorts array keys recursively to ensure the same data structure
-     * always produces the same hash, regardless of key order.
-     * 
-     * @param array<string|int, mixed> $input The array to normalize
-     * @return array<string|int, mixed> The normalized array with sorted keys
-     */
-    private function normalizeArray(array $input): array
-    {
-        $normalized = [];
-
-        foreach ($input as $key => $value) {
-            $normalized[$key] = (is_array($value)) ? $this->normalizeArray($value) : $value;
-        }
-
-        ksort($normalized);
-
-        return $normalized;
     }
 }

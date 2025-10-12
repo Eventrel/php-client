@@ -149,12 +149,12 @@ class BatchEventResponse extends BaseResponse
      * @return OutboundEvent[] Array of events with that tag
      * 
      * @example
-     * $premiumEvents = $response->getEventsByTag('premium');
+     * $premiumEvents = $response->getByTag('premium');
      * foreach ($premiumEvents as $event) {
      *     echo $event->uuid;
      * }
      */
-    public function getEventsByTag(string $tag): array
+    public function getByTag(string $tag): array
     {
         return array_filter(
             $this->outboundEvents,
@@ -171,11 +171,11 @@ class BatchEventResponse extends BaseResponse
      * @return OutboundEvent[] Array of OutboundEvent objects
      * 
      * @example
-     * foreach ($response->getEvents() as $event) {
+     * foreach ($response->all() as $event) {
      *     echo "Event {$event->uuid}: {$event->status->value}\n";
      * }
      */
-    public function getEvents(): array
+    public function all(): array
     {
         return $this->outboundEvents;
     }
@@ -269,12 +269,12 @@ class BatchEventResponse extends BaseResponse
      * 
      * @example
      * // Using enum
-     * $pending = $response->getEventsByStatus(EventStatus::PENDING);
+     * $pending = $response->getByStatus(EventStatus::PENDING);
      * 
      * // Using string
-     * $failed = $response->getEventsByStatus('failed');
+     * $failed = $response->getByStatus('failed');
      */
-    public function getEventsByStatus(EventStatus|string $status): array
+    public function getByStatus(EventStatus|string $status): array
     {
         if (is_string($status)) {
             $status = EventStatus::tryFrom($status);
@@ -305,43 +305,43 @@ class BatchEventResponse extends BaseResponse
      */
     public function countByStatus(EventStatus|string $status): int
     {
-        return count($this->getEventsByStatus($status));
+        return count($this->getByStatus($status));
     }
 
     /**
      * Get all events that are currently pending delivery
      * 
-     * Shorthand for getEventsByStatus(EventStatus::PENDING).
+     * Shorthand for getByStatus(EventStatus::PENDING).
      *
      * @return OutboundEvent[] Array of pending events
      */
     public function getPendingEvents(): array
     {
-        return $this->getEventsByStatus(EventStatus::PENDING);
+        return $this->getByStatus(EventStatus::PENDING);
     }
 
     /**
      * Get all events that were successfully delivered
      * 
-     * Shorthand for getEventsByStatus(EventStatus::DELIVERED).
+     * Shorthand for getByStatus(EventStatus::DELIVERED).
      *
      * @return OutboundEvent[] Array of delivered events
      */
     public function getDeliveredEvents(): array
     {
-        return $this->getEventsByStatus(EventStatus::DELIVERED);
+        return $this->getByStatus(EventStatus::DELIVERED);
     }
 
     /**
      * Get all events that failed delivery
      * 
-     * Shorthand for getEventsByStatus(EventStatus::FAILED).
+     * Shorthand for getByStatus(EventStatus::FAILED).
      *
      * @return OutboundEvent[] Array of failed events
      */
     public function getFailedEvents(): array
     {
-        return $this->getEventsByStatus(EventStatus::FAILED);
+        return $this->getByStatus(EventStatus::FAILED);
     }
 
     /**

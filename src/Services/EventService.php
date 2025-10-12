@@ -98,6 +98,10 @@ class EventService
     ): EventResponse|OutboundEvent {
         $data = $this->buildEventData($eventType, $payload, $tags, $destination, $scheduledAt);
 
+        if (!$idempotencyKey) {
+            $idempotencyKey = $this->client->idempotency->generateTimeBound($data, 'event_creation');
+        }
+
         $response = $this->request('POST', 'events', $data, $idempotencyKey);
 
         $eventResponse = new EventResponse($response);
