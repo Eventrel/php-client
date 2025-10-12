@@ -144,7 +144,9 @@ class DestinationService
         ?int $rateLimitPerDay = null,
         bool $isActive = true,
     ): DestinationResponse {
-        // 
+        $webhookMode = $webhookMode instanceof WebhookMode
+            ? $webhookMode->value
+            : strtolower($webhookMode);
 
         $data = array_filter([
             'name' => $name,
