@@ -22,31 +22,6 @@ class EventResponse extends BaseResponse
     private OutboundEvent $outboundEvent;
 
     /**
-     * Human-readable message from the API response.
-     */
-    private ?string $message;
-
-    /**
-     * Array of validation or processing errors, if any.
-     */
-    private array $errors;
-
-    /**
-     * Whether the event was successfully queued/delivered.
-     */
-    private bool $success;
-
-    /**
-     * HTTP status code returned by the API.
-     */
-    private int $statusCode;
-
-    /**
-     * HTTP headers from the response.
-     */
-    private array $headers;
-
-    /**
      * Unique key for idempotent request handling.
      */
     private ?string $idempotencyKey;
@@ -59,9 +34,10 @@ class EventResponse extends BaseResponse
      *
      * @param Response $response The Guzzle HTTP response object
      */
-    public function __construct(private readonly Response $response)
-    {
-        $this->parseResponse();
+    public function __construct(
+        private readonly Response $response
+    ) {
+        parent::__construct($response);
     }
 
     /**
@@ -72,22 +48,16 @@ class EventResponse extends BaseResponse
      *
      * @return void
      */
-    private function parseResponse(): void
+    protected function parseResponse(): void
     {
-        $content = json_decode($this->response->getBody()->getContents(), true) ?? [];
-        $data = $content['data'] ?? [];
+        parent::parseResponse(); // Parse common fields first
 
-        $this->outboundEvent = OutboundEvent::from($data['outbound_event'] ?? []);
-        $this->message = $data['message'] ?? null;
-        $this->errors = $content['errors'] ?? [];
-        $this->success = $content['success'] ?? false;
-        $this->statusCode = $content['status_code'] ?? 0;
-        $this->headers = $this->response->getHeaders();
+        $this->outboundEvent = OutboundEvent::from($this->data['outbound_event'] ?? []);
 
         // Check header first, then fallback to body
         $this->idempotencyKey = $this->response->hasHeader('x-idempotency-key')
             ? $this->response->getHeaderLine('x-idempotency-key')
-            : ($data['idempotency_key'] ?? null);
+            : ($this->data['idempotency_key'] ?? null);
     }
 
     /**
@@ -297,72 +267,6 @@ class EventResponse extends BaseResponse
     public function isScheduled(): bool
     {
         return $this->outboundEvent->scheduledAt !== null;
-    }
-
-    /**
-     * Check if the API request was successful.
-     * 
-     * Returns true if the event was accepted and queued for delivery.
-     * A successful response doesn't guarantee delivery - check event status
-     * for actual delivery state.
-     *
-     * @return bool True if the request succeeded
-     */
-    public function isSuccess(): bool
-    {
-        return $this->success;
-    }
-
-    /**
-     * Get the human-readable response message.
-     * 
-     * Provides context about the request result, useful for
-     * logging or displaying feedback to users.
-     *
-     * @return string The response message
-     */
-    public function getMessage(): string
-    {
-        return $this->message;
-    }
-
-    /**
-     * Get any validation or processing errors.
-     * 
-     * Returns an array of error details if the request failed validation
-     * or encountered processing issues. Empty array if no errors.
-     *
-     * @return array Array of error messages/details
-     */
-    public function getErrors(): array
-    {
-        return $this->errors;
-    }
-
-    /**
-     * Get the HTTP status code from the API response.
-     * 
-     * Standard HTTP status codes: 200/201 for success, 4xx for client errors,
-     * 5xx for server errors. Useful for debugging and monitoring.
-     *
-     * @return int The HTTP status code (e.g., 200, 400, 500)
-     */
-    public function getStatusCode(): int
-    {
-        return $this->statusCode;
-    }
-
-    /**
-     * Get all HTTP headers from the response.
-     * 
-     * Headers may contain rate limit info, request IDs, or other
-     * metadata useful for debugging and monitoring.
-     *
-     * @return array Associative array of header name => value(s)
-     */
-    public function getHeaders(): array
-    {
-        return $this->headers;
     }
 
     /**

@@ -109,32 +109,11 @@ class EventListResponse extends BaseResponse
     private int $total;
 
     /**
-     * Array of validation or processing errors, if any
-     * 
-     * @var array<int, array<string, mixed>>
-     */
-    private array $errors;
-
-    /**
-     * Whether the request was successful
-     * 
-     * @var bool
-     */
-    private bool $success;
-
-    /**
      * Response status string
      * 
      * @var string
      */
     private string $status;
-
-    /**
-     * HTTP status code returned by the API
-     * 
-     * @var int
-     */
-    private int $statusCode;
 
     /**
      * HTTP status text
@@ -144,13 +123,6 @@ class EventListResponse extends BaseResponse
     private string $statusText;
 
     /**
-     * HTTP headers from the response
-     * 
-     * @var array<string, array<int, string>>
-     */
-    private array $headers;
-
-    /**
      * Create a new EventListResponse instance
      * 
      * Parses the Guzzle HTTP response and extracts all pagination data
@@ -158,10 +130,9 @@ class EventListResponse extends BaseResponse
      *
      * @param Response $response The Guzzle HTTP response object from the API
      */
-    public function __construct(
-        private Response $response
-    ) {
-        $this->parseResponse();
+    public function __construct(Response $response)
+    {
+        parent::__construct($response);
     }
 
     /**
@@ -172,37 +143,32 @@ class EventListResponse extends BaseResponse
      *
      * @return void
      */
-    private function parseResponse(): void
+    protected function parseResponse(): void
     {
-        $content = json_decode($this->response->getBody()->getContents(), true) ?? [];
-        $data = $content['data'] ?? [];
+        parent::parseResponse(); // Parse common fields first
 
         // Pagination metadata
-        $this->currentPage = $data['current_page'] ?? 1;
-        $this->firstPageUrl = $data['first_page_url'] ?? null;
-        $this->from = $data['from'] ?? 0;
-        $this->lastPage = $data['last_page'] ?? 1;
-        $this->lastPageUrl = $data['last_page_url'] ?? null;
-        $this->links = $data['links'] ?? [];
-        $this->nextPageUrl = $data['next_page_url'] ?? null;
-        $this->path = $data['path'] ?? '';
-        $this->perPage = $data['per_page'] ?? 15;
-        $this->prevPageUrl = $data['prev_page_url'] ?? null;
-        $this->to = $data['to'] ?? 0;
-        $this->total = $data['total'] ?? 0;
+        $this->currentPage = $this->data['current_page'] ?? 1;
+        $this->firstPageUrl = $this->data['first_page_url'] ?? null;
+        $this->from = $this->data['from'] ?? 0;
+        $this->lastPage = $this->data['last_page'] ?? 1;
+        $this->lastPageUrl = $this->data['last_page_url'] ?? null;
+        $this->links = $this->data['links'] ?? [];
+        $this->nextPageUrl = $this->data['next_page_url'] ?? null;
+        $this->path = $this->data['path'] ?? '';
+        $this->perPage = $this->data['per_page'] ?? 15;
+        $this->prevPageUrl = $this->data['prev_page_url'] ?? null;
+        $this->to = $this->data['to'] ?? 0;
+        $this->total = $this->data['total'] ?? 0;
 
-        // Response metadata
-        $this->errors = $content['errors'] ?? [];
-        $this->success = $content['success'] ?? false;
-        $this->status = $content['status'] ?? 'unknown';
-        $this->statusCode = $content['status_code'] ?? 0;
-        $this->statusText = $content['status_text'] ?? '';
-        $this->headers = $this->response->getHeaders();
+        // Additional response metadata specific to this endpoint
+        $this->status = $this->content['status'] ?? 'unknown';
+        $this->statusText = $this->content['status_text'] ?? '';
 
         // Convert each event array into an OutboundEvent object
         $this->outboundEvents = array_map(
             fn(array $event) => OutboundEvent::from($event),
-            $data['outbound_events'] ?? []
+            $this->data['outbound_events'] ?? []
         );
     }
 
@@ -495,16 +461,6 @@ class EventListResponse extends BaseResponse
     }
 
     /**
-     * Check if the request was successful
-     * 
-     * @return bool True if the request succeeded
-     */
-    public function isSuccess(): bool
-    {
-        return $this->success;
-    }
-
-    /**
      * Get the response status string
      * 
      * @return string Status string (e.g., 'success', 'error')
@@ -515,29 +471,6 @@ class EventListResponse extends BaseResponse
     }
 
     /**
-     * Get any validation or processing errors
-     * 
-     * Returns an array of error details if the request failed.
-     * Empty array if no errors occurred.
-     *
-     * @return array<int, array<string, mixed>> Array of error messages/details
-     */
-    public function getErrors(): array
-    {
-        return $this->errors;
-    }
-
-    /**
-     * Get the HTTP status code from the API response
-     * 
-     * @return int The HTTP status code (e.g., 200, 400, 500)
-     */
-    public function getStatusCode(): int
-    {
-        return $this->statusCode;
-    }
-
-    /**
      * Get the HTTP status text
      * 
      * @return string Status text (e.g., 'OK', 'Bad Request')
@@ -545,16 +478,6 @@ class EventListResponse extends BaseResponse
     public function getStatusText(): string
     {
         return $this->statusText;
-    }
-
-    /**
-     * Get all HTTP headers from the response
-     * 
-     * @return array<string, array<int, string>> Associative array of header name => value(s)
-     */
-    public function getHeaders(): array
-    {
-        return $this->headers;
     }
 
     /**

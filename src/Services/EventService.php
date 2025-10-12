@@ -36,6 +36,7 @@ class EventService
      * @param array<int, string> $tags Optional tags for categorizing and filtering events (default: [])
      * @param string|null $idempotencyKey Optional idempotency key to prevent duplicate events (auto-generated if null)
      * @param Carbon|null $scheduledAt Optional scheduled delivery time (default: immediate delivery)
+     * @param bool $asOutboundEvent If true, returns OutboundEvent entity instead of EventResponse (default: false)
      * @return EventResponse|OutboundEvent The event creation response containing event details and status
      * @throws EventrelException If the request fails or API returns an error
      * 

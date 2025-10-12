@@ -39,41 +39,6 @@ class BatchEventResponse extends BaseResponse
     private int $totalEvents;
 
     /**
-     * Human-readable message from the API response
-     * 
-     * @var string
-     */
-    private string $message;
-
-    /**
-     * Array of validation or processing errors, if any
-     * 
-     * @var array<int, array<string, mixed>>
-     */
-    private array $errors;
-
-    /**
-     * Whether the batch request was successful
-     * 
-     * @var bool
-     */
-    private bool $success;
-
-    /**
-     * HTTP status code returned by the API
-     * 
-     * @var int
-     */
-    private int $statusCode;
-
-    /**
-     * HTTP headers from the response
-     * 
-     * @var array<string, array<int, string>>
-     */
-    private array $headers;
-
-    /**
      * Unique key for idempotent request handling
      * 
      * @var string|null
@@ -88,10 +53,9 @@ class BatchEventResponse extends BaseResponse
      *
      * @param Response $response The Guzzle HTTP response object from the API
      */
-    public function __construct(
-        private Response $response
-    ) {
-        $this->parseResponse();
+    public function __construct(Response $response)
+    {
+        parent::__construct($response);
     }
 
     /**
@@ -103,28 +67,22 @@ class BatchEventResponse extends BaseResponse
      *
      * @return void
      */
-    private function parseResponse(): void
+    protected function parseResponse(): void
     {
-        $content = json_decode($this->response->getBody()->getContents(), true) ?? [];
-        $data = $content['data'] ?? [];
+        parent::parseResponse(); // Parse common fields first
 
-        $this->batchId = $data['batch'] ?? '';
-        $this->totalEvents = $data['total_events'] ?? 0;
-        $this->message = $data['message'] ?? '';
-        $this->errors = $content['errors'] ?? [];
-        $this->success = $content['success'] ?? false;
-        $this->statusCode = $content['status_code'] ?? 0;
-        $this->headers = $this->response->getHeaders();
+        $this->batchId = $this->data['batch'] ?? '';
+        $this->totalEvents = $this->data['total_events'] ?? 0;
 
         // Check header first, then fallback to body
         $this->idempotencyKey = $this->response->hasHeader('x-idempotency-key')
             ? $this->response->getHeaderLine('x-idempotency-key')
-            : ($data['idempotency_key'] ?? null);
+            : ($this->data['idempotency_key'] ?? null);
 
         // Convert each event array into an OutboundEvent object
         $this->outboundEvents = array_map(
             fn(array $event) => OutboundEvent::from($event),
-            $data['outbound_events'] ?? []
+            $this->data['outbound_events'] ?? []
         );
     }
 
@@ -156,19 +114,6 @@ class BatchEventResponse extends BaseResponse
     public function getTotalEvents(): int
     {
         return $this->totalEvents;
-    }
-
-    /**
-     * Get the human-readable response message
-     * 
-     * Provides context about the batch result, useful for
-     * logging or displaying feedback to users.
-     *
-     * @return string The response message (e.g., 'Batch created successfully')
-     */
-    public function getMessage(): string
-    {
-        return $this->message;
     }
 
     /**
@@ -448,70 +393,6 @@ class BatchEventResponse extends BaseResponse
         $pendingCount = $this->countByStatus(EventStatus::PENDING);
 
         return $pendingCount === $this->totalEvents && $this->totalEvents > 0;
-    }
-
-    /**
-     * Check if the API request was successful
-     * 
-     * Returns true if the batch was accepted and queued for processing.
-     * Individual event delivery status should be checked separately using
-     * status-specific methods.
-     *
-     * @return bool True if the batch request succeeded
-     */
-    public function isSuccess(): bool
-    {
-        return $this->success;
-    }
-
-    /**
-     * Get any validation or processing errors
-     * 
-     * Returns an array of error details if the batch request failed
-     * validation or processing. Empty array if no errors occurred.
-     *
-     * @return array<int, array<string, mixed>> Array of error messages/details
-     * 
-     * @example
-     * if (!$response->isSuccess()) {
-     *     foreach ($response->getErrors() as $error) {
-     *         echo $error['message'] ?? 'Unknown error';
-     *     }
-     * }
-     */
-    public function getErrors(): array
-    {
-        return $this->errors;
-    }
-
-    /**
-     * Get the HTTP status code from the API response
-     * 
-     * Standard HTTP status codes: 201 for created, 4xx for client errors,
-     * 5xx for server errors.
-     *
-     * @return int The HTTP status code (e.g., 201, 400, 422, 500)
-     */
-    public function getStatusCode(): int
-    {
-        return $this->statusCode;
-    }
-
-    /**
-     * Get all HTTP headers from the response
-     * 
-     * Headers may contain rate limit info, request IDs, retry-after values,
-     * or other metadata useful for debugging and monitoring.
-     *
-     * @return array<string, array<int, string>> Associative array of header name => value(s)
-     * 
-     * @example
-     * $headers = $response->getHeaders();
-     * $rateLimit = $headers['x-ratelimit-remaining'][0] ?? 'unknown';
-     */
-    public function getHeaders(): array
-    {
-        return $this->headers;
     }
 
     /**

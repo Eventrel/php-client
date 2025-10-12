@@ -32,46 +32,11 @@ class BulkRetryResponse extends BaseResponse
     private int $retriedCount;
 
     /**
-     * Human-readable message from the API response
-     * 
-     * @var string
-     */
-    private ?string $message;
-
-    /**
-     * Array of validation or processing errors, if any
-     * 
-     * @var array<int, array<string, mixed>>
-     */
-    private array $errors;
-
-    /**
-     * Whether the bulk retry request was successful
-     * 
-     * @var bool
-     */
-    private bool $success;
-
-    /**
      * Response status string
      * 
      * @var string
      */
     private string $status;
-
-    /**
-     * HTTP status code returned by the API
-     * 
-     * @var int
-     */
-    private int $statusCode;
-
-    /**
-     * HTTP headers from the response
-     * 
-     * @var array<string, array<int, string>>
-     */
-    private array $headers;
 
     /**
      * Create a new BulkRetryResponse instance
@@ -81,10 +46,9 @@ class BulkRetryResponse extends BaseResponse
      *
      * @param Response $response The Guzzle HTTP response object from the API
      */
-    public function __construct(
-        private Response $response
-    ) {
-        $this->parseResponse();
+    public function __construct(Response $response)
+    {
+        parent::__construct($response);
     }
 
     /**
@@ -95,23 +59,17 @@ class BulkRetryResponse extends BaseResponse
      *
      * @return void
      */
-    private function parseResponse(): void
+    protected function parseResponse(): void
     {
-        $content = json_decode($this->response->getBody()->getContents(), true) ?? [];
-        $data = $content['data'] ?? [];
+        parent::parseResponse(); // Parse common fields first
 
-        $this->retriedCount = $data['retried_count'] ?? 0;
-        $this->message = $data['message'] ?? null;
-        $this->errors = $content['errors'] ?? [];
-        $this->success = $content['success'] ?? false;
-        $this->status = $content['status'] ?? 'unknown';
-        $this->statusCode = $content['status_code'] ?? 0;
-        $this->headers = $this->response->getHeaders();
+        $this->retriedCount = $this->data['retried_count'] ?? 0;
+        $this->status = $this->content['status'] ?? 'unknown';
 
         // Convert each event array into an OutboundEvent object
         $this->outboundEvents = array_map(
             fn(array $event) => OutboundEvent::from($event),
-            $data['outbound_events'] ?? []
+            $this->data['outbound_events'] ?? []
         );
     }
 
@@ -130,19 +88,6 @@ class BulkRetryResponse extends BaseResponse
     public function getRetriedCount(): int
     {
         return $this->retriedCount;
-    }
-
-    /**
-     * Get the human-readable response message
-     * 
-     * Provides context about the retry result, useful for
-     * logging or displaying feedback to users.
-     *
-     * @return string The response message (e.g., 'Successfully retried 3 events')
-     */
-    public function getMessage(): string
-    {
-        return $this->message;
     }
 
     /**
@@ -276,19 +221,6 @@ class BulkRetryResponse extends BaseResponse
     }
 
     /**
-     * Check if the retry request was successful
-     * 
-     * Returns true if the retry request was accepted and queued.
-     * Individual event delivery status should be checked separately.
-     *
-     * @return bool True if the request succeeded
-     */
-    public function isSuccess(): bool
-    {
-        return $this->success;
-    }
-
-    /**
      * Get the response status string
      * 
      * @return string Status string (e.g., 'success', 'error')
@@ -296,56 +228,6 @@ class BulkRetryResponse extends BaseResponse
     public function getStatus(): string
     {
         return $this->status;
-    }
-
-    /**
-     * Get any validation or processing errors
-     * 
-     * Returns an array of error details if the retry request failed
-     * validation or processing. Empty array if no errors occurred.
-     *
-     * @return array<int, array<string, mixed>> Array of error messages/details
-     * 
-     * @example
-     * if (!$response->isSuccess()) {
-     *     foreach ($response->getErrors() as $error) {
-     *         echo $error['message'] ?? 'Unknown error';
-     *     }
-     * }
-     */
-    public function getErrors(): array
-    {
-        return $this->errors;
-    }
-
-    /**
-     * Get the HTTP status code from the API response
-     * 
-     * Standard HTTP status codes: 200 for success, 4xx for client errors,
-     * 5xx for server errors.
-     *
-     * @return int The HTTP status code (e.g., 200, 400, 422, 500)
-     */
-    public function getStatusCode(): int
-    {
-        return $this->statusCode;
-    }
-
-    /**
-     * Get all HTTP headers from the response
-     * 
-     * Headers may contain rate limit info, request IDs, retry-after values,
-     * or other metadata useful for debugging and monitoring.
-     *
-     * @return array<string, array<int, string>> Associative array of header name => value(s)
-     * 
-     * @example
-     * $headers = $response->getHeaders();
-     * $rateLimit = $headers['x-ratelimit-remaining'][0] ?? 'unknown';
-     */
-    public function getHeaders(): array
-    {
-        return $this->headers;
     }
 
     /**
