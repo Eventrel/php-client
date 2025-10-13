@@ -14,7 +14,7 @@ class DestinationBuilderTest extends TestCase
     {
         $client = $this->createMockClient([
             $this->mockDestinationResponse([
-                'data' => [
+                'destination' => [
                     'name' => 'My API',
                     'webhook_url' => 'https://api.example.com/webhook',
                     'webhook_mode' => 'outbound',

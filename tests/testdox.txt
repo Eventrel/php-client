@@ -10,11 +10,11 @@ Batch Event Builder (Eventrel\Client\Tests\Unit\BatchEventBuilder)
  [ ] It can set idempotency key for batch
  [ ] It auto generates idempotency key for batch
  [x] It can convert batch to array
- [ ] It maintains fluent interface on all methods
+ [x] It maintains fluent interface on all methods
  [ ] It throws exception when destination not set
  [x] It throws exception when no events added
  [ ] It can chain multiple operations
- [ ] It handles large batches
+ [x] It handles large batches
 
 Destination Builder (Eventrel\Client\Tests\Unit\DestinationBuilder)
  [ ] It can build simple outbound destination

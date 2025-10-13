@@ -24,7 +24,7 @@ class BatchEventBuilderTest extends TestCase
             ->send();
 
         $this->assertInstanceOf(BatchEventResponse::class, $response);
-        $this->assertEquals(3, $response->totalEvents);
+        $this->assertEquals(3, $response->getTotalEvents());
         $this->assertRequestMadeTo('/events/batch');
         $this->assertRequestMethod('POST');
     }
@@ -183,7 +183,7 @@ class BatchEventBuilderTest extends TestCase
             ->to('dest_abc123')
             ->add(['user_id' => 1])
             ->add(['user_id' => 2])
-            ->idempotencyKey()
+            ->idempotencyKey('test-key')
             ->send();
 
         $body = $this->getLastRequestBody();
@@ -227,7 +227,7 @@ class BatchEventBuilderTest extends TestCase
         $this->assertInstanceOf(BatchEventBuilder::class, $builder->tags([]));
         $this->assertInstanceOf(BatchEventBuilder::class, $builder->add([]));
         $this->assertInstanceOf(BatchEventBuilder::class, $builder->events([]));
-        $this->assertInstanceOf(BatchEventBuilder::class, $builder->idempotencyKey());
+        $this->assertInstanceOf(BatchEventBuilder::class, $builder->idempotencyKey('test-key'));
         $this->assertInstanceOf(BatchEventBuilder::class, $builder->scheduleAt(Carbon::now()));
     }
 
@@ -278,7 +278,7 @@ class BatchEventBuilderTest extends TestCase
             ->send();
 
         $this->assertInstanceOf(BatchEventResponse::class, $response);
-        $this->assertEquals(5, $response->totalEvents);
+        $this->assertEquals(5, $response->getTotalEvents());
 
         $body = $this->getLastRequestBody();
         $this->assertCount(5, $body['events']);
@@ -307,7 +307,7 @@ class BatchEventBuilderTest extends TestCase
 
         $response = $builder->send();
 
-        $this->assertEquals(100, $response->totalEvents);
+        $this->assertEquals(100, $response->getTotalEvents());
         $this->assertEquals(100, $builder->count());
     }
 }

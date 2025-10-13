@@ -36,9 +36,9 @@ class IntegrationTest extends TestCase
             ->tag('premium')
             ->send();
 
-        $this->assertEquals('evt_test123', $response->id);
-        $this->assertEquals('user.created', $response->eventType);
-        $this->assertEquals('pending', $response->status);
+        $this->assertEquals('evt_test123', $response->getId());
+        $this->assertEquals('user.created', $response->getEventType());
+        $this->assertEquals('pending', $response->getStatus()->value);
     }
 
     /** @test */
@@ -60,8 +60,8 @@ class IntegrationTest extends TestCase
             ->idempotencyKey('import-batch-12345')
             ->send();
 
-        $this->assertEquals(5, $response->totalEvents);
-        $this->assertCount(5, $response->events);
+        $this->assertEquals(5, $response->getTotalEvents());
+        $this->assertCount(5, $response->all());
     }
 
     /** @test */
@@ -86,8 +86,8 @@ class IntegrationTest extends TestCase
             ->scheduleAt(Carbon::parse('2025-12-31 23:59:59'))
             ->send();
 
-        $this->assertEquals('scheduled', $response->status);
-        $this->assertNotNull($response->scheduledAt);
+        $this->assertEquals('scheduled', $response->getStatus()->value);
+        $this->assertNotNull($response->getScheduledAt());
     }
 
     /** @test */
@@ -129,8 +129,8 @@ class IntegrationTest extends TestCase
             ->idempotencyKey('payment-12345')
             ->send();
 
-        $this->assertEquals('payment-12345', $response1->idempotencyKey);
-        $this->assertEquals('payment-12345', $response2->idempotencyKey);
+        $this->assertEquals('payment-12345', $response1->getIdempotencyKey());
+        $this->assertEquals('payment-12345', $response2->getIdempotencyKey());
     }
 
     /** @test */
@@ -142,7 +142,6 @@ class IntegrationTest extends TestCase
                     'uuid' =>  'dest_test123',
                     'name' => 'Production API',
                     'webhook_url' => 'https://api.example.com/webhook',
-                    'is_active' => true,
                 ],
             ]),
         ]);
@@ -164,8 +163,9 @@ class IntegrationTest extends TestCase
             ->verifySsl()
             ->create();
 
-        $this->assertEquals('dest_test123', $response->id);
-        $this->assertTrue($response->isActive);
+        $destination = $response->getDetails();
+
+        $this->assertEquals('dest_test123', $destination->uuid);
     }
 
     /** @test */
@@ -199,16 +199,17 @@ class IntegrationTest extends TestCase
         $event = $client->events->create(
             eventType: 'payment.failed',
             payload: ['payment_id' => 12345],
-            destination: 'dest_abc123'
+            destination: 'dest_abc123',
+            asOutboundEvent: true
         );
 
         // Check event status
-        $eventStatus = $client->events->get($event->id);
-        $this->assertEquals('failed', $eventStatus->status);
+        $eventStatus = $client->events->get($event->uuid);
+        $this->assertEquals('failed', $eventStatus->status->value);
 
         // Retry the event
-        $retried = $client->events->retry($event->id);
-        $this->assertEquals('pending', $retried->status);
+        $retried = $client->events->retry($event->uuid);
+        $this->assertEquals('pending', $retried->status->value);
     }
 
     /** @test */
@@ -219,7 +220,7 @@ class IntegrationTest extends TestCase
                 'status' => 200,
                 'body' => [
                     'data' => [
-                        'total_retried' => 3,
+                        'retried_count' => 3,
                         'successful' => 3,
                         'failed' => 0,
                         'event_ids' => ['evt_1', 'evt_2', 'evt_3'],
@@ -235,9 +236,9 @@ class IntegrationTest extends TestCase
             'evt_3',
         ]);
 
-        $this->assertEquals(3, $result->totalRetried);
-        $this->assertEquals(3, $result->successful);
-        $this->assertEquals(0, $result->failed);
+        $this->assertEquals(3, $result->getRetriedCount());
+        $this->assertEquals(3, $result->getDeliveredEvents());
+        $this->assertEquals(0, $result->getFailedEvents());
     }
 
     /** @test */
@@ -263,10 +264,10 @@ class IntegrationTest extends TestCase
             ->scheduleAt(Carbon::parse('2025-12-31 23:59:59'))
             ->send();
 
-        $this->assertEquals('scheduled', $event->status);
+        $this->assertEquals('scheduled', $event->getStatus()->value);
 
         // Cancel it before it's sent
-        $cancelled = $client->events->cancel($event->id);
+        $cancelled = $client->events->cancel($event->getId());
         $this->assertTrue($cancelled);
     }
 

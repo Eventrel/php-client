@@ -152,7 +152,7 @@ abstract class TestCase extends BaseTestCase
             'status' => 200,
             'body' => [
                 'data' => array_merge([
-                    'uuid' => 'evt_' . uniqid(),
+                    'identifier' => 'evt_' . uniqid(),
                     'event_type' => 'test.event',
                     'destination' => 'dest_test123',
                     'payload' => ['test' => 'data'],
@@ -175,7 +175,7 @@ abstract class TestCase extends BaseTestCase
         $events = [];
         for ($i = 0; $i < $count; $i++) {
             $events[] = [
-                'uuid' => 'evt_' . uniqid() . '_' . $i,
+                'identifier' => 'evt_' . uniqid() . '_' . $i,
                 'event_type' => 'test.event',
                 'destination' => 'dest_test123',
                 'payload' => ['index' => $i],
@@ -209,7 +209,7 @@ abstract class TestCase extends BaseTestCase
             'status' => 200,
             'body' => [
                 'data' => array_merge([
-                    'uuid' => 'dest_' . uniqid(),
+                    'identifier' => 'dest_' . uniqid(),
                     'name' => 'Test Destination',
                     'webhook_url' => 'https://example.com/webhook',
                     'webhook_mode' => 'outbound',
