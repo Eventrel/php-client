@@ -166,7 +166,7 @@ class IdempotencyService
      */
     public function isValid(string $key): bool
     {
-        return preg_match('/^(evt|ctx|tbx)_[a-f0-9]{32}$/', $key) === 1;
+        return preg_match('/^(evt|evt_ctx|evt_tbx)_[a-f0-9]{32}$/', $key) === 1;
     }
 
     /**

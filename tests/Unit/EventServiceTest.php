@@ -202,7 +202,7 @@ class EventServiceTest extends TestCase
             [
                 'status' => 200,
                 'body' => [
-                    'data' => [
+                    'events' => [
                         ['uuid' =>  'evt_1', 'event_type' => 'user.created'],
                         ['uuid' =>  'evt_2', 'event_type' => 'user.updated'],
                         ['uuid' =>  'evt_3', 'event_type' => 'user.deleted'],
@@ -233,7 +233,7 @@ class EventServiceTest extends TestCase
             [
                 'status' => 200,
                 'body' => [
-                    'data' => [],
+                    'events' => [],
                     'pagination' => [
                         'current_page' => 2,
                         'per_page' => 50,
@@ -271,7 +271,7 @@ class EventServiceTest extends TestCase
 
         $client = $this->createMockClient([
             $this->mockEventResponse([
-                'data' => [
+                'outbound_event' => [
                     'uuid' =>  $eventId,
                     'status' => 'pending',
                 ],

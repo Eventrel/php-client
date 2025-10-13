@@ -37,9 +37,9 @@ class IdempotencyServiceTest extends TestCase
     {
         $client = new EventrelClient('test-token');
 
-        $key = $client->idempotency->generate('payment');
+        $key = $client->idempotency->generate();
 
-        $this->assertStringStartsWith('payment', $key);
+        $this->assertStringStartsWith('evt_', $key);
     }
 
     /** @test */
@@ -101,10 +101,9 @@ class IdempotencyServiceTest extends TestCase
         $client = new EventrelClient('test-token');
 
         $customKeys = [
-            'payment-12345',
-            'order_abc123',
-            'user.created.123',
-            'idem_key_test',
+            'evt_4a3f7b129ce8456b9fd12a76b0e8a4c3',
+            'evt_ctx_91b2d5c78a0e4f63be4c18fd2b1a9e5d',
+            'evt_tbx_c6e8f019a4724e38a51b49dbf76ad2c1'
         ];
 
         foreach ($customKeys as $key) {
