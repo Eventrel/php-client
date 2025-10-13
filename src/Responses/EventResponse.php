@@ -73,6 +73,19 @@ class EventResponse extends BaseResponse
     }
 
     /**
+     * Get the client-defined identifier of the outbound event.
+     * 
+     * This identifier is provided by the client when creating the event
+     * and can be used for idempotency or tracking purposes.
+     *
+     * @return string The client-defined event identifier
+     */
+    public function getIdentifier(): string
+    {
+        return $this->outboundEvent->identifier;
+    }
+
+    /**
      * Get the event type identifier.
      * 
      * Event types categorize events (e.g., "payment.completed", 
@@ -295,6 +308,7 @@ class EventResponse extends BaseResponse
     {
         return [
             'uuid' => $this->getId(),
+            'identifier' => $this->getIdentifier(),
             'event_type' => $this->getEventType(),
             'status' => $this->getStatus()->value,
             'payload' => $this->getPayload(),

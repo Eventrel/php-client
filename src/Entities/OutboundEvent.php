@@ -84,6 +84,7 @@ class OutboundEvent extends Data
      * Use OutboundEvent::from() to create instances from arrays or JSON.
      * 
      * @param string $uuid Unique identifier for the event (UUID v7 format)
+     * @param string $identifier Client-defined event identifier for idempotency
      * @param string|null $idempotencyKey Idempotency key used when creating the event.
      *                                     Ensures the same key won't create duplicate events.
      *                                     Null if no idempotency key was provided.
@@ -122,6 +123,7 @@ class OutboundEvent extends Data
      */
     public function __construct(
         public string $uuid,
+        public string $identifier,
         public ?string $idempotencyKey,
         public string $eventType,
         public array $payload,
@@ -340,6 +342,7 @@ class OutboundEvent extends Data
     {
         return [
             'uuid' => $this->uuid,
+            'identifier' => $this->identifier,
             'type' => $this->eventType,
             'status' => $this->status->value,
             'scheduled' => $this->isScheduled(),

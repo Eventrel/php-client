@@ -513,6 +513,7 @@ class Destination extends Data
     public function getSummary(): array
     {
         return [
+            'uuid' => $this->uuid,
             'identifier' => $this->identifier,
             'name' => $this->name,
             'enabled' => $this->isEnabled(),
