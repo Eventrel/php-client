@@ -1,3 +1,77 @@
+Batch Event Builder (Eventrel\Client\Tests\Unit\BatchEventBuilder)
+ [ ] It can build and send batch events
+ [x] It can add events with individual tags
+ [x] It can set batch level tags
+ [x] It can set all events at once
+ [x] It can get events array
+ [x] It can get event type
+ [x] It can count events
+ [x] It can schedule batch events
+ [ ] It can set idempotency key for batch
+ [ ] It auto generates idempotency key for batch
+ [x] It can convert batch to array
+ [x] It maintains fluent interface on all methods
+ [ ] It throws exception when destination not set
+ [x] It throws exception when no events added
+ [ ] It can chain multiple operations
+ [x] It handles large batches
+
+Destination Builder (Eventrel\Client\Tests\Unit\DestinationBuilder)
+ [ ] It can build simple outbound destination
+ [ ] It can set webhook mode using methods
+ [x] It can set webhook mode directly
+ [x] It can set description
+ [x] It can add custom headers
+ [x] It can set all headers at once
+ [x] It can add metadata
+ [x] It can configure timeout
+ [x] It can configure retry limit
+ [x] It can configure rate limits
+ [ ] It can configure batching
+ [ ] It can configure event filtering
+ [ ] It can enable dead letter queue
+ [x] It can configure ssl verification
+ [x] It can disable ssl verification
+ [x] It can set destination as inactive
+ [x] It can build complex destination
+ [x] It maintains fluent interface on all methods
+ [x] It throws exception when name not set
+ [x] It throws exception when url not set
+
+Destination Service (Eventrel\Client\Tests\Unit\DestinationService)
+ [ ] It can create simple destination
+ [ ] It can create destination with full configuration
+ [x] It can create destination with webhook config
+ [ ] It can get destination by id
+ [ ] It can get destination as entity
+ [x] It throws exception when destination not found
+ [ ] It can list destinations
+ [ ] It can list destinations with filters
+ [ ] It can update destination
+ [ ] It can delete destination
+ [x] It returns builder instance
+ [ ] It handles validation errors
+
+Event Builder (Eventrel\Client\Tests\Unit\EventBuilder)
+ [ ] It can build and send simple event
+ [ ] It can set event type fluently
+ [ ] It can set destination using to
+ [ ] It can add payload fields incrementally
+ [ ] It can set entire payload at once
+ [ ] It can merge payload data
+ [ ] It can add single tag
+ [ ] It can add multiple tags
+ [ ] It can add tags incrementally
+ [ ] It can set idempotency key
+ [ ] It auto generates idempotency key when enabled
+ [ ] It can schedule event for future delivery
+ [ ] It can schedule event using helper methods
+ [ ] It can return outbound event entity
+ [ ] It can convert builder to array
+ [ ] It maintains fluent interface on all methods
+ [ ] It throws exception when destination not set
+ [ ] It throws exception when event type not set
+
 Event Service (Eventrel\Client\Tests\Unit\EventService)
  [ ] It can create a simple event
  [ ] It can create event with tags
@@ -15,6 +89,27 @@ Event Service (Eventrel\Client\Tests\Unit\EventService)
  [x] It returns builder instance
  [ ] It handles api errors gracefully
  [x] It handles network errors
+
+Eventrel Client (Eventrel\Client\Tests\Unit\EventrelClient)
+ [x] It can be instantiated with api token
+ [x] It can be instantiated with custom base url
+ [x] It can be instantiated with custom api version
+ [x] It can be instantiated with custom timeout
+ [x] It provides access to event service
+ [x] It provides access to destination service
+ [x] It provides access to idempotency service
+ [x] It returns same service instance on multiple accesses
+ [x] It throws exception for nonexistent service
+ [x] It supports isset check for services
+ [x] It can create event builder
+ [x] It can create batch event builder
+ [ ] It builds correct api url
+ [ ] It includes authorization header
+ [ ] It includes content type header
+ [ ] It includes accept header
+ [ ] It includes user agent header
+ [ ] It supports method chaining for fluent api
+ [x] It can handle multiple concurrent builders
 
 Idempotency Service (Eventrel\Client\Tests\Unit\IdempotencyService)
  [x] It can generate unique idempotency key
