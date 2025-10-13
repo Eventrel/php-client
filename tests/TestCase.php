@@ -208,7 +208,7 @@ abstract class TestCase extends BaseTestCase
         return array_merge([
             'status' => 200,
             'body' => [
-                'data' => array_merge([
+                'destination' => array_merge([
                     'identifier' => 'dest_' . uniqid(),
                     'name' => 'Test Destination',
                     'webhook_url' => 'https://example.com/webhook',
