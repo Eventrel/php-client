@@ -1,0 +1,909 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="/Users/faridadam/Developer/php/eventrel/php-client/phpunit.xml" tests="124" assertions="96" errors="80" failures="12" skipped="0" time="0.074523">
+    <testsuite name="Unit" tests="114" assertions="95" errors="71" failures="11" skipped="0" time="0.071544">
+      <testsuite name="Eventrel\Client\Tests\Unit\BatchEventBuilderTest" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/BatchEventBuilderTest.php" tests="16" assertions="20" errors="8" failures="1" skipped="0" time="0.028776">
+        <testcase name="it_can_build_and_send_batch_events" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/BatchEventBuilderTest.php" line="13" class="Eventrel\Client\Tests\Unit\BatchEventBuilderTest" classname="Eventrel.Client.Tests.Unit.BatchEventBuilderTest" assertions="1" time="0.011469">
+          <error type="Error">Eventrel\Client\Tests\Unit\BatchEventBuilderTest::it_can_build_and_send_batch_events
+Error: Cannot access private property Eventrel\Client\Responses\BatchEventResponse::$totalEvents
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/BatchEventBuilderTest.php:27</error>
+        </testcase>
+        <testcase name="it_can_add_events_with_individual_tags" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/BatchEventBuilderTest.php" line="33" class="Eventrel\Client\Tests\Unit\BatchEventBuilderTest" classname="Eventrel.Client.Tests.Unit.BatchEventBuilderTest" assertions="4" time="0.000655"/>
+        <testcase name="it_can_set_batch_level_tags" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/BatchEventBuilderTest.php" line="54" class="Eventrel\Client\Tests\Unit\BatchEventBuilderTest" classname="Eventrel.Client.Tests.Unit.BatchEventBuilderTest" assertions="1" time="0.000142"/>
+        <testcase name="it_can_set_all_events_at_once" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/BatchEventBuilderTest.php" line="72" class="Eventrel\Client\Tests\Unit\BatchEventBuilderTest" classname="Eventrel.Client.Tests.Unit.BatchEventBuilderTest" assertions="2" time="0.000132"/>
+        <testcase name="it_can_get_events_array" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/BatchEventBuilderTest.php" line="95" class="Eventrel\Client\Tests\Unit\BatchEventBuilderTest" classname="Eventrel.Client.Tests.Unit.BatchEventBuilderTest" assertions="4" time="0.000079"/>
+        <testcase name="it_can_get_event_type" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/BatchEventBuilderTest.php" line="113" class="Eventrel\Client\Tests\Unit\BatchEventBuilderTest" classname="Eventrel.Client.Tests.Unit.BatchEventBuilderTest" assertions="1" time="0.000072"/>
+        <testcase name="it_can_count_events" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/BatchEventBuilderTest.php" line="123" class="Eventrel\Client\Tests\Unit\BatchEventBuilderTest" classname="Eventrel.Client.Tests.Unit.BatchEventBuilderTest" assertions="1" time="0.000071"/>
+        <testcase name="it_can_schedule_batch_events" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/BatchEventBuilderTest.php" line="138" class="Eventrel\Client\Tests\Unit\BatchEventBuilderTest" classname="Eventrel.Client.Tests.Unit.BatchEventBuilderTest" assertions="0" time="0.013596">
+          <error type="Error">Eventrel\Client\Tests\Unit\BatchEventBuilderTest::it_can_schedule_batch_events
+Error: Call to undefined method Eventrel\Client\Builders\BatchEventBuilder::scheduleFor()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/BatchEventBuilderTest.php:150</error>
+        </testcase>
+        <testcase name="it_can_set_idempotency_key_for_batch" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/BatchEventBuilderTest.php" line="158" class="Eventrel\Client\Tests\Unit\BatchEventBuilderTest" classname="Eventrel.Client.Tests.Unit.BatchEventBuilderTest" assertions="0" time="0.000279">
+          <error type="Error">Eventrel\Client\Tests\Unit\BatchEventBuilderTest::it_can_set_idempotency_key_for_batch
+Error: Call to undefined method Eventrel\Client\Builders\BatchEventBuilder::idempotent()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/BatchEventBuilderTest.php:168</error>
+        </testcase>
+        <testcase name="it_auto_generates_idempotency_key_for_batch" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/BatchEventBuilderTest.php" line="176" class="Eventrel\Client\Tests\Unit\BatchEventBuilderTest" classname="Eventrel.Client.Tests.Unit.BatchEventBuilderTest" assertions="0" time="0.000218">
+          <error type="Error">Eventrel\Client\Tests\Unit\BatchEventBuilderTest::it_auto_generates_idempotency_key_for_batch
+Error: Call to undefined method Eventrel\Client\Builders\BatchEventBuilder::idempotent()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/BatchEventBuilderTest.php:186</error>
+        </testcase>
+        <testcase name="it_can_convert_batch_to_array" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/BatchEventBuilderTest.php" line="195" class="Eventrel\Client\Tests\Unit\BatchEventBuilderTest" classname="Eventrel.Client.Tests.Unit.BatchEventBuilderTest" assertions="0" time="0.000219">
+          <error type="Error">Eventrel\Client\Tests\Unit\BatchEventBuilderTest::it_can_convert_batch_to_array
+Error: Call to undefined method Eventrel\Client\Builders\BatchEventBuilder::idempotent()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/BatchEventBuilderTest.php:206</error>
+        </testcase>
+        <testcase name="it_maintains_fluent_interface_on_all_methods" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/BatchEventBuilderTest.php" line="220" class="Eventrel\Client\Tests\Unit\BatchEventBuilderTest" classname="Eventrel.Client.Tests.Unit.BatchEventBuilderTest" assertions="4" time="0.000206">
+          <error type="Error">Eventrel\Client\Tests\Unit\BatchEventBuilderTest::it_maintains_fluent_interface_on_all_methods
+Error: Call to undefined method Eventrel\Client\Builders\BatchEventBuilder::idempotent()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/BatchEventBuilderTest.php:230</error>
+        </testcase>
+        <testcase name="it_throws_exception_when_destination_not_set" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/BatchEventBuilderTest.php" line="235" class="Eventrel\Client\Tests\Unit\BatchEventBuilderTest" classname="Eventrel.Client.Tests.Unit.BatchEventBuilderTest" assertions="1" time="0.000661">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">Eventrel\Client\Tests\Unit\BatchEventBuilderTest::it_throws_exception_when_destination_not_set
+Failed asserting that exception of type "TypeError" matches expected exception "Exception". Message was: "Eventrel\Client\Services\EventService::createMany(): Argument #3 ($destination) must be of type string, null given, called in /Users/faridadam/Developer/php/eventrel/php-client/src/Builders/BatchEventBuilder.php on line 225" at
+/Users/faridadam/Developer/php/eventrel/php-client/src/Services/EventService.php:147
+/Users/faridadam/Developer/php/eventrel/php-client/src/Builders/BatchEventBuilder.php:225
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/BatchEventBuilderTest.php:245
+.</failure>
+        </testcase>
+        <testcase name="it_throws_exception_when_no_events_added" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/BatchEventBuilderTest.php" line="249" class="Eventrel\Client\Tests\Unit\BatchEventBuilderTest" classname="Eventrel.Client.Tests.Unit.BatchEventBuilderTest" assertions="1" time="0.000261"/>
+        <testcase name="it_can_chain_multiple_operations" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/BatchEventBuilderTest.php" line="263" class="Eventrel\Client\Tests\Unit\BatchEventBuilderTest" classname="Eventrel.Client.Tests.Unit.BatchEventBuilderTest" assertions="0" time="0.000221">
+          <error type="Error">Eventrel\Client\Tests\Unit\BatchEventBuilderTest::it_can_chain_multiple_operations
+Error: Call to undefined method Eventrel\Client\Builders\BatchEventBuilder::idempotent()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/BatchEventBuilderTest.php:277</error>
+        </testcase>
+        <testcase name="it_handles_large_batches" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/BatchEventBuilderTest.php" line="290" class="Eventrel\Client\Tests\Unit\BatchEventBuilderTest" classname="Eventrel.Client.Tests.Unit.BatchEventBuilderTest" assertions="0" time="0.000495">
+          <error type="Error">Eventrel\Client\Tests\Unit\BatchEventBuilderTest::it_handles_large_batches
+Error: Cannot access private property Eventrel\Client\Responses\BatchEventResponse::$totalEvents
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/BatchEventBuilderTest.php:310</error>
+        </testcase>
+      </testsuite>
+      <testsuite name="Eventrel\Client\Tests\Unit\DestinationBuilderTest" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationBuilderTest.php" tests="20" assertions="3" errors="18" failures="1" skipped="0" time="0.004952">
+        <testcase name="it_can_build_simple_outbound_destination" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationBuilderTest.php" line="13" class="Eventrel\Client\Tests\Unit\DestinationBuilderTest" classname="Eventrel.Client.Tests.Unit.DestinationBuilderTest" assertions="0" time="0.000841">
+          <error type="Error">Eventrel\Client\Tests\Unit\DestinationBuilderTest::it_can_build_simple_outbound_destination
+Error: Call to undefined method Eventrel\Client\Builders\DestinationBuilder::url()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationBuilderTest.php:27</error>
+        </testcase>
+        <testcase name="it_can_set_webhook_mode_using_methods" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationBuilderTest.php" line="41" class="Eventrel\Client\Tests\Unit\DestinationBuilderTest" classname="Eventrel.Client.Tests.Unit.DestinationBuilderTest" assertions="0" time="0.000256">
+          <error type="Error">Eventrel\Client\Tests\Unit\DestinationBuilderTest::it_can_set_webhook_mode_using_methods
+Error: Call to undefined method Eventrel\Client\Builders\DestinationBuilder::url()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationBuilderTest.php:50</error>
+        </testcase>
+        <testcase name="it_can_set_webhook_mode_directly" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationBuilderTest.php" line="73" class="Eventrel\Client\Tests\Unit\DestinationBuilderTest" classname="Eventrel.Client.Tests.Unit.DestinationBuilderTest" assertions="0" time="0.000223">
+          <error type="Error">Eventrel\Client\Tests\Unit\DestinationBuilderTest::it_can_set_webhook_mode_directly
+Error: Call to undefined method Eventrel\Client\Builders\DestinationBuilder::url()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationBuilderTest.php:81</error>
+        </testcase>
+        <testcase name="it_can_set_description" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationBuilderTest.php" line="91" class="Eventrel\Client\Tests\Unit\DestinationBuilderTest" classname="Eventrel.Client.Tests.Unit.DestinationBuilderTest" assertions="0" time="0.000220">
+          <error type="Error">Eventrel\Client\Tests\Unit\DestinationBuilderTest::it_can_set_description
+Error: Call to undefined method Eventrel\Client\Builders\DestinationBuilder::url()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationBuilderTest.php:99</error>
+        </testcase>
+        <testcase name="it_can_add_custom_headers" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationBuilderTest.php" line="110" class="Eventrel\Client\Tests\Unit\DestinationBuilderTest" classname="Eventrel.Client.Tests.Unit.DestinationBuilderTest" assertions="0" time="0.000209">
+          <error type="Error">Eventrel\Client\Tests\Unit\DestinationBuilderTest::it_can_add_custom_headers
+Error: Call to undefined method Eventrel\Client\Builders\DestinationBuilder::url()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationBuilderTest.php:118</error>
+        </testcase>
+        <testcase name="it_can_set_all_headers_at_once" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationBuilderTest.php" line="130" class="Eventrel\Client\Tests\Unit\DestinationBuilderTest" classname="Eventrel.Client.Tests.Unit.DestinationBuilderTest" assertions="0" time="0.000205">
+          <error type="Error">Eventrel\Client\Tests\Unit\DestinationBuilderTest::it_can_set_all_headers_at_once
+Error: Call to undefined method Eventrel\Client\Builders\DestinationBuilder::url()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationBuilderTest.php:143</error>
+        </testcase>
+        <testcase name="it_can_add_metadata" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationBuilderTest.php" line="154" class="Eventrel\Client\Tests\Unit\DestinationBuilderTest" classname="Eventrel.Client.Tests.Unit.DestinationBuilderTest" assertions="0" time="0.000283">
+          <error type="Error">Eventrel\Client\Tests\Unit\DestinationBuilderTest::it_can_add_metadata
+Error: Call to undefined method Eventrel\Client\Builders\DestinationBuilder::url()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationBuilderTest.php:162</error>
+        </testcase>
+        <testcase name="it_can_configure_timeout" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationBuilderTest.php" line="173" class="Eventrel\Client\Tests\Unit\DestinationBuilderTest" classname="Eventrel.Client.Tests.Unit.DestinationBuilderTest" assertions="0" time="0.000218">
+          <error type="Error">Eventrel\Client\Tests\Unit\DestinationBuilderTest::it_can_configure_timeout
+Error: Call to undefined method Eventrel\Client\Builders\DestinationBuilder::url()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationBuilderTest.php:181</error>
+        </testcase>
+        <testcase name="it_can_configure_retry_limit" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationBuilderTest.php" line="192" class="Eventrel\Client\Tests\Unit\DestinationBuilderTest" classname="Eventrel.Client.Tests.Unit.DestinationBuilderTest" assertions="0" time="0.000212">
+          <error type="Error">Eventrel\Client\Tests\Unit\DestinationBuilderTest::it_can_configure_retry_limit
+Error: Call to undefined method Eventrel\Client\Builders\DestinationBuilder::url()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationBuilderTest.php:200</error>
+        </testcase>
+        <testcase name="it_can_configure_rate_limits" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationBuilderTest.php" line="211" class="Eventrel\Client\Tests\Unit\DestinationBuilderTest" classname="Eventrel.Client.Tests.Unit.DestinationBuilderTest" assertions="0" time="0.000206">
+          <error type="Error">Eventrel\Client\Tests\Unit\DestinationBuilderTest::it_can_configure_rate_limits
+Error: Call to undefined method Eventrel\Client\Builders\DestinationBuilder::url()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationBuilderTest.php:219</error>
+        </testcase>
+        <testcase name="it_can_configure_batching" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationBuilderTest.php" line="231" class="Eventrel\Client\Tests\Unit\DestinationBuilderTest" classname="Eventrel.Client.Tests.Unit.DestinationBuilderTest" assertions="0" time="0.000210">
+          <error type="Error">Eventrel\Client\Tests\Unit\DestinationBuilderTest::it_can_configure_batching
+Error: Call to undefined method Eventrel\Client\Builders\DestinationBuilder::url()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationBuilderTest.php:239</error>
+        </testcase>
+        <testcase name="it_can_configure_event_filtering" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationBuilderTest.php" line="251" class="Eventrel\Client\Tests\Unit\DestinationBuilderTest" classname="Eventrel.Client.Tests.Unit.DestinationBuilderTest" assertions="0" time="0.000202">
+          <error type="Error">Eventrel\Client\Tests\Unit\DestinationBuilderTest::it_can_configure_event_filtering
+Error: Call to undefined method Eventrel\Client\Builders\DestinationBuilder::url()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationBuilderTest.php:261</error>
+        </testcase>
+        <testcase name="it_can_enable_dead_letter_queue" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationBuilderTest.php" line="271" class="Eventrel\Client\Tests\Unit\DestinationBuilderTest" classname="Eventrel.Client.Tests.Unit.DestinationBuilderTest" assertions="0" time="0.000205">
+          <error type="Error">Eventrel\Client\Tests\Unit\DestinationBuilderTest::it_can_enable_dead_letter_queue
+Error: Call to undefined method Eventrel\Client\Builders\DestinationBuilder::url()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationBuilderTest.php:279</error>
+        </testcase>
+        <testcase name="it_can_configure_ssl_verification" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationBuilderTest.php" line="289" class="Eventrel\Client\Tests\Unit\DestinationBuilderTest" classname="Eventrel.Client.Tests.Unit.DestinationBuilderTest" assertions="0" time="0.000200">
+          <error type="Error">Eventrel\Client\Tests\Unit\DestinationBuilderTest::it_can_configure_ssl_verification
+Error: Call to undefined method Eventrel\Client\Builders\DestinationBuilder::url()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationBuilderTest.php:297</error>
+        </testcase>
+        <testcase name="it_can_disable_ssl_verification" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationBuilderTest.php" line="307" class="Eventrel\Client\Tests\Unit\DestinationBuilderTest" classname="Eventrel.Client.Tests.Unit.DestinationBuilderTest" assertions="0" time="0.000203">
+          <error type="Error">Eventrel\Client\Tests\Unit\DestinationBuilderTest::it_can_disable_ssl_verification
+Error: Call to undefined method Eventrel\Client\Builders\DestinationBuilder::url()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationBuilderTest.php:315</error>
+        </testcase>
+        <testcase name="it_can_set_destination_as_inactive" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationBuilderTest.php" line="325" class="Eventrel\Client\Tests\Unit\DestinationBuilderTest" classname="Eventrel.Client.Tests.Unit.DestinationBuilderTest" assertions="0" time="0.000204">
+          <error type="Error">Eventrel\Client\Tests\Unit\DestinationBuilderTest::it_can_set_destination_as_inactive
+Error: Call to undefined method Eventrel\Client\Builders\DestinationBuilder::url()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationBuilderTest.php:333</error>
+        </testcase>
+        <testcase name="it_can_build_complex_destination" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationBuilderTest.php" line="344" class="Eventrel\Client\Tests\Unit\DestinationBuilderTest" classname="Eventrel.Client.Tests.Unit.DestinationBuilderTest" assertions="0" time="0.000204">
+          <error type="Error">Eventrel\Client\Tests\Unit\DestinationBuilderTest::it_can_build_complex_destination
+Error: Call to undefined method Eventrel\Client\Builders\DestinationBuilder::url()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationBuilderTest.php:352</error>
+        </testcase>
+        <testcase name="it_maintains_fluent_interface_on_all_methods" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationBuilderTest.php" line="377" class="Eventrel\Client\Tests\Unit\DestinationBuilderTest" classname="Eventrel.Client.Tests.Unit.DestinationBuilderTest" assertions="1" time="0.000204">
+          <error type="Error">Eventrel\Client\Tests\Unit\DestinationBuilderTest::it_maintains_fluent_interface_on_all_methods
+Error: Call to undefined method Eventrel\Client\Builders\DestinationBuilder::url()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationBuilderTest.php:384</error>
+        </testcase>
+        <testcase name="it_throws_exception_when_name_not_set" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationBuilderTest.php" line="397" class="Eventrel\Client\Tests\Unit\DestinationBuilderTest" classname="Eventrel.Client.Tests.Unit.DestinationBuilderTest" assertions="1" time="0.000359">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">Eventrel\Client\Tests\Unit\DestinationBuilderTest::it_throws_exception_when_name_not_set
+Failed asserting that exception of type "Error" matches expected exception "Exception". Message was: "Call to undefined method Eventrel\Client\Builders\DestinationBuilder::url()" at
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationBuilderTest.php:406
+.</failure>
+        </testcase>
+        <testcase name="it_throws_exception_when_url_not_set" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationBuilderTest.php" line="412" class="Eventrel\Client\Tests\Unit\DestinationBuilderTest" classname="Eventrel.Client.Tests.Unit.DestinationBuilderTest" assertions="1" time="0.000089"/>
+      </testsuite>
+      <testsuite name="Eventrel\Client\Tests\Unit\DestinationServiceTest" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationServiceTest.php" tests="14" assertions="11" errors="7" failures="4" skipped="0" time="0.011963">
+        <testcase name="it_can_create_simple_destination" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationServiceTest.php" line="15" class="Eventrel\Client\Tests\Unit\DestinationServiceTest" classname="Eventrel.Client.Tests.Unit.DestinationServiceTest" assertions="2" time="0.000959">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">Eventrel\Client\Tests\Unit\DestinationServiceTest::it_can_create_simple_destination
+Failed asserting that null matches expected 'Production API'.
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationServiceTest.php:34</failure>
+        </testcase>
+        <testcase name="it_can_create_destination_with_full_configuration" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationServiceTest.php" line="41" class="Eventrel\Client\Tests\Unit\DestinationServiceTest" classname="Eventrel.Client.Tests.Unit.DestinationServiceTest" assertions="1" time="0.000349">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">Eventrel\Client\Tests\Unit\DestinationServiceTest::it_can_create_destination_with_full_configuration
+Failed asserting that null matches expected 'Analytics Webhook'.
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationServiceTest.php:71</failure>
+        </testcase>
+        <testcase name="it_can_create_destination_with_webhook_config" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationServiceTest.php" line="83" class="Eventrel\Client\Tests\Unit\DestinationServiceTest" classname="Eventrel.Client.Tests.Unit.DestinationServiceTest" assertions="2" time="0.000180"/>
+        <testcase name="it_can_get_destination_by_id" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationServiceTest.php" line="124" class="Eventrel\Client\Tests\Unit\DestinationServiceTest" classname="Eventrel.Client.Tests.Unit.DestinationServiceTest" assertions="0" time="0.006536">
+          <error type="Illuminate\Contracts\Container\BindingResolutionException">Eventrel\Client\Tests\Unit\DestinationServiceTest::it_can_get_destination_by_id
+Illuminate\Contracts\Container\BindingResolutionException: Target class [config] does not exist.
+
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:1163
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:972
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:903
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:138
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:321
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Support/Creation/CreationContextFactory.php:44
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:60
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:46
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/DestinationResponse.php:50
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/BaseResponse.php:76
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/DestinationResponse.php:34
+/Users/faridadam/Developer/php/eventrel/php-client/src/Services/DestinationService.php:194
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationServiceTest.php:137</error>
+        </testcase>
+        <testcase name="it_can_get_destination_as_entity" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationServiceTest.php" line="146" class="Eventrel\Client\Tests\Unit\DestinationServiceTest" classname="Eventrel.Client.Tests.Unit.DestinationServiceTest" assertions="0" time="0.000281">
+          <error type="Error">Eventrel\Client\Tests\Unit\DestinationServiceTest::it_can_get_destination_as_entity
+Error: Unknown named parameter $asEntity
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationServiceTest.php:158</error>
+        </testcase>
+        <testcase name="it_throws_exception_when_destination_not_found" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationServiceTest.php" line="164" class="Eventrel\Client\Tests\Unit\DestinationServiceTest" classname="Eventrel.Client.Tests.Unit.DestinationServiceTest" assertions="1" time="0.001352"/>
+        <testcase name="it_can_list_destinations" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationServiceTest.php" line="176" class="Eventrel\Client\Tests\Unit\DestinationServiceTest" classname="Eventrel.Client.Tests.Unit.DestinationServiceTest" assertions="1" time="0.000486">
+          <error type="Error">Eventrel\Client\Tests\Unit\DestinationServiceTest::it_can_list_destinations
+Error: Cannot access private property Eventrel\Client\Responses\DestinationListResponse::$destinations
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationServiceTest.php:200</error>
+        </testcase>
+        <testcase name="it_can_list_destinations_with_filters" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationServiceTest.php" line="207" class="Eventrel\Client\Tests\Unit\DestinationServiceTest" classname="Eventrel.Client.Tests.Unit.DestinationServiceTest" assertions="0" time="0.000210">
+          <error type="Error">Eventrel\Client\Tests\Unit\DestinationServiceTest::it_can_list_destinations_with_filters
+Error: Unknown named parameter $webhookMode
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationServiceTest.php:227</error>
+        </testcase>
+        <testcase name="it_can_update_destination" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationServiceTest.php" line="239" class="Eventrel\Client\Tests\Unit\DestinationServiceTest" classname="Eventrel.Client.Tests.Unit.DestinationServiceTest" assertions="0" time="0.000204">
+          <error type="Error">Eventrel\Client\Tests\Unit\DestinationServiceTest::it_can_update_destination
+Error: Unknown named parameter $id
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationServiceTest.php:254</error>
+        </testcase>
+        <testcase name="it_can_delete_destination" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationServiceTest.php" line="270" class="Eventrel\Client\Tests\Unit\DestinationServiceTest" classname="Eventrel.Client.Tests.Unit.DestinationServiceTest" assertions="1" time="0.000414">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">Eventrel\Client\Tests\Unit\DestinationServiceTest::it_can_delete_destination
+Failed asserting that Eventrel\Client\Responses\DestinationResponse Object #3921 (
+    'content' =&gt; Array &amp;0 [],
+    'data' =&gt; Array &amp;1 [],
+    'errors' =&gt; Array &amp;2 [],
+    'success' =&gt; false,
+    'statusCode' =&gt; 0,
+    'headers' =&gt; Array &amp;3 [],
+    'message' =&gt; null,
+    'response' =&gt; GuzzleHttp\Psr7\Response Object #4008 (
+        'reasonPhrase' =&gt; 'No Content',
+        'statusCode' =&gt; 204,
+        'headers' =&gt; Array &amp;4 [],
+        'headerNames' =&gt; Array &amp;5 [],
+        'protocol' =&gt; '1.1',
+        'stream' =&gt; GuzzleHttp\Psr7\Stream Object #3951 (
+            'stream' =&gt; resource(852) of type (stream),
+            'size' =&gt; null,
+            'seekable' =&gt; true,
+            'readable' =&gt; true,
+            'writable' =&gt; true,
+            'uri' =&gt; 'php://temp',
+            'customMetadata' =&gt; Array &amp;6 [],
+        ),
+    ),
+    'asDestination' =&gt; false,
+) is true.
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationServiceTest.php:280</failure>
+        </testcase>
+        <testcase name="it_can_activate_destination" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationServiceTest.php" line="286" class="Eventrel\Client\Tests\Unit\DestinationServiceTest" classname="Eventrel.Client.Tests.Unit.DestinationServiceTest" assertions="0" time="0.000215">
+          <error type="Error">Eventrel\Client\Tests\Unit\DestinationServiceTest::it_can_activate_destination
+Error: Call to undefined method Eventrel\Client\Services\DestinationService::activate()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationServiceTest.php:299</error>
+        </testcase>
+        <testcase name="it_can_deactivate_destination" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationServiceTest.php" line="307" class="Eventrel\Client\Tests\Unit\DestinationServiceTest" classname="Eventrel.Client.Tests.Unit.DestinationServiceTest" assertions="0" time="0.000213">
+          <error type="Error">Eventrel\Client\Tests\Unit\DestinationServiceTest::it_can_deactivate_destination
+Error: Call to undefined method Eventrel\Client\Services\DestinationService::deactivate()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationServiceTest.php:320</error>
+        </testcase>
+        <testcase name="it_returns_builder_instance" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationServiceTest.php" line="328" class="Eventrel\Client\Tests\Unit\DestinationServiceTest" classname="Eventrel.Client.Tests.Unit.DestinationServiceTest" assertions="1" time="0.000148"/>
+        <testcase name="it_handles_validation_errors" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/DestinationServiceTest.php" line="338" class="Eventrel\Client\Tests\Unit\DestinationServiceTest" classname="Eventrel.Client.Tests.Unit.DestinationServiceTest" assertions="2" time="0.000417">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">Eventrel\Client\Tests\Unit\DestinationServiceTest::it_handles_validation_errors
+Failed asserting that exception message 'Request failed: Array' contains 'Validation failed'.</failure>
+        </testcase>
+      </testsuite>
+      <testsuite name="Eventrel\Client\Tests\Unit\EventBuilderTest" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventBuilderTest.php" tests="18" assertions="6" errors="16" failures="2" skipped="0" time="0.011195">
+        <testcase name="it_can_build_and_send_simple_event" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventBuilderTest.php" line="13" class="Eventrel\Client\Tests\Unit\EventBuilderTest" classname="Eventrel.Client.Tests.Unit.EventBuilderTest" assertions="0" time="0.001748">
+          <error type="Illuminate\Contracts\Container\BindingResolutionException">Eventrel\Client\Tests\Unit\EventBuilderTest::it_can_build_and_send_simple_event
+Illuminate\Contracts\Container\BindingResolutionException: Target class [config] does not exist.
+
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:1163
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:972
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:903
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:138
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:321
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Support/Creation/CreationContextFactory.php:44
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:60
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:46
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/EventResponse.php:54
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/BaseResponse.php:76
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/EventResponse.php:39
+/Users/faridadam/Developer/php/eventrel/php-client/src/Services/EventService.php:126
+/Users/faridadam/Developer/php/eventrel/php-client/src/Builders/EventBuilder.php:203
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventBuilderTest.php:28</error>
+        </testcase>
+        <testcase name="it_can_set_event_type_fluently" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventBuilderTest.php" line="40" class="Eventrel\Client\Tests\Unit\EventBuilderTest" classname="Eventrel.Client.Tests.Unit.EventBuilderTest" assertions="0" time="0.000695">
+          <error type="Illuminate\Contracts\Container\BindingResolutionException">Eventrel\Client\Tests\Unit\EventBuilderTest::it_can_set_event_type_fluently
+Illuminate\Contracts\Container\BindingResolutionException: Target class [config] does not exist.
+
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:1163
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:972
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:903
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:138
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:321
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Support/Creation/CreationContextFactory.php:44
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:60
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:46
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/EventResponse.php:54
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/BaseResponse.php:76
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/EventResponse.php:39
+/Users/faridadam/Developer/php/eventrel/php-client/src/Services/EventService.php:126
+/Users/faridadam/Developer/php/eventrel/php-client/src/Builders/EventBuilder.php:203
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventBuilderTest.php:52</error>
+        </testcase>
+        <testcase name="it_can_set_destination_using_to" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventBuilderTest.php" line="60" class="Eventrel\Client\Tests\Unit\EventBuilderTest" classname="Eventrel.Client.Tests.Unit.EventBuilderTest" assertions="0" time="0.000686">
+          <error type="Illuminate\Contracts\Container\BindingResolutionException">Eventrel\Client\Tests\Unit\EventBuilderTest::it_can_set_destination_using_to
+Illuminate\Contracts\Container\BindingResolutionException: Target class [config] does not exist.
+
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:1163
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:972
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:903
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:138
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:321
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Support/Creation/CreationContextFactory.php:44
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:60
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:46
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/EventResponse.php:54
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/BaseResponse.php:76
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/EventResponse.php:39
+/Users/faridadam/Developer/php/eventrel/php-client/src/Services/EventService.php:126
+/Users/faridadam/Developer/php/eventrel/php-client/src/Builders/EventBuilder.php:203
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventBuilderTest.php:69</error>
+        </testcase>
+        <testcase name="it_can_add_payload_fields_incrementally" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventBuilderTest.php" line="77" class="Eventrel\Client\Tests\Unit\EventBuilderTest" classname="Eventrel.Client.Tests.Unit.EventBuilderTest" assertions="0" time="0.000655">
+          <error type="Illuminate\Contracts\Container\BindingResolutionException">Eventrel\Client\Tests\Unit\EventBuilderTest::it_can_add_payload_fields_incrementally
+Illuminate\Contracts\Container\BindingResolutionException: Target class [config] does not exist.
+
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:1163
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:972
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:903
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:138
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:321
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Support/Creation/CreationContextFactory.php:44
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:60
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:46
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/EventResponse.php:54
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/BaseResponse.php:76
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/EventResponse.php:39
+/Users/faridadam/Developer/php/eventrel/php-client/src/Services/EventService.php:126
+/Users/faridadam/Developer/php/eventrel/php-client/src/Builders/EventBuilder.php:203
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventBuilderTest.php:88</error>
+        </testcase>
+        <testcase name="it_can_set_entire_payload_at_once" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventBuilderTest.php" line="97" class="Eventrel\Client\Tests\Unit\EventBuilderTest" classname="Eventrel.Client.Tests.Unit.EventBuilderTest" assertions="0" time="0.000664">
+          <error type="Illuminate\Contracts\Container\BindingResolutionException">Eventrel\Client\Tests\Unit\EventBuilderTest::it_can_set_entire_payload_at_once
+Illuminate\Contracts\Container\BindingResolutionException: Target class [config] does not exist.
+
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:1163
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:972
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:903
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:138
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:321
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Support/Creation/CreationContextFactory.php:44
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:60
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:46
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/EventResponse.php:54
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/BaseResponse.php:76
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/EventResponse.php:39
+/Users/faridadam/Developer/php/eventrel/php-client/src/Services/EventService.php:126
+/Users/faridadam/Developer/php/eventrel/php-client/src/Builders/EventBuilder.php:203
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventBuilderTest.php:112</error>
+        </testcase>
+        <testcase name="it_can_merge_payload_data" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventBuilderTest.php" line="120" class="Eventrel\Client\Tests\Unit\EventBuilderTest" classname="Eventrel.Client.Tests.Unit.EventBuilderTest" assertions="0" time="0.000663">
+          <error type="Illuminate\Contracts\Container\BindingResolutionException">Eventrel\Client\Tests\Unit\EventBuilderTest::it_can_merge_payload_data
+Illuminate\Contracts\Container\BindingResolutionException: Target class [config] does not exist.
+
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:1163
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:972
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:903
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:138
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:321
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Support/Creation/CreationContextFactory.php:44
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:60
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:46
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/EventResponse.php:54
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/BaseResponse.php:76
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/EventResponse.php:39
+/Users/faridadam/Developer/php/eventrel/php-client/src/Services/EventService.php:126
+/Users/faridadam/Developer/php/eventrel/php-client/src/Builders/EventBuilder.php:203
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventBuilderTest.php:130</error>
+        </testcase>
+        <testcase name="it_can_add_single_tag" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventBuilderTest.php" line="139" class="Eventrel\Client\Tests\Unit\EventBuilderTest" classname="Eventrel.Client.Tests.Unit.EventBuilderTest" assertions="0" time="0.000206">
+          <error type="Error">Eventrel\Client\Tests\Unit\EventBuilderTest::it_can_add_single_tag
+Error: Call to undefined method Eventrel\Client\Builders\EventBuilder::tag()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventBuilderTest.php:148</error>
+        </testcase>
+        <testcase name="it_can_add_multiple_tags" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventBuilderTest.php" line="156" class="Eventrel\Client\Tests\Unit\EventBuilderTest" classname="Eventrel.Client.Tests.Unit.EventBuilderTest" assertions="0" time="0.000649">
+          <error type="Illuminate\Contracts\Container\BindingResolutionException">Eventrel\Client\Tests\Unit\EventBuilderTest::it_can_add_multiple_tags
+Illuminate\Contracts\Container\BindingResolutionException: Target class [config] does not exist.
+
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:1163
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:972
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:903
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:138
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:321
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Support/Creation/CreationContextFactory.php:44
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:60
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:46
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/EventResponse.php:54
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/BaseResponse.php:76
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/EventResponse.php:39
+/Users/faridadam/Developer/php/eventrel/php-client/src/Services/EventService.php:126
+/Users/faridadam/Developer/php/eventrel/php-client/src/Builders/EventBuilder.php:203
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventBuilderTest.php:166</error>
+        </testcase>
+        <testcase name="it_can_add_tags_incrementally" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventBuilderTest.php" line="175" class="Eventrel\Client\Tests\Unit\EventBuilderTest" classname="Eventrel.Client.Tests.Unit.EventBuilderTest" assertions="0" time="0.000257">
+          <error type="Error">Eventrel\Client\Tests\Unit\EventBuilderTest::it_can_add_tags_incrementally
+Error: Call to undefined method Eventrel\Client\Builders\EventBuilder::tag()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventBuilderTest.php:184</error>
+        </testcase>
+        <testcase name="it_can_set_idempotency_key" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventBuilderTest.php" line="194" class="Eventrel\Client\Tests\Unit\EventBuilderTest" classname="Eventrel.Client.Tests.Unit.EventBuilderTest" assertions="0" time="0.000217">
+          <error type="Error">Eventrel\Client\Tests\Unit\EventBuilderTest::it_can_set_idempotency_key
+Error: Call to undefined method Eventrel\Client\Builders\EventBuilder::idempotent()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventBuilderTest.php:203</error>
+        </testcase>
+        <testcase name="it_auto_generates_idempotency_key_when_enabled" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventBuilderTest.php" line="212" class="Eventrel\Client\Tests\Unit\EventBuilderTest" classname="Eventrel.Client.Tests.Unit.EventBuilderTest" assertions="0" time="0.000255">
+          <error type="Error">Eventrel\Client\Tests\Unit\EventBuilderTest::it_auto_generates_idempotency_key_when_enabled
+Error: Call to undefined method Eventrel\Client\Builders\EventBuilder::idempotent()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventBuilderTest.php:221</error>
+        </testcase>
+        <testcase name="it_can_schedule_event_for_future_delivery" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventBuilderTest.php" line="230" class="Eventrel\Client\Tests\Unit\EventBuilderTest" classname="Eventrel.Client.Tests.Unit.EventBuilderTest" assertions="0" time="0.000236">
+          <error type="Error">Eventrel\Client\Tests\Unit\EventBuilderTest::it_can_schedule_event_for_future_delivery
+Error: Call to undefined method Eventrel\Client\Builders\EventBuilder::scheduleFor()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventBuilderTest.php:241</error>
+        </testcase>
+        <testcase name="it_can_schedule_event_using_helper_methods" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventBuilderTest.php" line="249" class="Eventrel\Client\Tests\Unit\EventBuilderTest" classname="Eventrel.Client.Tests.Unit.EventBuilderTest" assertions="0" time="0.002794">
+          <error type="Illuminate\Contracts\Container\BindingResolutionException">Eventrel\Client\Tests\Unit\EventBuilderTest::it_can_schedule_event_using_helper_methods
+Illuminate\Contracts\Container\BindingResolutionException: Target class [config] does not exist.
+
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:1163
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:972
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:903
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:138
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:321
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Support/Creation/CreationContextFactory.php:44
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:60
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:46
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/EventResponse.php:54
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/BaseResponse.php:76
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/EventResponse.php:39
+/Users/faridadam/Developer/php/eventrel/php-client/src/Services/EventService.php:126
+/Users/faridadam/Developer/php/eventrel/php-client/src/Builders/EventBuilder.php:203
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventBuilderTest.php:259</error>
+        </testcase>
+        <testcase name="it_can_return_outbound_event_entity" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventBuilderTest.php" line="266" class="Eventrel\Client\Tests\Unit\EventBuilderTest" classname="Eventrel.Client.Tests.Unit.EventBuilderTest" assertions="0" time="0.000233">
+          <error type="Error">Eventrel\Client\Tests\Unit\EventBuilderTest::it_can_return_outbound_event_entity
+Error: Call to undefined method Eventrel\Client\Builders\EventBuilder::asEntity()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventBuilderTest.php:275</error>
+        </testcase>
+        <testcase name="it_can_convert_builder_to_array" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventBuilderTest.php" line="282" class="Eventrel\Client\Tests\Unit\EventBuilderTest" classname="Eventrel.Client.Tests.Unit.EventBuilderTest" assertions="0" time="0.000201">
+          <error type="Error">Eventrel\Client\Tests\Unit\EventBuilderTest::it_can_convert_builder_to_array
+Error: Call to undefined method Eventrel\Client\Builders\EventBuilder::idempotent()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventBuilderTest.php:290</error>
+        </testcase>
+        <testcase name="it_maintains_fluent_interface_on_all_methods" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventBuilderTest.php" line="302" class="Eventrel\Client\Tests\Unit\EventBuilderTest" classname="Eventrel.Client.Tests.Unit.EventBuilderTest" assertions="4" time="0.000211">
+          <error type="Error">Eventrel\Client\Tests\Unit\EventBuilderTest::it_maintains_fluent_interface_on_all_methods
+Error: Call to undefined method Eventrel\Client\Builders\EventBuilder::tag()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventBuilderTest.php:314</error>
+        </testcase>
+        <testcase name="it_throws_exception_when_destination_not_set" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventBuilderTest.php" line="321" class="Eventrel\Client\Tests\Unit\EventBuilderTest" classname="Eventrel.Client.Tests.Unit.EventBuilderTest" assertions="1" time="0.000387">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">Eventrel\Client\Tests\Unit\EventBuilderTest::it_throws_exception_when_destination_not_set
+Failed asserting that exception of type "TypeError" matches expected exception "Exception". Message was: "Eventrel\Client\Services\EventService::create(): Argument #3 ($destination) must be of type string, null given, called in /Users/faridadam/Developer/php/eventrel/php-client/src/Builders/EventBuilder.php on line 203" at
+/Users/faridadam/Developer/php/eventrel/php-client/src/Services/EventService.php:109
+/Users/faridadam/Developer/php/eventrel/php-client/src/Builders/EventBuilder.php:203
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventBuilderTest.php:331
+.</failure>
+        </testcase>
+        <testcase name="it_throws_exception_when_event_type_not_set" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventBuilderTest.php" line="335" class="Eventrel\Client\Tests\Unit\EventBuilderTest" classname="Eventrel.Client.Tests.Unit.EventBuilderTest" assertions="1" time="0.000438">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">Eventrel\Client\Tests\Unit\EventBuilderTest::it_throws_exception_when_event_type_not_set
+Failed asserting that exception of type "TypeError" matches expected exception "Exception". Message was: "Eventrel\Client\Services\EventService::create(): Argument #1 ($eventType) must be of type string, null given, called in /Users/faridadam/Developer/php/eventrel/php-client/src/Builders/EventBuilder.php on line 203" at
+/Users/faridadam/Developer/php/eventrel/php-client/src/Services/EventService.php:109
+/Users/faridadam/Developer/php/eventrel/php-client/src/Builders/EventBuilder.php:203
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventBuilderTest.php:347
+.</failure>
+        </testcase>
+      </testsuite>
+      <testsuite name="Eventrel\Client\Tests\Unit\EventServiceTest" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventServiceTest.php" tests="16" assertions="6" errors="12" failures="1" skipped="0" time="0.007399">
+        <testcase name="it_can_create_a_simple_event" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventServiceTest.php" line="15" class="Eventrel\Client\Tests\Unit\EventServiceTest" classname="Eventrel.Client.Tests.Unit.EventServiceTest" assertions="0" time="0.000657">
+          <error type="Illuminate\Contracts\Container\BindingResolutionException">Eventrel\Client\Tests\Unit\EventServiceTest::it_can_create_a_simple_event
+Illuminate\Contracts\Container\BindingResolutionException: Target class [config] does not exist.
+
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:1163
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:972
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:903
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:138
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:321
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Support/Creation/CreationContextFactory.php:44
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:60
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:46
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/EventResponse.php:54
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/BaseResponse.php:76
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/EventResponse.php:39
+/Users/faridadam/Developer/php/eventrel/php-client/src/Services/EventService.php:126
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventServiceTest.php:27</error>
+        </testcase>
+        <testcase name="it_can_create_event_with_tags" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventServiceTest.php" line="46" class="Eventrel\Client\Tests\Unit\EventServiceTest" classname="Eventrel.Client.Tests.Unit.EventServiceTest" assertions="0" time="0.000648">
+          <error type="Illuminate\Contracts\Container\BindingResolutionException">Eventrel\Client\Tests\Unit\EventServiceTest::it_can_create_event_with_tags
+Illuminate\Contracts\Container\BindingResolutionException: Target class [config] does not exist.
+
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:1163
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:972
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:903
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:138
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:321
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Support/Creation/CreationContextFactory.php:44
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:60
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:46
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/EventResponse.php:54
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/BaseResponse.php:76
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/EventResponse.php:39
+/Users/faridadam/Developer/php/eventrel/php-client/src/Services/EventService.php:126
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventServiceTest.php:56</error>
+        </testcase>
+        <testcase name="it_can_create_event_with_idempotency_key" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventServiceTest.php" line="69" class="Eventrel\Client\Tests\Unit\EventServiceTest" classname="Eventrel.Client.Tests.Unit.EventServiceTest" assertions="0" time="0.000635">
+          <error type="Illuminate\Contracts\Container\BindingResolutionException">Eventrel\Client\Tests\Unit\EventServiceTest::it_can_create_event_with_idempotency_key
+Illuminate\Contracts\Container\BindingResolutionException: Target class [config] does not exist.
+
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:1163
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:972
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:903
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:138
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:321
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Support/Creation/CreationContextFactory.php:44
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:60
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:46
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/EventResponse.php:54
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/BaseResponse.php:76
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/EventResponse.php:39
+/Users/faridadam/Developer/php/eventrel/php-client/src/Services/EventService.php:126
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventServiceTest.php:79</error>
+        </testcase>
+        <testcase name="it_can_create_scheduled_event" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventServiceTest.php" line="93" class="Eventrel\Client\Tests\Unit\EventServiceTest" classname="Eventrel.Client.Tests.Unit.EventServiceTest" assertions="0" time="0.000692">
+          <error type="Illuminate\Contracts\Container\BindingResolutionException">Eventrel\Client\Tests\Unit\EventServiceTest::it_can_create_scheduled_event
+Illuminate\Contracts\Container\BindingResolutionException: Target class [config] does not exist.
+
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:1163
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:972
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:903
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:138
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:321
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Support/Creation/CreationContextFactory.php:44
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:60
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:46
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/EventResponse.php:54
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/BaseResponse.php:76
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/EventResponse.php:39
+/Users/faridadam/Developer/php/eventrel/php-client/src/Services/EventService.php:126
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventServiceTest.php:105</error>
+        </testcase>
+        <testcase name="it_can_create_event_as_outbound_entity" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventServiceTest.php" line="117" class="Eventrel\Client\Tests\Unit\EventServiceTest" classname="Eventrel.Client.Tests.Unit.EventServiceTest" assertions="0" time="0.000664">
+          <error type="Illuminate\Contracts\Container\BindingResolutionException">Eventrel\Client\Tests\Unit\EventServiceTest::it_can_create_event_as_outbound_entity
+Illuminate\Contracts\Container\BindingResolutionException: Target class [config] does not exist.
+
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:1163
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:972
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:903
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:138
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:321
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Support/Creation/CreationContextFactory.php:44
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:60
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:46
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/EventResponse.php:54
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/BaseResponse.php:76
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/EventResponse.php:39
+/Users/faridadam/Developer/php/eventrel/php-client/src/Services/EventService.php:126
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventServiceTest.php:123</error>
+        </testcase>
+        <testcase name="it_can_create_batch_events" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventServiceTest.php" line="134" class="Eventrel\Client\Tests\Unit\EventServiceTest" classname="Eventrel.Client.Tests.Unit.EventServiceTest" assertions="1" time="0.000262">
+          <error type="Error">Eventrel\Client\Tests\Unit\EventServiceTest::it_can_create_batch_events
+Error: Cannot access private property Eventrel\Client\Responses\BatchEventResponse::$totalEvents
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventServiceTest.php:154</error>
+        </testcase>
+        <testcase name="it_can_get_event_by_id" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventServiceTest.php" line="165" class="Eventrel\Client\Tests\Unit\EventServiceTest" classname="Eventrel.Client.Tests.Unit.EventServiceTest" assertions="0" time="0.000651">
+          <error type="Illuminate\Contracts\Container\BindingResolutionException">Eventrel\Client\Tests\Unit\EventServiceTest::it_can_get_event_by_id
+Illuminate\Contracts\Container\BindingResolutionException: Target class [config] does not exist.
+
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:1163
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:972
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:903
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:138
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:321
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Support/Creation/CreationContextFactory.php:44
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:60
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:46
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/EventResponse.php:54
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/BaseResponse.php:76
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/EventResponse.php:39
+/Users/faridadam/Developer/php/eventrel/php-client/src/Services/EventService.php:177
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventServiceTest.php:177</error>
+        </testcase>
+        <testcase name="it_throws_exception_when_event_not_found" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventServiceTest.php" line="186" class="Eventrel\Client\Tests\Unit\EventServiceTest" classname="Eventrel.Client.Tests.Unit.EventServiceTest" assertions="1" time="0.000243"/>
+        <testcase name="it_can_list_events" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventServiceTest.php" line="198" class="Eventrel\Client\Tests\Unit\EventServiceTest" classname="Eventrel.Client.Tests.Unit.EventServiceTest" assertions="0" time="0.000636">
+          <error type="TypeError">Eventrel\Client\Tests\Unit\EventServiceTest::it_can_list_events
+TypeError: PHPUnit\Framework\Assert::assertCount(): Argument #2 ($haystack) must be of type Countable|Traversable|array, null given, called in /Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventServiceTest.php on line 221
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventServiceTest.php:221</error>
+        </testcase>
+        <testcase name="it_can_list_events_with_filters" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventServiceTest.php" line="229" class="Eventrel\Client\Tests\Unit\EventServiceTest" classname="Eventrel.Client.Tests.Unit.EventServiceTest" assertions="0" time="0.000216">
+          <error type="Error">Eventrel\Client\Tests\Unit\EventServiceTest::it_can_list_events_with_filters
+Error: Unknown named parameter $destination
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventServiceTest.php:250</error>
+        </testcase>
+        <testcase name="it_can_retry_single_event" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventServiceTest.php" line="265" class="Eventrel\Client\Tests\Unit\EventServiceTest" classname="Eventrel.Client.Tests.Unit.EventServiceTest" assertions="0" time="0.000919">
+          <error type="Illuminate\Contracts\Container\BindingResolutionException">Eventrel\Client\Tests\Unit\EventServiceTest::it_can_retry_single_event
+Illuminate\Contracts\Container\BindingResolutionException: Target class [config] does not exist.
+
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:1163
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:972
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:903
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:138
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:321
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Support/Creation/CreationContextFactory.php:44
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:60
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:46
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/EventResponse.php:54
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/BaseResponse.php:76
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/EventResponse.php:39
+/Users/faridadam/Developer/php/eventrel/php-client/src/Services/EventService.php:258
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventServiceTest.php:278</error>
+        </testcase>
+        <testcase name="it_can_bulk_retry_events" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventServiceTest.php" line="287" class="Eventrel\Client\Tests\Unit\EventServiceTest" classname="Eventrel.Client.Tests.Unit.EventServiceTest" assertions="0" time="0.000234">
+          <error type="Error">Eventrel\Client\Tests\Unit\EventServiceTest::it_can_bulk_retry_events
+Error: Call to undefined method Eventrel\Client\Services\EventService::bulkRetry()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventServiceTest.php:305</error>
+        </testcase>
+        <testcase name="it_can_cancel_event" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventServiceTest.php" line="318" class="Eventrel\Client\Tests\Unit\EventServiceTest" classname="Eventrel.Client.Tests.Unit.EventServiceTest" assertions="0" time="0.000236">
+          <error type="ArgumentCountError">Eventrel\Client\Tests\Unit\EventServiceTest::it_can_cancel_event
+ArgumentCountError: Too few arguments to function Eventrel\Client\Services\EventService::cancel(), 1 passed in /Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventServiceTest.php on line 326 and at least 2 expected
+
+/Users/faridadam/Developer/php/eventrel/php-client/src/Services/EventService.php:292
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventServiceTest.php:326</error>
+        </testcase>
+        <testcase name="it_returns_builder_instance" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventServiceTest.php" line="334" class="Eventrel\Client\Tests\Unit\EventServiceTest" classname="Eventrel.Client.Tests.Unit.EventServiceTest" assertions="1" time="0.000083"/>
+        <testcase name="it_handles_api_errors_gracefully" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventServiceTest.php" line="344" class="Eventrel\Client\Tests\Unit\EventServiceTest" classname="Eventrel.Client.Tests.Unit.EventServiceTest" assertions="2" time="0.000345">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">Eventrel\Client\Tests\Unit\EventServiceTest::it_handles_api_errors_gracefully
+Failed asserting that exception message 'Request failed: Array (Idempotency-Key: evt_tbx_80ce58c1ed23ec2b6295c6f40896e2fb)' contains 'Validation failed'.</failure>
+        </testcase>
+        <testcase name="it_handles_network_errors" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventServiceTest.php" line="361" class="Eventrel\Client\Tests\Unit\EventServiceTest" classname="Eventrel.Client.Tests.Unit.EventServiceTest" assertions="1" time="0.000279"/>
+      </testsuite>
+      <testsuite name="Eventrel\Client\Tests\Unit\EventrelClientTest" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventrelClientTest.php" tests="19" assertions="18" errors="6" failures="0" skipped="0" time="0.004833">
+        <testcase name="it_can_be_instantiated_with_api_token" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventrelClientTest.php" line="16" class="Eventrel\Client\Tests\Unit\EventrelClientTest" classname="Eventrel.Client.Tests.Unit.EventrelClientTest" assertions="1" time="0.000092"/>
+        <testcase name="it_can_be_instantiated_with_custom_base_url" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventrelClientTest.php" line="24" class="Eventrel\Client\Tests\Unit\EventrelClientTest" classname="Eventrel.Client.Tests.Unit.EventrelClientTest" assertions="1" time="0.000076"/>
+        <testcase name="it_can_be_instantiated_with_custom_api_version" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventrelClientTest.php" line="35" class="Eventrel\Client\Tests\Unit\EventrelClientTest" classname="Eventrel.Client.Tests.Unit.EventrelClientTest" assertions="1" time="0.000072"/>
+        <testcase name="it_can_be_instantiated_with_custom_timeout" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventrelClientTest.php" line="46" class="Eventrel\Client\Tests\Unit\EventrelClientTest" classname="Eventrel.Client.Tests.Unit.EventrelClientTest" assertions="1" time="0.000068"/>
+        <testcase name="it_provides_access_to_event_service" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventrelClientTest.php" line="57" class="Eventrel\Client\Tests\Unit\EventrelClientTest" classname="Eventrel.Client.Tests.Unit.EventrelClientTest" assertions="1" time="0.000066"/>
+        <testcase name="it_provides_access_to_destination_service" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventrelClientTest.php" line="65" class="Eventrel\Client\Tests\Unit\EventrelClientTest" classname="Eventrel.Client.Tests.Unit.EventrelClientTest" assertions="1" time="0.000067"/>
+        <testcase name="it_provides_access_to_idempotency_service" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventrelClientTest.php" line="73" class="Eventrel\Client\Tests\Unit\EventrelClientTest" classname="Eventrel.Client.Tests.Unit.EventrelClientTest" assertions="1" time="0.000065"/>
+        <testcase name="it_returns_same_service_instance_on_multiple_accesses" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventrelClientTest.php" line="81" class="Eventrel\Client\Tests\Unit\EventrelClientTest" classname="Eventrel.Client.Tests.Unit.EventrelClientTest" assertions="1" time="0.000172"/>
+        <testcase name="it_throws_exception_for_nonexistent_service" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventrelClientTest.php" line="92" class="Eventrel\Client\Tests\Unit\EventrelClientTest" classname="Eventrel.Client.Tests.Unit.EventrelClientTest" assertions="2" time="0.000075"/>
+        <testcase name="it_supports_isset_check_for_services" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventrelClientTest.php" line="102" class="Eventrel\Client\Tests\Unit\EventrelClientTest" classname="Eventrel.Client.Tests.Unit.EventrelClientTest" assertions="4" time="0.000108"/>
+        <testcase name="it_can_create_event_builder" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventrelClientTest.php" line="113" class="Eventrel\Client\Tests\Unit\EventrelClientTest" classname="Eventrel.Client.Tests.Unit.EventrelClientTest" assertions="1" time="0.000067"/>
+        <testcase name="it_can_create_batch_event_builder" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventrelClientTest.php" line="123" class="Eventrel\Client\Tests\Unit\EventrelClientTest" classname="Eventrel.Client.Tests.Unit.EventrelClientTest" assertions="1" time="0.000069"/>
+        <testcase name="it_builds_correct_api_url" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventrelClientTest.php" line="133" class="Eventrel\Client\Tests\Unit\EventrelClientTest" classname="Eventrel.Client.Tests.Unit.EventrelClientTest" assertions="0" time="0.000723">
+          <error type="Illuminate\Contracts\Container\BindingResolutionException">Eventrel\Client\Tests\Unit\EventrelClientTest::it_builds_correct_api_url
+Illuminate\Contracts\Container\BindingResolutionException: Target class [config] does not exist.
+
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:1163
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:972
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:903
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:138
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:321
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Support/Creation/CreationContextFactory.php:44
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:60
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:46
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/EventResponse.php:54
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/BaseResponse.php:76
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/EventResponse.php:39
+/Users/faridadam/Developer/php/eventrel/php-client/src/Services/EventService.php:126
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventrelClientTest.php:139</error>
+        </testcase>
+        <testcase name="it_includes_authorization_header" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventrelClientTest.php" line="151" class="Eventrel\Client\Tests\Unit\EventrelClientTest" classname="Eventrel.Client.Tests.Unit.EventrelClientTest" assertions="0" time="0.000632">
+          <error type="Illuminate\Contracts\Container\BindingResolutionException">Eventrel\Client\Tests\Unit\EventrelClientTest::it_includes_authorization_header
+Illuminate\Contracts\Container\BindingResolutionException: Target class [config] does not exist.
+
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:1163
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:972
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:903
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:138
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:321
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Support/Creation/CreationContextFactory.php:44
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:60
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:46
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/EventResponse.php:54
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/BaseResponse.php:76
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/EventResponse.php:39
+/Users/faridadam/Developer/php/eventrel/php-client/src/Services/EventService.php:126
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventrelClientTest.php:157</error>
+        </testcase>
+        <testcase name="it_includes_content_type_header" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventrelClientTest.php" line="171" class="Eventrel\Client\Tests\Unit\EventrelClientTest" classname="Eventrel.Client.Tests.Unit.EventrelClientTest" assertions="0" time="0.000637">
+          <error type="Illuminate\Contracts\Container\BindingResolutionException">Eventrel\Client\Tests\Unit\EventrelClientTest::it_includes_content_type_header
+Illuminate\Contracts\Container\BindingResolutionException: Target class [config] does not exist.
+
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:1163
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:972
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:903
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:138
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:321
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Support/Creation/CreationContextFactory.php:44
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:60
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:46
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/EventResponse.php:54
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/BaseResponse.php:76
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/EventResponse.php:39
+/Users/faridadam/Developer/php/eventrel/php-client/src/Services/EventService.php:126
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventrelClientTest.php:177</error>
+        </testcase>
+        <testcase name="it_includes_accept_header" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventrelClientTest.php" line="190" class="Eventrel\Client\Tests\Unit\EventrelClientTest" classname="Eventrel.Client.Tests.Unit.EventrelClientTest" assertions="0" time="0.000646">
+          <error type="Illuminate\Contracts\Container\BindingResolutionException">Eventrel\Client\Tests\Unit\EventrelClientTest::it_includes_accept_header
+Illuminate\Contracts\Container\BindingResolutionException: Target class [config] does not exist.
+
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:1163
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:972
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:903
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:138
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:321
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Support/Creation/CreationContextFactory.php:44
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:60
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:46
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/EventResponse.php:54
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/BaseResponse.php:76
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/EventResponse.php:39
+/Users/faridadam/Developer/php/eventrel/php-client/src/Services/EventService.php:126
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventrelClientTest.php:196</error>
+        </testcase>
+        <testcase name="it_includes_user_agent_header" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventrelClientTest.php" line="209" class="Eventrel\Client\Tests\Unit\EventrelClientTest" classname="Eventrel.Client.Tests.Unit.EventrelClientTest" assertions="0" time="0.000872">
+          <error type="Illuminate\Contracts\Container\BindingResolutionException">Eventrel\Client\Tests\Unit\EventrelClientTest::it_includes_user_agent_header
+Illuminate\Contracts\Container\BindingResolutionException: Target class [config] does not exist.
+
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:1163
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:972
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:903
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:138
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:321
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Support/Creation/CreationContextFactory.php:44
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:60
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:46
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/EventResponse.php:54
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/BaseResponse.php:76
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/EventResponse.php:39
+/Users/faridadam/Developer/php/eventrel/php-client/src/Services/EventService.php:126
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventrelClientTest.php:215</error>
+        </testcase>
+        <testcase name="it_supports_method_chaining_for_fluent_api" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventrelClientTest.php" line="229" class="Eventrel\Client\Tests\Unit\EventrelClientTest" classname="Eventrel.Client.Tests.Unit.EventrelClientTest" assertions="0" time="0.000234">
+          <error type="Error">Eventrel\Client\Tests\Unit\EventrelClientTest::it_supports_method_chaining_for_fluent_api
+Error: Call to undefined method Eventrel\Client\Builders\EventBuilder::tag()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventrelClientTest.php:239</error>
+        </testcase>
+        <testcase name="it_can_handle_multiple_concurrent_builders" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/EventrelClientTest.php" line="246" class="Eventrel\Client\Tests\Unit\EventrelClientTest" classname="Eventrel.Client.Tests.Unit.EventrelClientTest" assertions="2" time="0.000092"/>
+      </testsuite>
+      <testsuite name="Eventrel\Client\Tests\Unit\IdempotencyServiceTest" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/IdempotencyServiceTest.php" tests="11" assertions="31" errors="4" failures="2" skipped="0" time="0.002425">
+        <testcase name="it_can_generate_unique_idempotency_key" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/IdempotencyServiceTest.php" line="12" class="Eventrel\Client\Tests\Unit\IdempotencyServiceTest" classname="Eventrel.Client.Tests.Unit.IdempotencyServiceTest" assertions="2" time="0.000231"/>
+        <testcase name="it_generates_different_keys_each_time" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/IdempotencyServiceTest.php" line="23" class="Eventrel\Client\Tests\Unit\IdempotencyServiceTest" classname="Eventrel.Client.Tests.Unit.IdempotencyServiceTest" assertions="3" time="0.000099"/>
+        <testcase name="it_can_generate_key_with_prefix" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/IdempotencyServiceTest.php" line="37" class="Eventrel\Client\Tests\Unit\IdempotencyServiceTest" classname="Eventrel.Client.Tests.Unit.IdempotencyServiceTest" assertions="1" time="0.000295">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">Eventrel\Client\Tests\Unit\IdempotencyServiceTest::it_can_generate_key_with_prefix
+Failed asserting that 'evt_d04433cdf6facfa06767cb9ff923b542' starts with "payment".
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/IdempotencyServiceTest.php:43</failure>
+        </testcase>
+        <testcase name="it_can_generate_key_from_data" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/IdempotencyServiceTest.php" line="47" class="Eventrel\Client\Tests\Unit\IdempotencyServiceTest" classname="Eventrel.Client.Tests.Unit.IdempotencyServiceTest" assertions="0" time="0.000389">
+          <error type="Error">Eventrel\Client\Tests\Unit\IdempotencyServiceTest::it_can_generate_key_from_data
+Error: Call to undefined method Eventrel\Client\Services\IdempotencyService::generateFromData()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/IdempotencyServiceTest.php:57</error>
+        </testcase>
+        <testcase name="it_generates_different_keys_for_different_data" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/IdempotencyServiceTest.php" line="66" class="Eventrel\Client\Tests\Unit\IdempotencyServiceTest" classname="Eventrel.Client.Tests.Unit.IdempotencyServiceTest" assertions="0" time="0.000212">
+          <error type="Error">Eventrel\Client\Tests\Unit\IdempotencyServiceTest::it_generates_different_keys_for_different_data
+Error: Call to undefined method Eventrel\Client\Services\IdempotencyService::generateFromData()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/IdempotencyServiceTest.php:73</error>
+        </testcase>
+        <testcase name="it_can_generate_key_from_data_with_prefix" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/IdempotencyServiceTest.php" line="80" class="Eventrel\Client\Tests\Unit\IdempotencyServiceTest" classname="Eventrel.Client.Tests.Unit.IdempotencyServiceTest" assertions="0" time="0.000267">
+          <error type="Error">Eventrel\Client\Tests\Unit\IdempotencyServiceTest::it_can_generate_key_from_data_with_prefix
+Error: Call to undefined method Eventrel\Client\Services\IdempotencyService::generateFromData()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/IdempotencyServiceTest.php:85</error>
+        </testcase>
+        <testcase name="it_validates_idempotency_key_format" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/IdempotencyServiceTest.php" line="91" class="Eventrel\Client\Tests\Unit\IdempotencyServiceTest" classname="Eventrel.Client.Tests.Unit.IdempotencyServiceTest" assertions="1" time="0.000190"/>
+        <testcase name="it_rejects_invalid_idempotency_keys" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/IdempotencyServiceTest.php" line="101" class="Eventrel\Client\Tests\Unit\IdempotencyServiceTest" classname="Eventrel.Client.Tests.Unit.IdempotencyServiceTest" assertions="3" time="0.000088"/>
+        <testcase name="it_accepts_custom_format_keys" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/IdempotencyServiceTest.php" line="111" class="Eventrel\Client\Tests\Unit\IdempotencyServiceTest" classname="Eventrel.Client.Tests.Unit.IdempotencyServiceTest" assertions="1" time="0.000262">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">Eventrel\Client\Tests\Unit\IdempotencyServiceTest::it_accepts_custom_format_keys
+Failed asserting that false is true.
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/IdempotencyServiceTest.php:123</failure>
+        </testcase>
+        <testcase name="generated_keys_have_consistent_format" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/IdempotencyServiceTest.php" line="128" class="Eventrel\Client\Tests\Unit\IdempotencyServiceTest" classname="Eventrel.Client.Tests.Unit.IdempotencyServiceTest" assertions="20" time="0.000188"/>
+        <testcase name="it_handles_complex_data_structures" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/IdempotencyServiceTest.php" line="144" class="Eventrel\Client\Tests\Unit\IdempotencyServiceTest" classname="Eventrel.Client.Tests.Unit.IdempotencyServiceTest" assertions="0" time="0.000203">
+          <error type="Error">Eventrel\Client\Tests\Unit\IdempotencyServiceTest::it_handles_complex_data_structures
+Error: Call to undefined method Eventrel\Client\Services\IdempotencyService::generateFromData()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Unit/IdempotencyServiceTest.php:166</error>
+        </testcase>
+      </testsuite>
+    </testsuite>
+    <testsuite name="Feature" tests="10" assertions="1" errors="9" failures="1" skipped="0" time="0.002979">
+      <testsuite name="Eventrel\Client\Tests\Feature\IntegrationTest" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Feature/IntegrationTest.php" tests="10" assertions="1" errors="9" failures="1" skipped="0" time="0.002979">
+        <testcase name="it_can_complete_simple_event_workflow" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Feature/IntegrationTest.php" line="17" class="Eventrel\Client\Tests\Feature\IntegrationTest" classname="Eventrel.Client.Tests.Feature.IntegrationTest" assertions="0" time="0.000235">
+          <error type="Error">Eventrel\Client\Tests\Feature\IntegrationTest::it_can_complete_simple_event_workflow
+Error: Call to undefined method Eventrel\Client\Builders\EventBuilder::tag()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Feature/IntegrationTest.php:35</error>
+        </testcase>
+        <testcase name="it_can_complete_batch_event_workflow" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Feature/IntegrationTest.php" line="45" class="Eventrel\Client\Tests\Feature\IntegrationTest" classname="Eventrel.Client.Tests.Feature.IntegrationTest" assertions="0" time="0.000220">
+          <error type="Error">Eventrel\Client\Tests\Feature\IntegrationTest::it_can_complete_batch_event_workflow
+Error: Call to undefined method Eventrel\Client\Builders\BatchEventBuilder::idempotent()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Feature/IntegrationTest.php:60</error>
+        </testcase>
+        <testcase name="it_can_complete_scheduled_event_workflow" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Feature/IntegrationTest.php" line="68" class="Eventrel\Client\Tests\Feature\IntegrationTest" classname="Eventrel.Client.Tests.Feature.IntegrationTest" assertions="0" time="0.000264">
+          <error type="Error">Eventrel\Client\Tests\Feature\IntegrationTest::it_can_complete_scheduled_event_workflow
+Error: Call to undefined method Eventrel\Client\Builders\EventBuilder::scheduleFor()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Feature/IntegrationTest.php:86</error>
+        </testcase>
+        <testcase name="it_can_complete_idempotent_event_workflow" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Feature/IntegrationTest.php" line="94" class="Eventrel\Client\Tests\Feature\IntegrationTest" classname="Eventrel.Client.Tests.Feature.IntegrationTest" assertions="0" time="0.000212">
+          <error type="Error">Eventrel\Client\Tests\Feature\IntegrationTest::it_can_complete_idempotent_event_workflow
+Error: Call to undefined method Eventrel\Client\Builders\EventBuilder::idempotent()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Feature/IntegrationTest.php:118</error>
+        </testcase>
+        <testcase name="it_can_complete_destination_creation_workflow" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Feature/IntegrationTest.php" line="137" class="Eventrel\Client\Tests\Feature\IntegrationTest" classname="Eventrel.Client.Tests.Feature.IntegrationTest" assertions="0" time="0.000204">
+          <error type="Error">Eventrel\Client\Tests\Feature\IntegrationTest::it_can_complete_destination_creation_workflow
+Error: Call to undefined method Eventrel\Client\Builders\DestinationBuilder::url()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Feature/IntegrationTest.php:153</error>
+        </testcase>
+        <testcase name="it_can_complete_event_retry_workflow" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Feature/IntegrationTest.php" line="172" class="Eventrel\Client\Tests\Feature\IntegrationTest" classname="Eventrel.Client.Tests.Feature.IntegrationTest" assertions="0" time="0.000703">
+          <error type="Illuminate\Contracts\Container\BindingResolutionException">Eventrel\Client\Tests\Feature\IntegrationTest::it_can_complete_event_retry_workflow
+Illuminate\Contracts\Container\BindingResolutionException: Target class [config] does not exist.
+
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:1163
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:972
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Container/Container.php:903
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:138
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:321
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Support/Creation/CreationContextFactory.php:44
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:60
+/Users/faridadam/Developer/php/eventrel/php-client/vendor/spatie/laravel-data/src/Concerns/BaseData.php:46
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/EventResponse.php:54
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/BaseResponse.php:76
+/Users/faridadam/Developer/php/eventrel/php-client/src/Responses/EventResponse.php:39
+/Users/faridadam/Developer/php/eventrel/php-client/src/Services/EventService.php:126
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Feature/IntegrationTest.php:199</error>
+        </testcase>
+        <testcase name="it_can_complete_bulk_retry_workflow" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Feature/IntegrationTest.php" line="215" class="Eventrel\Client\Tests\Feature\IntegrationTest" classname="Eventrel.Client.Tests.Feature.IntegrationTest" assertions="0" time="0.000207">
+          <error type="Error">Eventrel\Client\Tests\Feature\IntegrationTest::it_can_complete_bulk_retry_workflow
+Error: Call to undefined method Eventrel\Client\Services\EventService::bulkRetry()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Feature/IntegrationTest.php:232</error>
+        </testcase>
+        <testcase name="it_can_complete_event_cancellation_workflow" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Feature/IntegrationTest.php" line="244" class="Eventrel\Client\Tests\Feature\IntegrationTest" classname="Eventrel.Client.Tests.Feature.IntegrationTest" assertions="0" time="0.000240">
+          <error type="Error">Eventrel\Client\Tests\Feature\IntegrationTest::it_can_complete_event_cancellation_workflow
+Error: Call to undefined method Eventrel\Client\Builders\EventBuilder::scheduleFor()
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Feature/IntegrationTest.php:263</error>
+        </testcase>
+        <testcase name="it_can_complete_destination_management_workflow" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Feature/IntegrationTest.php" line="274" class="Eventrel\Client\Tests\Feature\IntegrationTest" classname="Eventrel.Client.Tests.Feature.IntegrationTest" assertions="1" time="0.000323">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">Eventrel\Client\Tests\Feature\IntegrationTest::it_can_complete_destination_management_workflow
+Failed asserting that null is true.
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Feature/IntegrationTest.php:318</failure>
+        </testcase>
+        <testcase name="it_can_complete_pagination_workflow" file="/Users/faridadam/Developer/php/eventrel/php-client/tests/Feature/IntegrationTest.php" line="342" class="Eventrel\Client\Tests\Feature\IntegrationTest" classname="Eventrel.Client.Tests.Feature.IntegrationTest" assertions="0" time="0.000373">
+          <error type="TypeError">Eventrel\Client\Tests\Feature\IntegrationTest::it_can_complete_pagination_workflow
+TypeError: array_merge(): Argument #2 must be of type array, null given
+
+/Users/faridadam/Developer/php/eventrel/php-client/tests/Feature/IntegrationTest.php:399</error>
+        </testcase>
+      </testsuite>
+    </testsuite>
+  </testsuite>
+</testsuites>

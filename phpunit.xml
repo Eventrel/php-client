@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+    bootstrap="vendor/autoload.php"
+    colors="true"
+    failOnWarning="true"
+    failOnRisky="true"
+    beStrictAboutOutputDuringTests="true"
+    cacheDirectory=".phpunit.cache">
+
+    <testsuites>
+        <testsuite name="Unit">
+            <directory>tests/Unit</directory>
+        </testsuite>
+        <testsuite name="Feature">
+            <directory>tests/Feature</directory>
+        </testsuite>
+        <testsuite name="All">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <source>
+        <include>
+            <directory suffix=".php">src</directory>
+        </include>
+        <exclude>
+            <directory>src/Exceptions</directory>
+            <directory>src/Enums</directory>
+        </exclude>
+    </source>
+
+    <coverage>
+        <report>
+            <html outputDirectory="coverage/html" />
+            <text outputFile="coverage/coverage.txt" />
+            <clover outputFile="coverage/clover.xml" />
+        </report>
+    </coverage>
+
+    <php>
+        <env name="APP_ENV" value="testing" />
+        <env name="EVENTREL_API_TOKEN" value="test-token" />
+        <env name="EVENTREL_BASE_URL" value="https://api.test.eventrel.sh" />
+    </php>
+
+    <logging>
+        <testdoxText outputFile="tests/testdox.txt" />
+        <junit outputFile="tests/junit.xml" />
+    </logging>
+</phpunit>
