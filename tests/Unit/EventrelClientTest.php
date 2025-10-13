@@ -162,7 +162,7 @@ class EventrelClientTest extends TestCase
 
         $request = $this->getLastRequest();
         $authHeader = $request['request']->getHeader('Authorization');
-        
+
         $this->assertNotEmpty($authHeader);
         $this->assertStringContainsString('Bearer', $authHeader[0]);
     }
@@ -182,7 +182,7 @@ class EventrelClientTest extends TestCase
 
         $request = $this->getLastRequest();
         $contentType = $request['request']->getHeader('Content-Type');
-        
+
         $this->assertEquals('application/json', $contentType[0]);
     }
 
@@ -201,7 +201,7 @@ class EventrelClientTest extends TestCase
 
         $request = $this->getLastRequest();
         $accept = $request['request']->getHeader('Accept');
-        
+
         $this->assertEquals('application/json', $accept[0]);
     }
 
@@ -220,7 +220,7 @@ class EventrelClientTest extends TestCase
 
         $request = $this->getLastRequest();
         $userAgent = $request['request']->getHeader('User-Agent');
-        
+
         $this->assertNotEmpty($userAgent);
         $this->assertStringContainsString('eventrel-php-client', $userAgent[0]);
     }

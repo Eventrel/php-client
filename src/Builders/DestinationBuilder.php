@@ -2,6 +2,7 @@
 
 namespace Eventrel\Client\Builders;
 
+use Eventrel\Client\Enums\WebhookMode;
 use Eventrel\Client\EventrelClient;
 use Eventrel\Client\Responses\DestinationResponse;
 use Eventrel\Client\Services\DestinationService;
@@ -161,6 +162,27 @@ class DestinationBuilder
     }
 
     /**
+     * Set the webhook mode
+     * 
+     * @param WebhookMode|string $mode The webhook mode (bidirectional, outbound, inbound)
+     * @return self
+     * 
+     * @example
+     * $builder->webhookMode(WebhookMode::BIDIRECTIONAL);
+     * $builder->webhookMode('outbound');
+     */
+    public function webhookMode(WebhookMode|string $mode): self
+    {
+        if (is_string($mode)) {
+            $mode = WebhookMode::tryFrom($mode);
+        }
+
+        $this->webhookMode = $mode->value;
+
+        return $this;
+    }
+
+    /**
      * Set webhook mode to bidirectional
      * 
      * Allows both sending events and receiving webhooks.
@@ -296,16 +318,23 @@ class DestinationBuilder
 
     /**
      * Add a metadata key-value pair
+     * When an array is provided as the first argument, it replaces the entire metadata.
      * 
-     * @param string $key Metadata key
+     * @param string|array $key Metadata key
      * @param mixed $value Metadata value
      * @return self
      * 
      * @example
      * $builder->withMetadata('environment', 'production');
      */
-    public function withMetadata(string $key, mixed $value): self
+    public function withMetadata(string|array $key, $value = null): self
     {
+        if (is_array($key)) {
+            $this->metadata = $key;
+
+            return $this;
+        }
+
         $this->metadata[$key] = $value;
 
         return $this;
@@ -436,7 +465,7 @@ class DestinationBuilder
      * @example
      * $builder->withBatching(size: 50, strategy: 'batched');
      */
-    public function withBatching(int $size, string $strategy = 'batched'): self
+    public function withBatching(int $size = 1, string $strategy = 'batched'): self
     {
         if ($size < 1) {
             throw new InvalidArgumentException('Batch size must be at least 1');

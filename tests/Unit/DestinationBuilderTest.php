@@ -24,13 +24,15 @@ class DestinationBuilderTest extends TestCase
 
         $response = $client->destinations->builder()
             ->name('My API')
-            ->url('https://api.example.com/webhook')
+            ->webhookUrl('https://api.example.com/webhook')
             ->outbound()
             ->create();
 
+        $destination = $response->getDetails();
+
         $this->assertInstanceOf(DestinationResponse::class, $response);
-        $this->assertEquals('outbound', $response->webhookMode->value);
-        
+        $this->assertEquals('outbound', $destination->webhookMode->value);
+
         $body = $this->getLastRequestBody();
         $this->assertEquals('My API', $body['name']);
         $this->assertEquals('https://api.example.com/webhook', $body['webhook_url']);
@@ -47,7 +49,7 @@ class DestinationBuilderTest extends TestCase
         // Test outbound
         $client->destinations->builder()
             ->name('Test')
-            ->url('https://example.com/webhook')
+            ->webhookUrl('https://example.com/webhook')
             ->outbound()
             ->create();
         $this->assertRequestBodyContains(['webhook_mode' => 'outbound']);
@@ -55,7 +57,7 @@ class DestinationBuilderTest extends TestCase
         // Test bidirectional
         $client->destinations->builder()
             ->name('Test')
-            ->url('https://example.com/webhook')
+            ->webhookUrl('https://example.com/webhook')
             ->bidirectional()
             ->create();
         $this->assertRequestBodyContains(['webhook_mode' => 'bidirectional']);
@@ -63,7 +65,7 @@ class DestinationBuilderTest extends TestCase
         // Test inbound
         $client->destinations->builder()
             ->name('Test')
-            ->url('https://example.com/webhook')
+            ->webhookUrl('https://example.com/webhook')
             ->inbound()
             ->create();
         $this->assertRequestBodyContains(['webhook_mode' => 'inbound']);
@@ -78,8 +80,8 @@ class DestinationBuilderTest extends TestCase
 
         $response = $client->destinations->builder()
             ->name('Test')
-            ->url('https://example.com/webhook')
-            ->mode(WebhookMode::BIDIRECTIONAL)
+            ->webhookUrl('https://example.com/webhook')
+            ->webhookMode(WebhookMode::BIDIRECTIONAL)
             ->create();
 
         $this->assertRequestBodyContains([
@@ -96,7 +98,7 @@ class DestinationBuilderTest extends TestCase
 
         $response = $client->destinations->builder()
             ->name('Test')
-            ->url('https://example.com/webhook')
+            ->webhookUrl('https://example.com/webhook')
             ->outbound()
             ->withDescription('Main production webhook endpoint')
             ->create();
@@ -115,7 +117,7 @@ class DestinationBuilderTest extends TestCase
 
         $response = $client->destinations->builder()
             ->name('Test')
-            ->url('https://example.com/webhook')
+            ->webhookUrl('https://example.com/webhook')
             ->outbound()
             ->withHeader('X-Custom-Header', 'value1')
             ->withHeader('X-Another-Header', 'value2')
@@ -140,7 +142,7 @@ class DestinationBuilderTest extends TestCase
 
         $response = $client->destinations->builder()
             ->name('Test')
-            ->url('https://example.com/webhook')
+            ->webhookUrl('https://example.com/webhook')
             ->outbound()
             ->withHeaders($headers)
             ->create();
@@ -159,7 +161,7 @@ class DestinationBuilderTest extends TestCase
 
         $response = $client->destinations->builder()
             ->name('Test')
-            ->url('https://example.com/webhook')
+            ->webhookUrl('https://example.com/webhook')
             ->outbound()
             ->withMetadata(['environment' => 'production', 'team' => 'engineering'])
             ->create();
@@ -178,7 +180,7 @@ class DestinationBuilderTest extends TestCase
 
         $response = $client->destinations->builder()
             ->name('Test')
-            ->url('https://example.com/webhook')
+            ->webhookUrl('https://example.com/webhook')
             ->outbound()
             ->withTimeout(45)
             ->create();
@@ -197,7 +199,7 @@ class DestinationBuilderTest extends TestCase
 
         $response = $client->destinations->builder()
             ->name('Test')
-            ->url('https://example.com/webhook')
+            ->webhookUrl('https://example.com/webhook')
             ->outbound()
             ->withRetryLimit(5)
             ->create();
@@ -216,7 +218,7 @@ class DestinationBuilderTest extends TestCase
 
         $response = $client->destinations->builder()
             ->name('Test')
-            ->url('https://example.com/webhook')
+            ->webhookUrl('https://example.com/webhook')
             ->outbound()
             ->withRateLimit(perMinute: 1000, perHour: 50000, perDay: 1000000)
             ->create();
@@ -236,7 +238,7 @@ class DestinationBuilderTest extends TestCase
 
         $response = $client->destinations->builder()
             ->name('Test')
-            ->url('https://example.com/webhook')
+            ->webhookUrl('https://example.com/webhook')
             ->outbound()
             ->withBatching(size: 50, strategy: 'batched')
             ->create();
@@ -258,7 +260,7 @@ class DestinationBuilderTest extends TestCase
 
         $response = $client->destinations->builder()
             ->name('Test')
-            ->url('https://example.com/webhook')
+            ->webhookUrl('https://example.com/webhook')
             ->outbound()
             ->withEventFiltering($eventTypes)
             ->create();
@@ -276,7 +278,7 @@ class DestinationBuilderTest extends TestCase
 
         $response = $client->destinations->builder()
             ->name('Test')
-            ->url('https://example.com/webhook')
+            ->webhookUrl('https://example.com/webhook')
             ->outbound()
             ->withDeadLetterQueue()
             ->create();
@@ -294,7 +296,7 @@ class DestinationBuilderTest extends TestCase
 
         $response = $client->destinations->builder()
             ->name('Test')
-            ->url('https://example.com/webhook')
+            ->webhookUrl('https://example.com/webhook')
             ->outbound()
             ->verifySsl()
             ->create();
@@ -312,7 +314,7 @@ class DestinationBuilderTest extends TestCase
 
         $response = $client->destinations->builder()
             ->name('Test')
-            ->url('https://example.com/webhook')
+            ->webhookUrl('https://example.com/webhook')
             ->outbound()
             ->skipSslVerification()
             ->create();
@@ -330,7 +332,7 @@ class DestinationBuilderTest extends TestCase
 
         $response = $client->destinations->builder()
             ->name('Test')
-            ->url('https://example.com/webhook')
+            ->webhookUrl('https://example.com/webhook')
             ->outbound()
             ->inactive()
             ->create();
@@ -349,7 +351,7 @@ class DestinationBuilderTest extends TestCase
 
         $response = $client->destinations->builder()
             ->name('Production Analytics')
-            ->url('https://analytics.example.com/webhook')
+            ->webhookUrl('https://analytics.example.com/webhook')
             ->bidirectional()
             ->withDescription('Main analytics endpoint for production')
             ->withHeader('X-API-Key', 'secret-key')
@@ -365,7 +367,7 @@ class DestinationBuilderTest extends TestCase
             ->create();
 
         $this->assertInstanceOf(DestinationResponse::class, $response);
-        
+
         $body = $this->getLastRequestBody();
         $this->assertEquals('Production Analytics', $body['name']);
         $this->assertEquals('bidirectional', $body['webhook_mode']);
@@ -379,9 +381,9 @@ class DestinationBuilderTest extends TestCase
         $client = $this->createMockClient([]);
 
         $builder = $client->destinations->builder();
-        
+
         $this->assertInstanceOf(DestinationBuilder::class, $builder->name('Test'));
-        $this->assertInstanceOf(DestinationBuilder::class, $builder->url('https://example.com'));
+        $this->assertInstanceOf(DestinationBuilder::class, $builder->webhookUrl('https://example.com'));
         $this->assertInstanceOf(DestinationBuilder::class, $builder->outbound());
         $this->assertInstanceOf(DestinationBuilder::class, $builder->withDescription('Test'));
         $this->assertInstanceOf(DestinationBuilder::class, $builder->withHeader('key', 'value'));
@@ -397,13 +399,13 @@ class DestinationBuilderTest extends TestCase
     public function it_throws_exception_when_name_not_set()
     {
         $this->expectException(\Exception::class);
-        
+
         $client = $this->createMockClient([
             $this->mockDestinationResponse(),
         ]);
 
         $client->destinations->builder()
-            ->url('https://example.com/webhook')
+            ->webhookUrl('https://example.com/webhook')
             ->outbound()
             ->create(); // No name set
     }
@@ -412,7 +414,7 @@ class DestinationBuilderTest extends TestCase
     public function it_throws_exception_when_url_not_set()
     {
         $this->expectException(\Exception::class);
-        
+
         $client = $this->createMockClient([
             $this->mockDestinationResponse(),
         ]);

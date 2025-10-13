@@ -132,6 +132,24 @@ class EventBuilder
     }
 
     /**
+     * Add a single tag to the event.
+     * 
+     * Useful for incrementally building tags without replacing
+     * the entire array.
+     *
+     * @param string $tag The tag string to add
+     * @return $this Fluent interface
+     */
+    public function tag(string $tag): self
+    {
+        if (!in_array($tag, $this->tags, true)) {
+            $this->tags[] = $tag;
+        }
+
+        return $this;
+    }
+
+    /**
      * Add a single field to the payload.
      * 
      * Useful for building payloads incrementally. Overwrites existing

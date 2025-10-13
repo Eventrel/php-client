@@ -32,22 +32,22 @@ abstract class TestCase extends BaseTestCase
     protected function createMockClient(array $responses = []): EventrelClient
     {
         $this->requestHistory = [];
-        
+
         $mock = new MockHandler($this->formatResponses($responses));
-        
+
         $handlerStack = HandlerStack::create($mock);
         $handlerStack->push(Middleware::history($this->requestHistory));
-        
+
         $httpClient = new Client(['handler' => $handlerStack]);
-        
+
         // Use reflection to inject the mock HTTP client
         $client = new EventrelClient('test-token', 'v1', 'https://api.test.eventrel.sh');
-        
+
         $reflection = new \ReflectionClass($client);
         $property = $reflection->getProperty('client');
         $property->setAccessible(true);
         $property->setValue($client, $httpClient);
-        
+
         return $client;
     }
 
@@ -60,7 +60,7 @@ abstract class TestCase extends BaseTestCase
             if ($response instanceof Response) {
                 return $response;
             }
-            
+
             return new Response(
                 $response['status'] ?? 200,
                 $response['headers'] ?? [],
@@ -104,7 +104,7 @@ abstract class TestCase extends BaseTestCase
         if (!$request) {
             return null;
         }
-        
+
         $body = (string) $request['request']->getBody();
         return json_decode($body, true);
     }
@@ -136,7 +136,7 @@ abstract class TestCase extends BaseTestCase
     {
         $body = $this->getLastRequestBody();
         $this->assertNotNull($body, 'Request had no body');
-        
+
         foreach ($expectedData as $key => $value) {
             $this->assertArrayHasKey($key, $body);
             $this->assertEquals($value, $body[$key], "Expected '$key' to be '$value'");
@@ -152,7 +152,7 @@ abstract class TestCase extends BaseTestCase
             'status' => 200,
             'body' => [
                 'data' => array_merge([
-                    'id' => 'evt_' . uniqid(),
+                    'uuid' => 'evt_' . uniqid(),
                     'event_type' => 'test.event',
                     'destination' => 'dest_test123',
                     'payload' => ['test' => 'data'],
@@ -175,7 +175,7 @@ abstract class TestCase extends BaseTestCase
         $events = [];
         for ($i = 0; $i < $count; $i++) {
             $events[] = [
-                'id' => 'evt_' . uniqid() . '_' . $i,
+                'uuid' => 'evt_' . uniqid() . '_' . $i,
                 'event_type' => 'test.event',
                 'destination' => 'dest_test123',
                 'payload' => ['index' => $i],
@@ -209,7 +209,7 @@ abstract class TestCase extends BaseTestCase
             'status' => 200,
             'body' => [
                 'data' => array_merge([
-                    'id' => 'dest_' . uniqid(),
+                    'uuid' => 'dest_' . uniqid(),
                     'name' => 'Test Destination',
                     'webhook_url' => 'https://example.com/webhook',
                     'webhook_mode' => 'outbound',

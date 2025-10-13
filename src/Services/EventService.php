@@ -289,7 +289,7 @@ class EventService
      * @return EventResponse|OutboundEvent
      * @throws EventrelException
      */
-    public function cancel(string $uuid, string $reason, ?string $idempotencyKey = null, bool $asOutboundEvent = false): EventResponse|OutboundEvent
+    public function cancel(string $uuid, string $reason = 'Cancelled via client.', ?string $idempotencyKey = null, bool $asOutboundEvent = false): EventResponse|OutboundEvent
     {
         $response = $this->request('POST', "events/{$uuid}/cancel", ['reason' => $reason], $idempotencyKey);
 

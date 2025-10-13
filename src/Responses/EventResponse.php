@@ -294,7 +294,7 @@ class EventResponse extends BaseResponse
     public function toArray(): array
     {
         return [
-            'id' => $this->getId(),
+            'uuid' => $this->getId(),
             'event_type' => $this->getEventType(),
             'status' => $this->getStatus()->value,
             'payload' => $this->getPayload(),

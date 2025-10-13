@@ -147,7 +147,7 @@ class BatchEventBuilderTest extends TestCase
             ->to('dest_abc123')
             ->add(['message' => 'Happy New Year!'])
             ->add(['message' => 'Party time!'])
-            ->scheduleFor($scheduledAt)
+            ->scheduleAt($scheduledAt)
             ->send();
 
         $body = $this->getLastRequestBody();
@@ -165,7 +165,7 @@ class BatchEventBuilderTest extends TestCase
             ->to('dest_abc123')
             ->add(['user_id' => 1])
             ->add(['user_id' => 2])
-            ->idempotent('batch-import-12345')
+            ->idempotencyKey('batch-import-12345')
             ->send();
 
         $body = $this->getLastRequestBody();
@@ -183,7 +183,7 @@ class BatchEventBuilderTest extends TestCase
             ->to('dest_abc123')
             ->add(['user_id' => 1])
             ->add(['user_id' => 2])
-            ->idempotent()
+            ->idempotencyKey()
             ->send();
 
         $body = $this->getLastRequestBody();
@@ -203,8 +203,8 @@ class BatchEventBuilderTest extends TestCase
             ->tags(['bulk-import'])
             ->add(['user_id' => 1], ['premium'])
             ->add(['user_id' => 2])
-            ->idempotent('test-key')
-            ->scheduleFor($scheduledAt);
+            ->idempotencyKey('test-key')
+            ->scheduleAt($scheduledAt);
 
         $array = $builder->toArray();
 
@@ -222,20 +222,20 @@ class BatchEventBuilderTest extends TestCase
         $client = $this->createMockClient([]);
 
         $builder = $client->eventBatch('user.created');
-        
+
         $this->assertInstanceOf(BatchEventBuilder::class, $builder->to('dest_abc123'));
         $this->assertInstanceOf(BatchEventBuilder::class, $builder->tags([]));
         $this->assertInstanceOf(BatchEventBuilder::class, $builder->add([]));
         $this->assertInstanceOf(BatchEventBuilder::class, $builder->events([]));
-        $this->assertInstanceOf(BatchEventBuilder::class, $builder->idempotent());
-        $this->assertInstanceOf(BatchEventBuilder::class, $builder->scheduleFor(Carbon::now()));
+        $this->assertInstanceOf(BatchEventBuilder::class, $builder->idempotencyKey());
+        $this->assertInstanceOf(BatchEventBuilder::class, $builder->scheduleAt(Carbon::now()));
     }
 
     /** @test */
     public function it_throws_exception_when_destination_not_set()
     {
         $this->expectException(\Exception::class);
-        
+
         $client = $this->createMockClient([
             $this->mockBatchEventResponse(1),
         ]);
@@ -249,7 +249,7 @@ class BatchEventBuilderTest extends TestCase
     public function it_throws_exception_when_no_events_added()
     {
         $this->expectException(\Exception::class);
-        
+
         $client = $this->createMockClient([
             $this->mockBatchEventResponse(0),
         ]);
@@ -274,12 +274,12 @@ class BatchEventBuilderTest extends TestCase
             ->add(['action' => 'add_to_cart', 'user_id' => 1])
             ->add(['action' => 'checkout', 'user_id' => 1], ['high-value'])
             ->add(['action' => 'logout', 'user_id' => 1])
-            ->idempotent('session-tracking-12345')
+            ->idempotencyKey('session-tracking-12345')
             ->send();
 
         $this->assertInstanceOf(BatchEventResponse::class, $response);
         $this->assertEquals(5, $response->totalEvents);
-        
+
         $body = $this->getLastRequestBody();
         $this->assertCount(5, $body['events']);
         $this->assertEquals(['production', 'analytics'], $body['tags']);
