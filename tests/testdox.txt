@@ -6,10 +6,10 @@ Batch Event Builder (Eventrel\Client\Tests\Unit\BatchEventBuilder)
  [x] It can get events array
  [x] It can get event type
  [x] It can count events
- [ ] It can schedule batch events
+ [x] It can schedule batch events
  [ ] It can set idempotency key for batch
  [ ] It auto generates idempotency key for batch
- [ ] It can convert batch to array
+ [x] It can convert batch to array
  [ ] It maintains fluent interface on all methods
  [ ] It throws exception when destination not set
  [x] It throws exception when no events added
@@ -19,23 +19,23 @@ Batch Event Builder (Eventrel\Client\Tests\Unit\BatchEventBuilder)
 Destination Builder (Eventrel\Client\Tests\Unit\DestinationBuilder)
  [ ] It can build simple outbound destination
  [ ] It can set webhook mode using methods
- [ ] It can set webhook mode directly
- [ ] It can set description
- [ ] It can add custom headers
- [ ] It can set all headers at once
- [ ] It can add metadata
- [ ] It can configure timeout
- [ ] It can configure retry limit
- [ ] It can configure rate limits
+ [x] It can set webhook mode directly
+ [x] It can set description
+ [x] It can add custom headers
+ [x] It can set all headers at once
+ [x] It can add metadata
+ [x] It can configure timeout
+ [x] It can configure retry limit
+ [x] It can configure rate limits
  [ ] It can configure batching
  [ ] It can configure event filtering
  [ ] It can enable dead letter queue
- [ ] It can configure ssl verification
- [ ] It can disable ssl verification
- [ ] It can set destination as inactive
- [ ] It can build complex destination
- [ ] It maintains fluent interface on all methods
- [ ] It throws exception when name not set
+ [x] It can configure ssl verification
+ [x] It can disable ssl verification
+ [x] It can set destination as inactive
+ [x] It can build complex destination
+ [x] It maintains fluent interface on all methods
+ [x] It throws exception when name not set
  [x] It throws exception when url not set
 
 Destination Service (Eventrel\Client\Tests\Unit\DestinationService)
@@ -49,8 +49,6 @@ Destination Service (Eventrel\Client\Tests\Unit\DestinationService)
  [ ] It can list destinations with filters
  [ ] It can update destination
  [ ] It can delete destination
- [ ] It can activate destination
- [ ] It can deactivate destination
  [x] It returns builder instance
  [ ] It handles validation errors
 
@@ -117,9 +115,8 @@ Idempotency Service (Eventrel\Client\Tests\Unit\IdempotencyService)
  [x] It can generate unique idempotency key
  [x] It generates different keys each time
  [ ] It can generate key with prefix
- [ ] It can generate key from data
- [ ] It generates different keys for different data
- [ ] It can generate key from data with prefix
+ [x] It can generate key from data
+ [x] It generates different keys for different data
  [x] It validates idempotency key format
  [x] It rejects invalid idempotency keys
  [ ] It accepts custom format keys
@@ -135,6 +132,4 @@ Integration (Eventrel\Client\Tests\Feature\Integration)
  [ ] It can complete event retry workflow
  [ ] It can complete bulk retry workflow
  [ ] It can complete event cancellation workflow
- [ ] It can complete destination management workflow
- [ ] It can complete pagination workflow
 
