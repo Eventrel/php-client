@@ -31,5 +31,5 @@ Homestead.json
 auth.json
 /workbench
 testbench.yaml
-tests/junit.xml
+/tests/junit.xml
 /.phpunit.cache/
