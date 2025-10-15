@@ -81,10 +81,10 @@
 	"extra": {
 		"laravel": {
 			"providers": [
-				"Eventrel\\Client\\EventrelServiceProvider"
+				"Eventrel\\EventrelServiceProvider"
 			],
 			"aliases": {
-				"Eventrel": "Eventrel\\Client\\Facades\\Eventrel"
+				"Eventrel": "Eventrel\\Facades\\Eventrel"
 			}
 		}
 	},
