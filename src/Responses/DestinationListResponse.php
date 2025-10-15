@@ -1,8 +1,8 @@
 <?php
 
-namespace Eventrel\Client\Responses;
+namespace Eventrel\Responses;
 
-use Eventrel\Client\Entities\Destination;
+use Eventrel\Entities\Destination;
 use GuzzleHttp\Psr7\Response;
 
 /**
@@ -12,7 +12,7 @@ use GuzzleHttp\Psr7\Response;
  * Provides convenient methods to access destinations, navigate pagination,
  * and filter results by status or tag.
  * 
- * @package Eventrel\Client\Responses
+ * @package Eventrel\Responses
  */
 class DestinationListResponse extends BaseResponse
 {

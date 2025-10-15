@@ -1,6 +1,6 @@
 <?php
 
-namespace Eventrel\Client\Entities;
+namespace Eventrel\Entities;
 
 use Spatie\LaravelData\Attributes\MapName;
 use Spatie\LaravelData\Data;
@@ -35,7 +35,7 @@ use Spatie\LaravelData\Mappers\SnakeCaseMapper;
  * - SSL/TLS certificate verification
  * - Custom signature header support
  * 
- * @package Eventrel\Client\Entities
+ * @package Eventrel\Entities
  * 
  * @property int|null $batchSize Number of events per batch (null = no batching)
  * @property bool $verifySsl Whether to verify SSL/TLS certificates

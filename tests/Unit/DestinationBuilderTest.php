@@ -1,11 +1,11 @@
 <?php
 
-namespace Eventrel\Client\Tests\Unit;
+namespace Eventrel\Tests\Unit;
 
-use Eventrel\Client\Builders\DestinationBuilder;
-use Eventrel\Client\Enums\WebhookMode;
-use Eventrel\Client\Responses\DestinationResponse;
-use Eventrel\Client\Tests\TestCase;
+use Eventrel\Builders\DestinationBuilder;
+use Eventrel\Enums\WebhookMode;
+use Eventrel\Responses\DestinationResponse;
+use Eventrel\Tests\TestCase;
 
 class DestinationBuilderTest extends TestCase
 {

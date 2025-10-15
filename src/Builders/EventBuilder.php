@@ -1,11 +1,11 @@
 <?php
 
-namespace Eventrel\Client\Builders;
+namespace Eventrel\Builders;
 
-use Eventrel\Client\Builders\Concerns\{CanSchedule, CanIdempotentize};
-use Eventrel\Client\EventrelClient;
-use Eventrel\Client\Responses\EventResponse;
-use Eventrel\Client\Services\EventService;
+use Eventrel\Builders\Concerns\{CanSchedule, CanIdempotentize};
+use Eventrel\EventrelClient;
+use Eventrel\Responses\EventResponse;
+use Eventrel\Services\EventService;
 
 /**
  * Fluent builder for constructing and sending events.

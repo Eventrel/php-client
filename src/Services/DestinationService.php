@@ -1,13 +1,13 @@
 <?php
 
-namespace Eventrel\Client\Services;
+namespace Eventrel\Services;
 
-use Eventrel\Client\Builders\DestinationBuilder;
-use Eventrel\Client\Entities\Destination;
-use Eventrel\Client\Enums\WebhookMode;
-use Eventrel\Client\EventrelClient;
-use Eventrel\Client\Exceptions\EventrelException;
-use Eventrel\Client\Responses\{DestinationResponse, DestinationListResponse};
+use Eventrel\Builders\DestinationBuilder;
+use Eventrel\Entities\Destination;
+use Eventrel\Enums\WebhookMode;
+use Eventrel\EventrelClient;
+use Eventrel\Exceptions\EventrelException;
+use Eventrel\Responses\{DestinationResponse, DestinationListResponse};
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -17,7 +17,7 @@ use Psr\Http\Message\ResponseInterface;
  * destinations where events are delivered. Supports configuration of
  * webhook settings, rate limiting, retries, and event filtering.
  * 
- * @package Eventrel\Client\Services
+ * @package Eventrel\Services
  */
 class DestinationService
 {

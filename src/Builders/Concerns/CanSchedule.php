@@ -1,6 +1,6 @@
 <?php
 
-namespace Eventrel\Client\Builders\Concerns;
+namespace Eventrel\Builders\Concerns;
 
 use Carbon\CarbonInterface;
 

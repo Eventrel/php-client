@@ -1,8 +1,8 @@
 <?php
 
-namespace Eventrel\Client\Tests;
+namespace Eventrel\Tests;
 
-use Eventrel\Client\EventrelClient;
+use Eventrel\EventrelClient;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;

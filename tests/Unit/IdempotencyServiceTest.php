@@ -1,9 +1,9 @@
 <?php
 
-namespace Eventrel\Client\Tests\Unit;
+namespace Eventrel\Tests\Unit;
 
-use Eventrel\Client\EventrelClient;
-use Eventrel\Client\Tests\TestCase;
+use Eventrel\EventrelClient;
+use Eventrel\Tests\TestCase;
 
 class IdempotencyServiceTest extends TestCase
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace Eventrel\Client\Builders;
+namespace Eventrel\Builders;
 
-use Eventrel\Client\Builders\Concerns\{CanSchedule, CanIdempotentize};
-use Eventrel\Client\EventrelClient;
-use Eventrel\Client\Responses\BatchEventResponse;
-use Eventrel\Client\Services\EventService;
+use Eventrel\Builders\Concerns\{CanSchedule, CanIdempotentize};
+use Eventrel\EventrelClient;
+use Eventrel\Responses\BatchEventResponse;
+use Eventrel\Services\EventService;
 
 /**
  * Fluent builder for sending multiple events in a single batch.

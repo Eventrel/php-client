@@ -1,11 +1,11 @@
 <?php
 
-namespace Eventrel\Client\Tests\Unit;
+namespace Eventrel\Tests\Unit;
 
 use Carbon\Carbon;
-use Eventrel\Client\Builders\EventBuilder;
-use Eventrel\Client\Responses\EventResponse;
-use Eventrel\Client\Tests\TestCase;
+use Eventrel\Builders\EventBuilder;
+use Eventrel\Responses\EventResponse;
+use Eventrel\Tests\TestCase;
 
 class EventBuilderTest extends TestCase
 {
@@ -44,7 +44,7 @@ class EventBuilderTest extends TestCase
         ]);
 
         $builder = new EventBuilder($client);
-        
+
         $response = $builder
             ->eventType('payment.completed')
             ->to('dest_abc123')
@@ -275,7 +275,7 @@ class EventBuilderTest extends TestCase
             ->asEntity()
             ->send();
 
-        $this->assertInstanceOf(\Eventrel\Client\Entities\OutboundEvent::class, $response);
+        $this->assertInstanceOf(\Eventrel\Entities\OutboundEvent::class, $response);
     }
 
     /** @test */
@@ -306,7 +306,7 @@ class EventBuilderTest extends TestCase
         ]);
 
         $builder = $client->event('user.created');
-        
+
         $this->assertInstanceOf(EventBuilder::class, $builder->to('dest_abc123'));
         $this->assertInstanceOf(EventBuilder::class, $builder->payload([]));
         $this->assertInstanceOf(EventBuilder::class, $builder->with('key', 'value'));
@@ -321,7 +321,7 @@ class EventBuilderTest extends TestCase
     public function it_throws_exception_when_destination_not_set()
     {
         $this->expectException(\Exception::class);
-        
+
         $client = $this->createMockClient([
             $this->mockEventResponse(),
         ]);
@@ -335,13 +335,13 @@ class EventBuilderTest extends TestCase
     public function it_throws_exception_when_event_type_not_set()
     {
         $this->expectException(\Exception::class);
-        
+
         $client = $this->createMockClient([
             $this->mockEventResponse(),
         ]);
 
         $builder = new EventBuilder($client);
-        
+
         $builder->to('dest_abc123')
             ->payload(['test' => 'data'])
             ->send(); // No event type set

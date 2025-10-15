@@ -1,6 +1,6 @@
 <?php
 
-namespace Eventrel\Client\Responses;
+namespace Eventrel\Responses;
 
 use GuzzleHttp\Psr7\Response;
 
@@ -12,7 +12,7 @@ use GuzzleHttp\Psr7\Response;
  * All concrete response classes extend this base to inherit common behavior
  * and ensure consistent structure across the SDK.
  * 
- * @package Eventrel\Client\Responses
+ * @package Eventrel\Responses
  */
 abstract class BaseResponse
 {

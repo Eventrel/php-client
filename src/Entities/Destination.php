@@ -1,9 +1,9 @@
 <?php
 
-namespace Eventrel\Client\Entities;
+namespace Eventrel\Entities;
 
 use Carbon\Carbon;
-use Eventrel\Client\Enums\WebhookMode;
+use Eventrel\Enums\WebhookMode;
 use Spatie\LaravelData\Attributes\MapName;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Mappers\SnakeCaseMapper;
@@ -33,7 +33,7 @@ use Spatie\LaravelData\Mappers\SnakeCaseMapper;
  * - **Outbound**: Only sends events to external endpoints
  * - **Inbound**: Only receives webhooks from external sources
  * 
- * @package Eventrel\Client\Entities
+ * @package Eventrel\Entities
  * 
  * @property string $uuid Unique identifier for the destination
  * @property string $name Human-readable name

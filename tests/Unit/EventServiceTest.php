@@ -1,13 +1,13 @@
 <?php
 
-namespace Eventrel\Client\Tests\Unit;
+namespace Eventrel\Tests\Unit;
 
 use Carbon\Carbon;
-use Eventrel\Client\Entities\OutboundEvent;
-use Eventrel\Client\Exceptions\EventrelException;
-use Eventrel\Client\Responses\EventResponse;
-use Eventrel\Client\Responses\BatchEventResponse;
-use Eventrel\Client\Tests\TestCase;
+use Eventrel\Entities\OutboundEvent;
+use Eventrel\Exceptions\EventrelException;
+use Eventrel\Responses\EventResponse;
+use Eventrel\Responses\BatchEventResponse;
+use Eventrel\Tests\TestCase;
 
 class EventServiceTest extends TestCase
 {
@@ -340,7 +340,7 @@ class EventServiceTest extends TestCase
 
         $builder = $client->events->builder();
 
-        $this->assertInstanceOf(\Eventrel\Client\Builders\EventBuilder::class, $builder);
+        $this->assertInstanceOf(\Eventrel\Builders\EventBuilder::class, $builder);
     }
 
     /** @test */

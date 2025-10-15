@@ -1,6 +1,6 @@
 <?php
 
-namespace Eventrel\Client\Enums;
+namespace Eventrel\Enums;
 
 enum EventStatus: string
 {

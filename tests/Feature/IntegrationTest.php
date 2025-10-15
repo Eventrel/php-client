@@ -1,9 +1,9 @@
 <?php
 
-namespace Eventrel\Client\Tests\Feature;
+namespace Eventrel\Tests\Feature;
 
 use Carbon\Carbon;
-use Eventrel\Client\Tests\TestCase;
+use Eventrel\Tests\TestCase;
 
 /**
  * Integration tests for complete workflows

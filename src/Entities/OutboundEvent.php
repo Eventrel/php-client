@@ -1,9 +1,9 @@
 <?php
 
-namespace Eventrel\Client\Entities;
+namespace Eventrel\Entities;
 
 use Carbon\Carbon;
-use Eventrel\Client\Enums\EventStatus;
+use Eventrel\Enums\EventStatus;
 use Spatie\LaravelData\Attributes\MapName;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Mappers\SnakeCaseMapper;
@@ -32,7 +32,7 @@ use Spatie\LaravelData\Mappers\SnakeCaseMapper;
  * - Flexible tagging and metadata
  * - Complete audit trail with timestamps
  * 
- * @package Eventrel\Client\Entities
+ * @package Eventrel\Entities
  * 
  * @property string $uuid Unique event identifier
  * @property string|null $idempotencyKey Key for preventing duplicate events

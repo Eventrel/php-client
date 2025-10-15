@@ -1,4 +1,4 @@
-Batch Event Builder (Eventrel\Client\Tests\Unit\BatchEventBuilder)
+Batch Event Builder (Eventrel\Tests\Unit\BatchEventBuilder)
  [ ] It can build and send batch events
  [x] It can add events with individual tags
  [x] It can set batch level tags
@@ -16,7 +16,7 @@ Batch Event Builder (Eventrel\Client\Tests\Unit\BatchEventBuilder)
  [ ] It can chain multiple operations
  [x] It handles large batches
 
-Destination Builder (Eventrel\Client\Tests\Unit\DestinationBuilder)
+Destination Builder (Eventrel\Tests\Unit\DestinationBuilder)
  [ ] It can build simple outbound destination
  [ ] It can set webhook mode using methods
  [x] It can set webhook mode directly
@@ -38,7 +38,7 @@ Destination Builder (Eventrel\Client\Tests\Unit\DestinationBuilder)
  [x] It throws exception when name not set
  [x] It throws exception when url not set
 
-Destination Service (Eventrel\Client\Tests\Unit\DestinationService)
+Destination Service (Eventrel\Tests\Unit\DestinationService)
  [ ] It can create simple destination
  [ ] It can create destination with full configuration
  [x] It can create destination with webhook config
@@ -52,7 +52,7 @@ Destination Service (Eventrel\Client\Tests\Unit\DestinationService)
  [x] It returns builder instance
  [ ] It handles validation errors
 
-Event Builder (Eventrel\Client\Tests\Unit\EventBuilder)
+Event Builder (Eventrel\Tests\Unit\EventBuilder)
  [ ] It can build and send simple event
  [ ] It can set event type fluently
  [ ] It can set destination using to
@@ -72,7 +72,7 @@ Event Builder (Eventrel\Client\Tests\Unit\EventBuilder)
  [ ] It throws exception when destination not set
  [ ] It throws exception when event type not set
 
-Event Service (Eventrel\Client\Tests\Unit\EventService)
+Event Service (Eventrel\Tests\Unit\EventService)
  [ ] It can create a simple event
  [ ] It can create event with tags
  [ ] It can create event with idempotency key
@@ -90,7 +90,7 @@ Event Service (Eventrel\Client\Tests\Unit\EventService)
  [ ] It handles api errors gracefully
  [x] It handles network errors
 
-Eventrel Client (Eventrel\Client\Tests\Unit\EventrelClient)
+Eventrel Client (Eventrel\Tests\Unit\EventrelClient)
  [x] It can be instantiated with api token
  [x] It can be instantiated with custom base url
  [x] It can be instantiated with custom api version
@@ -111,7 +111,7 @@ Eventrel Client (Eventrel\Client\Tests\Unit\EventrelClient)
  [ ] It supports method chaining for fluent api
  [x] It can handle multiple concurrent builders
 
-Idempotency Service (Eventrel\Client\Tests\Unit\IdempotencyService)
+Idempotency Service (Eventrel\Tests\Unit\IdempotencyService)
  [x] It can generate unique idempotency key
  [x] It generates different keys each time
  [x] It can generate key with prefix
@@ -123,7 +123,7 @@ Idempotency Service (Eventrel\Client\Tests\Unit\IdempotencyService)
  [x] Generated keys have consistent format
  [x] It handles complex data structures
 
-Integration (Eventrel\Client\Tests\Feature\Integration)
+Integration (Eventrel\Tests\Feature\Integration)
  [ ] It can complete simple event workflow
  [ ] It can complete batch event workflow
  [ ] It can complete scheduled event workflow

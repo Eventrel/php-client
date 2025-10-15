@@ -1,7 +1,8 @@
 <?php
 
-namespace Eventrel\Client;
+namespace Eventrel;
 
+use Eventrel\EventrelClient;
 use Illuminate\Support\ServiceProvider;
 
 class EventrelServiceProvider extends ServiceProvider

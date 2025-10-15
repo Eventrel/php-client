@@ -1,11 +1,11 @@
 <?php
 
-namespace Eventrel\Client\Builders;
+namespace Eventrel\Builders;
 
-use Eventrel\Client\Enums\WebhookMode;
-use Eventrel\Client\EventrelClient;
-use Eventrel\Client\Responses\DestinationResponse;
-use Eventrel\Client\Services\DestinationService;
+use Eventrel\Enums\WebhookMode;
+use Eventrel\EventrelClient;
+use Eventrel\Responses\DestinationResponse;
+use Eventrel\Services\DestinationService;
 use InvalidArgumentException;
 
 /**
@@ -22,7 +22,7 @@ use InvalidArgumentException;
  * - Preset configurations for common patterns
  * - IDE autocomplete for all options
  * 
- * @package Eventrel\Client\Builders
+ * @package Eventrel\Builders
  * 
  * @example
  * // Simple outbound webhook

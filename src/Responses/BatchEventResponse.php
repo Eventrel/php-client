@@ -1,9 +1,9 @@
 <?php
 
-namespace Eventrel\Client\Responses;
+namespace Eventrel\Responses;
 
-use Eventrel\Client\Entities\OutboundEvent;
-use Eventrel\Client\Enums\EventStatus;
+use Eventrel\Entities\OutboundEvent;
+use Eventrel\Enums\EventStatus;
 use GuzzleHttp\Psr7\Response;
 
 /**
@@ -13,7 +13,7 @@ use GuzzleHttp\Psr7\Response;
  * Provides convenient methods to access batch metadata, query events by status or tag,
  * and check overall batch delivery status.
  * 
- * @package Eventrel\Client\Responses
+ * @package Eventrel\Responses
  */
 class BatchEventResponse extends BaseResponse
 {

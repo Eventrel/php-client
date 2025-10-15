@@ -1,6 +1,6 @@
 <?php
 
-namespace Eventrel\Client\Entities;
+namespace Eventrel\Entities;
 
 use Spatie\LaravelData\Attributes\MapName;
 use Spatie\LaravelData\Data;
@@ -12,7 +12,7 @@ use Spatie\LaravelData\Mappers\SnakeCaseMapper;
  * Controls which event types are allowed to be delivered to this destination.
  * When enabled, only events matching the allowed list will be sent.
  * 
- * @package Eventrel\Client\Entities
+ * @package Eventrel\Entities
  */
 #[MapName(SnakeCaseMapper::class)]
 class EventFiltering extends Data

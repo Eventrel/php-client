@@ -1,9 +1,9 @@
 <?php
 
-namespace Eventrel\Client\Responses;
+namespace Eventrel\Responses;
 
-use Eventrel\Client\Entities\OutboundEvent;
-use Eventrel\Client\Enums\EventStatus;
+use Eventrel\Entities\OutboundEvent;
+use Eventrel\Enums\EventStatus;
 use GuzzleHttp\Psr7\Response;
 
 /**

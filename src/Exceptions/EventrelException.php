@@ -1,6 +1,6 @@
 <?php
 
-namespace Eventrel\Client\Exceptions;
+namespace Eventrel\Exceptions;
 
 class EventrelException extends \Exception
 {

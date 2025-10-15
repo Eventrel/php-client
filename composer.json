@@ -45,12 +45,12 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"Eventrel\\Client\\": "src/"
+			"Eventrel\\": "src/"
 		}
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"Eventrel\\Client\\Tests\\": "tests/",
+			"Eventrel\\Tests\\": "tests/",
 			"Workbench\\App\\": "workbench/app/",
 			"Workbench\\Database\\Factories\\": "workbench/database/factories/",
 			"Workbench\\Database\\Seeders\\": "workbench/database/seeders/"

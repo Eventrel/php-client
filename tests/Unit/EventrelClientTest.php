@@ -1,14 +1,14 @@
 <?php
 
-namespace Eventrel\Client\Tests\Unit;
+namespace Eventrel\Tests\Unit;
 
-use Eventrel\Client\Builders\EventBuilder;
-use Eventrel\Client\Builders\BatchEventBuilder;
-use Eventrel\Client\EventrelClient;
-use Eventrel\Client\Services\EventService;
-use Eventrel\Client\Services\DestinationService;
-use Eventrel\Client\Services\IdempotencyService;
-use Eventrel\Client\Tests\TestCase;
+use Eventrel\Builders\EventBuilder;
+use Eventrel\Builders\BatchEventBuilder;
+use Eventrel\EventrelClient;
+use Eventrel\Services\EventService;
+use Eventrel\Services\DestinationService;
+use Eventrel\Services\IdempotencyService;
+use Eventrel\Tests\TestCase;
 
 class EventrelClientTest extends TestCase
 {

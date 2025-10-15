@@ -1,8 +1,8 @@
 <?php
 
-namespace Eventrel\Client\Services;
+namespace Eventrel\Services;
 
-use Eventrel\Client\EventrelClient;
+use Eventrel\EventrelClient;
 
 /**
  * Service for generating idempotency keys
@@ -14,7 +14,7 @@ use Eventrel\Client\EventrelClient;
  * - Contextual keys (ctx_): Content-based, deterministic
  * - Time-bound keys (tbx_): Content + time-based with configurable windows
  * 
- * @package Eventrel\Client\Services
+ * @package Eventrel\Services
  */
 class IdempotencyService
 {

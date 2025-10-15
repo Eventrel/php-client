@@ -1,13 +1,13 @@
 <?php
 
-namespace Eventrel\Client\Services;
+namespace Eventrel\Services;
 
 use Carbon\Carbon;
-use Eventrel\Client\Builders\EventBuilder;
-use Eventrel\Client\Entities\OutboundEvent;
-use Eventrel\Client\EventrelClient;
-use Eventrel\Client\Exceptions\EventrelException;
-use Eventrel\Client\Responses\{EventResponse, BatchEventResponse, BulkRetryResponse, EventListResponse};
+use Eventrel\Builders\EventBuilder;
+use Eventrel\Entities\OutboundEvent;
+use Eventrel\EventrelClient;
+use Eventrel\Exceptions\EventrelException;
+use Eventrel\Responses\{EventResponse, BatchEventResponse, BulkRetryResponse, EventListResponse};
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -16,14 +16,14 @@ use Psr\Http\Message\ResponseInterface;
  * Provides methods to create, retrieve, list, retry, and cancel events.
  * Supports both single event operations and batch processing.
  * 
- * @package Eventrel\Client\Services
+ * @package Eventrel\Services
  */
 class EventService
 {
     /**
      * EventService constructor.
      * 
-     * @param \Eventrel\Client\EventrelClient $client
+     * @param \Eventrel\EventrelClient $client
      */
     public function __construct(
         private EventrelClient $client

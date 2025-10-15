@@ -1,8 +1,8 @@
 <?php
 
-namespace Eventrel\Client\Responses;
+namespace Eventrel\Responses;
 
-use Eventrel\Client\Entities\Destination;
+use Eventrel\Entities\Destination;
 use GuzzleHttp\Psr7\Response;
 
 /**
@@ -12,7 +12,7 @@ use GuzzleHttp\Psr7\Response;
  * Contains the full destination details including configuration, statistics,
  * and status information.
  * 
- * @package Eventrel\Client\Responses
+ * @package Eventrel\Responses
  */
 class DestinationResponse extends BaseResponse
 {

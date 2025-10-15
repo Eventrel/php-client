@@ -1,13 +1,13 @@
 <?php
 
-namespace Eventrel\Client\Tests\Unit;
+namespace Eventrel\Tests\Unit;
 
-use Eventrel\Client\Entities\Destination;
-use Eventrel\Client\Enums\WebhookMode;
-use Eventrel\Client\Exceptions\EventrelException;
-use Eventrel\Client\Responses\DestinationResponse;
-use Eventrel\Client\Responses\DestinationListResponse;
-use Eventrel\Client\Tests\TestCase;
+use Eventrel\Entities\Destination;
+use Eventrel\Enums\WebhookMode;
+use Eventrel\Exceptions\EventrelException;
+use Eventrel\Responses\DestinationResponse;
+use Eventrel\Responses\DestinationListResponse;
+use Eventrel\Tests\TestCase;
 
 class DestinationServiceTest extends TestCase
 {
@@ -341,7 +341,7 @@ class DestinationServiceTest extends TestCase
 
         $builder = $client->destinations->builder();
 
-        $this->assertInstanceOf(\Eventrel\Client\Builders\DestinationBuilder::class, $builder);
+        $this->assertInstanceOf(\Eventrel\Builders\DestinationBuilder::class, $builder);
     }
 
     /** @test */

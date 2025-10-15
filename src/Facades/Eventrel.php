@@ -1,8 +1,8 @@
 <?php
 
-namespace Eventrel\Client\Facades;
+namespace Eventrel\Facades;
 
-use Eventrel\Client\Services\{DestinationService, EventService, IdempotencyService};
+use Eventrel\Services\{DestinationService, EventService, IdempotencyService};
 use Illuminate\Support\Facades\Facade;
 
 /**
@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Facade;
  * @property-read DestinationService $destinations
  * @property-read IdempotencyService $idempotency
  * 
- * @see \Eventrel\Client\EventrelClient
+ * @see \Eventrel\EventrelClient
  */
 class Eventrel extends Facade
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace Eventrel\Client;
+namespace Eventrel;
 
 use Composer\InstalledVersions;
-use Eventrel\Client\Builders\{EventBuilder, BatchEventBuilder};
-use Eventrel\Client\Exceptions\EventrelException;
-use Eventrel\Client\Services\{EventService, DestinationService, IdempotencyService};
+use Eventrel\Builders\{EventBuilder, BatchEventBuilder};
+use Eventrel\Exceptions\EventrelException;
+use Eventrel\Services\{EventService, DestinationService, IdempotencyService};
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Psr\Http\Message\ResponseInterface;

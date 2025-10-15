@@ -46,7 +46,7 @@ EVENTREL_API_TOKEN=your_team_scoped_api_token_here
 ### Basic Usage (Framework Agnostic)
 
 ```php
-use Eventrel\Client\EventrelClient;
+use Eventrel\EventrelClient;
 
 $eventrel = new EventrelClient('your_api_token');
 
@@ -65,7 +65,7 @@ echo "Webhook sent with ID: " . $response->getId();
 ### Laravel Usage
 
 ```php
-use Eventrel\Client\Facades\Eventrel;
+use Eventrel\Facades\Eventrel;
 
 class UserController extends Controller
 {
@@ -198,7 +198,7 @@ $eventrel->inviteMember('colleague@mycompany.com', 'developer');
 ### Error Handling
 
 ```php
-use Eventrel\Client\EventrelException;
+use Eventrel\EventrelException;
 
 try {
     $response = $eventrel->event('user.created')
@@ -218,7 +218,7 @@ try {
 ### Dependency Injection (Laravel)
 
 ```php
-use Eventrel\Client\EventrelClient;
+use Eventrel\EventrelClient;
 
 class NotificationService
 {
@@ -301,7 +301,7 @@ $newTeam = $eventrel->createTeam('New Company', 'new-company-slug');
 ## Laravel Facade Reference
 
 ```php
-use Eventrel\Client\Facades\Eventrel;
+use Eventrel\Facades\Eventrel;
 
 // All these work the same as the client methods:
 Eventrel::event('user.created')->payload($data)->send();

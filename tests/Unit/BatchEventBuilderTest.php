@@ -1,11 +1,11 @@
 <?php
 
-namespace Eventrel\Client\Tests\Unit;
+namespace Eventrel\Tests\Unit;
 
 use Carbon\Carbon;
-use Eventrel\Client\Builders\BatchEventBuilder;
-use Eventrel\Client\Responses\BatchEventResponse;
-use Eventrel\Client\Tests\TestCase;
+use Eventrel\Builders\BatchEventBuilder;
+use Eventrel\Responses\BatchEventResponse;
+use Eventrel\Tests\TestCase;
 
 class BatchEventBuilderTest extends TestCase
 {
